@@ -1,0 +1,185 @@
+ 
+<ab-table-3
+    options ="options"
+    rows = "rows"
+    row ="row">
+
+    <!--{{row}}-->
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>ชื่อ :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input class="form-control" ng-model="row.FName" >  
+                </div> 
+            </div>
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>User Name :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input class="form-control" ng-model="row.UserName" ng-disabled="row.UserNum > 0" >  
+                </div> 
+            </div>
+            
+        <!--
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>เบอร์โทรศัพท์ :</b></label>
+                </div>
+                <div class="col-md-4">              
+                    <input class="form-control" ng-model="row.c_setting.c_tel" >  
+                </div> 
+            </div>
+        -->
+        <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>ฝ่าย :</b></label><!--{{row.usergroup_id}}-->
+                </div>
+                <div class="col-md-8">  <!-- {{MODEL.emp_group}}    -->
+                  <!--
+                    <select class="form-control" ng-model="row.emp_group" > 
+                        <option value="IT">IT</option>
+                        <option value="MM">MM</option> 
+                    </select>
+                  -->
+                    <select class="form-control"
+                        ng-model="row.usergroup_id"
+                        ng-options="s.id as s.c_name for s in MODEL.emp_group " 
+                        > 
+                    </select>
+                </div> 
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>นามสกุล :</b></label>
+                </div>
+                <div class="col-md-8">          
+                    <input class="form-control" ng-model="row.LName" >  
+                </div> 
+            </div>
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>Password :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input  type="password"  class="form-control" ng-model="row.Password" >  
+                </div> 
+            </div>
+            
+           <!-- <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>สถานะ :</b></label>
+                </div>
+                <div class="col-md-8">          
+                    <select class="form-control" ng-model="row.emp_role" > 
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="STAFF">STAFF</option> 
+                    </select>
+                </div> 
+            </div>-->
+        </div>
+
+        </div>          
+    </div>
+
+<!--{{row.c_setting.permission}}-->
+    <div class="row" >   
+    <!--
+        <div class="col-md-6">   
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">การอนุญาต</h3>
+                </div>
+                <div class="box-body">
+                    <table width="100%" class="table  table-condensed dataTable" >
+                        <thead>
+                          <tr class="bg-yellow">                           
+                            <th><span>ชื่อการอนุญาต</span></th>    
+                            <th><span>อนุญาตให้เข้าหน้าได้</span></th>   
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="row in options.menu" >
+                             <td>{{row.c_desc}}</td>
+                             <td><input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="row.chk_add" </td> 
+                          </tr>  
+                        </tbody>
+                    </table>  
+                </div>
+                <div class="box-header">
+                </div>
+            </div>
+        </div>
+    -->
+
+
+    <!--  
+        <div class="col-md-6">   
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">การอนุญาต</h3>
+                </div>
+                <div class="box-body">
+                    <table width="100%" class="table  table-condensed dataTable" >
+                        <thead>
+                          <tr class="bg-yellow">                           
+                            <th width="70%"><span>ชื่อการอนุญาต</span></th>    
+                            <th width="30%"><span>อนุญาตให้เข้าหน้าได้</span></th>   
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="row in options.menu" >
+                             <td><label ng-bind-html="row.c_space"></label><i class="fa {{row.icon || 'fa-circle'}}"></i>&nbsp;&nbsp;<label ng-bind-html="row.c_desc"></label> <!--{{row.c_desc}}<!-- {{row.c_code}} {{row.chk_add}} {{row.parent}} {{row.submenu}} --
+                             </td>
+                             <td align="center" ><input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="row.chk_add" ng-change="menu_change(row)" 
+                                ng-disabled="row.submenu" ng-hide="row.submenu"> </td> 
+                          </tr>  
+                        </tbody>
+                    </table>  
+                </div>
+                <div class="box-header">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">   
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">การอนุมัติ</h3>
+                </div>
+                <div class="box-body">
+                    <table width="100%" class="table  table-condensed dataTable" >
+                        <thead>
+                          <tr class="bg-yellow">                           
+                            <th width="70%"><span>ชื่อการอนุมัติ</span></th>    
+                            <th width="30%"><span></span></th>   
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="row in options.confirm" >
+                             <td><label ng-bind-html="row.c_desc"></label> 
+                             </td>
+                             <td align="center" ><input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="row.chk_add" ng-change="confirm_change(row)"> </td> 
+                          </tr>  
+                        </tbody>
+                    </table>  
+                </div>
+                <div class="box-header">
+                </div>
+            </div>
+        </div>
+        
+
+    -->
+
+    </div>
+
+    
+
+
+</ab-table-3>

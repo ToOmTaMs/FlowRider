@@ -1,0 +1,70 @@
+<div>
+  <button ng-show="!rows.length" class="btn btn-lg btn-block btn-primary" ng-click="updRow()"><i class="fa fa-plus"></i> คลิ๊กเพื่อสร้างรายการใหม่</button>
+  <table width="100%" ng-show="rows.length >0">
+    <tr>
+      <td width="30%">
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button ng-show="opt.allowOp.indexOf('add') > -1" class="btn btn-primary btn-flat" ng-click="updRow()"><i class="fa fa-plus"></i></button>
+            <button class="btn btn-primary btn-flat" ng-click="getData(true)"><i class="fa fa-refresh"></i></button>
+            <button class="btn btn-flat"><i class="fa fa-search"></i></button>
+          </span>
+          <input size="10" type="search" ng-model="q" class="form-control search" placeholder="Search...">
+        </div>
+      </td>
+      <td width="50%">
+        <pagination
+        ng-show="opt.showPagination && filterRows.length >=0"
+        total-items="filterRows.length"
+        items-per-page="opt.itemPerPpage"
+        ng-model="currentPage"
+        max-size="6"
+        class="pagination pull-right "
+        boundary-links="true"
+        rotate="false"
+        num-pages="numPages"
+        ng-change="pageChanged()">
+        </pagination>
+      </td>
+    </tr>
+  </table>
+  <table width="100%" class="{{opt.classTable}}" ng-show="rows.length >0">
+    <thead>
+      <tr class="{{opt.tableBg}}">
+        <th ng-show="opt.showCheckbox" width="1%">
+          <input type="checkbox" ng-model="checkAll" ng-change="doSelectAll()">
+        </th>
+        <th ng-repeat="col in cols"><span ng-click="doSort(col.map)">{{col.label || col.map}}
+          <i ng-class="{'fa fa-sort-asc':predicate==col.map && reverse, 'fa fa-sort-desc':predicate ==col.map && !reverse, '':predicate !=col.map}">
+          </i></span>
+        </th>
+        <th ng-show="opt.allowOp">
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in (filterRows = (rows | filter:iFilter )) | orderBy:predicate:reverse"
+          ng-if="$index >=firstRow && $index <lastRow"
+          track by $index>
+        <td ng-show="opt.showCheckbox">
+          <input type="checkbox" ng-model="row.isSelected">
+        </td>
+        <td ng-repeat="col in cols">{{formatValue(row[col.map],col.formatFn,col.formatStr)}}
+        </td>
+        <td align="right">
+          <button ng-show="!isConfirmDelete" class="btn btn-primary btn-xs" ng-click="updRow(row)"><i class="fa fa-pencil"></i></button>
+          <button ng-show="!isConfirmDelete && opt.allowOp.indexOf('delete') !=-1" class="btn btn-danger btn-xs" ng-click="confirmDelete(row)"><i class="fa fa-times"></i></button>
+          <div ng-show="isConfirmDelete && row === currentRow">
+            <button ng-click="delRow(row)" class="btn btn-success btn-lg">Yes</button>
+            <button ng-click="deSelectRow()" class="btn btn-danger btn-lg">No</button>
+          </div>
+        </td>
+
+<!--         <td>{{$index}}</td>
+        <td>{{row["id"]}}</td> -->
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+

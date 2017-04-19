@@ -1,0 +1,81 @@
+ 
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row"
+	refashfn="Refresh" 
+	set-refash-fn="setRefashFn(theRefashFn)"
+	set-del-fn="setDelFn(theDelFn)"
+	>
+
+  	<div class="row"  >		
+	    <div class="col-md-12">
+	      <div class="btn-group pull-right">
+
+			<button title="Delete"
+	          class="btn btn-danger btn-flat" 
+	          ng-click="delete_msg();theDelFn(delete_action);"><i class="ion ion-close"></i> ลบสินค้า</button>
+
+ 		  </div>
+ 		</div>
+ 	</div> 
+ 
+
+ 	<div class="row"> 
+		<div class="col-md-6">
+			<div class="row space_line_5">
+				<div class="col-md-4">
+					<label><b>ชื่อในระบบ :</b></label>
+				</div>
+				<div class="col-md-8">				
+					<input class="form-control" ng-model="row.item_name" readonly>  
+				</div> 
+			</div>
+			<div class="row space_line_5">
+				<div class="col-md-4">
+					<label><b>ชื่อเฉพาะ :</b></label>
+				</div>
+				<div class="col-md-8">				
+					<input class="form-control" ng-model="row.c_info.c_item_vendor_name" >  
+				</div> 
+			</div>
+			<div class="row space_line_5">
+				<div class="col-md-4">
+					<label><b>ราคา/หน่วยรับ :</b></label>
+				</div>
+				<div class="col-md-4">				
+					<input class="form-control" ng-model="row.f_min_order_amt" >  
+				</div> <!--{{row.receive_unit}}-->
+				<div class="col-md-4">				
+					<select class="form-control"
+						ng-model="row.receive_unit"
+						ng-options="s.c_desc_show || s.c_desc for s in row.c_info.receive_uofm"
+						> 
+					</select> 
+				</div> 
+			</div>
+			<div class="row space_line_5">
+				<div class="col-md-4">
+					<label><b>จำนวนสั่งขั้นต่ำ :</b></label>
+				</div>
+				<div class="col-md-4">				
+					<input class="form-control" ng-model="row.f_min_order_unit" >  
+				</div> 
+			</div>
+			<div class="row space_line_5">
+				<div class="col-md-4">
+					<label><b>จำนวนสั่งสูงสุด :</b></label>
+				</div>
+				<div class="col-md-4">				
+					<input class="form-control" ng-model="row.f_max_order_amt" >  
+				</div> 
+			</div>
+
+		</div>
+	</div>
+ 	
+			
+</ab-table-3>
+ 
+
+

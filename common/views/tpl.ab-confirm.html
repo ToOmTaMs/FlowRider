@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{options.confirmTitle}} {{options.modal_title}}</h3>
+</div>
+<div class="modal-body">
+    <h1>{{options.message1}}</h1>
+    <h1>{{options.message2}}</h1>
+    <br>
+    
+    <b ng-show="options.isShowTextArea">{{options.message3}}</b>
+    <textarea ng-model="options.textmessage1" class="form-control" id="textmessage1" type="text" rows="3" ng-show="options.isShowTextArea" ></textarea>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success btn-lg" ng-click="close(true)" ng-show="isShowOK"><i style="font-size:48px" class="ion ion-checkmark-circled"></i></button>
+  <button class="btn btn-warning btn-lg" ng-click="close(false)" ><i style="font-size:48px" class="ion ion-close-circled"></i></button>
+        
+  <!--<button class="pull-right btn btn-warning" ng-click="close({id:-1})">Close</button>-->
+</div>
+
+
+
+ 

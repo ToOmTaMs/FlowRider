@@ -1,0 +1,33 @@
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row"
+	>
+    <!--{{row}}-->
+ 	<div class="row"> 
+		<div class="col-md-6">
+			<div class="row space_line_5">
+				<div class="col-md-4">
+					<label><b>ชื่อ :</b></label>
+				</div>
+				<div class="col-md-4">				
+					<input class="form-control" ng-model="row.c_desc" >  
+				</div> 
+			</div>
+		</div>
+	</div>
+	<div class="row"> 
+		<div class="col-md-6">
+			<div class="row space_line_5">
+				<div class="col-md-4">
+					<label><b>รหัสย่อ :</b></label>
+				</div>
+				<div class="col-md-4">				
+					<input class="form-control" ng-model="row.c_code" ng-disabled="row.id" >  
+				</div> 
+			</div>
+		</div>
+	</div>
+
+
+</ab-table-3>

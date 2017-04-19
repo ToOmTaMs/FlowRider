@@ -1,0 +1,429 @@
+<div>
+  <!-- <div class="form-inline row"> -->
+  <div class="row">
+  
+  <!--
+    <div class="col-md-12" ng-show="isConfirmDelete">
+      <div class="input-groupx">
+        <b>Confirm Delete this Record: </b>
+        <button class="btn btn-success btn-lg" ng-click="delRow()" title="Yes, delete"><i style="font-size:48px" class="ion ion-checkmark-circled"></i></button>
+        <button class="btn btn-warning btn-lg" ng-click="isConfirmDelete=false" title="No, I change my mind"><i style="font-size:48px" class="ion ion-close-circled"></i></button>
+      </div>
+    </div>
+  -->  
+    
+    
+  <div class="row" ng-hide="opt.noShowRow_header" >   
+    
+    <div class="col-md-8" >  
+      <div class="form-group">
+        <span class="my-header-span" ng-show="opt.display.modal_title==''||opt.display.modal_title==null"><b>{{getPageTitle()}}</b> </span><small>{{getPageCaption()}}</small>
+        <span class="my-header-span" ng-if="opt.display.modal_title != undefined "><b>{{getPageTitleModal()}} <!--{{opt.display.modal_title}}--></b> </span> 
+      </div>          
+    </div>   
+
+    
+    <!-- BUTTON & NAV -->
+    <div class="col-md-4" ng-show="!isConfirmDelete">
+      <div class="btn-group pull-right">
+
+        
+        <button title="{{opt.actionBtn.text}}"
+          ng-show="opt.actionBtn.show && opt.mode=='table'"
+          class="btn btn-{{opt.actionBtn.btnClass}} btn-flat"
+          ng-click="opt.actionBtn.action()"><i class="fa fa-{{opt.actionBtn.btnIcon}}"></i> {{opt.actionBtn.text}}
+        </button>
+   
+
+        <button title="Grid mode"
+          ng-show="opt.allowOp.indexOf('view') > -1 && opt.mode=='form'"
+          class="btn btn-{{opt.buTableClass}} btn-flat"
+          ng-click="chgMode('table')">ยกเลิก
+          <!--<i class="fa fa-table"></i>-->
+          </button>
+        <!--<button title="Form mode"
+          ng-show="opt.allowOp.indexOf('view') > -1"
+          class="btn btn-{{opt.buFormClass}} btn-flat"
+          ng-click="chgMode('form',true)"><i class="ion ion-clipboard"></i></button> -->
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <!--{{ opt.allowOp.indexOf('add') }} {{opt.mode}} {{row.id}}-->
+        <!--{{opt.unClickSave}}{{opt.mode}}-->
+        <button title="Save"
+          ng-show="( ( opt.allowOp.indexOf('add') > -1 && opt.mode=='form' && !row.id) 
+            || ( opt.allowOp.indexOf('edit') > -1 && opt.mode=='form' )  )
+            && ( opt.unClickSave && opt.mode=='form' 
+            )  
+            "
+          class="btn btn-success btn-flat"
+          ng-click="saveRow()"><i class="fa fa-save"></i> บันทึก</button>
+        <button title="Delete"
+          ng-disabled="!row.id"
+          ng-show="opt.allowOp.indexOf('delete') > -1 && opt.mode=='form'"
+          class="btn btn-danger btn-flat" 
+          ng-click="confirmDelete(delRow)"><i class="ion ion-close"></i> Delete</button>
+        <span ng-show="opt.mode=='form'">&nbsp;&nbsp;</span>
+        <button title="New"
+          ng-show="opt.allowOp.indexOf('add') > -1 && opt.mode=='table'"
+          class="btn btn-primary btn-flat"
+          ng-click="updRow(-1)"><i class="fa fa-plus"></i> Add</button>
+        <button title="Import"
+          ng-show="opt.allowOp.indexOf('import') > -1 && opt.mode=='table'"
+          ng-disabled ="filterRows.length ==0"
+          class="btn btn-primary btn-flat"
+          ng-click="openImportCSVform()"><i class="fa fa-upload"></i> Import</button>
+        <button title="Export"
+          ng-show="opt.allowOp.indexOf('export') > -1 && opt.mode=='table'"
+          ng-disabled ="filterRows.length ==0"
+          class="btn btn-primary btn-flat"
+          ng-click="exportCSV()"><i class="fa fa-download"></i> Export</button>
+        <button title="Refresh"
+          ng-show="opt.mode=='table'"
+          class="btn btn-primary btn-flat"
+          ng-click="row = {};getData(true)"><i class="fa fa-refresh"></i> Refresh</button>
+        <button title="SaveAll"
+          ng-show="opt.allowOp.indexOf('saveall') > -1 && opt.mode=='table'"
+          class="btn btn-success btn-flat"
+          ng-click="saveRowAll()"><i class="fa fa-save"></i> Save All</button>
+      </div>
+      
+    </div>
+
+   </div>  
+ 
+
+
+  <div class="row " ng-hide="opt.noShowRow_group" >  
+    <div class="col-xs-12 col-sm-12 col-md-7 form-inline" style="padding-right:0px;"> 
+
+      <div class="form-group" ng-show="opt.allowOp.indexOf('group1') > -1 && opt.mode!='form'" style="margin-right:10px;">
+        <label for="groupLable"><b>{{opt.display.groupLable || 'Group' }}</b></label>
+        <select class="form-control"  
+                      style="min-width:140px; margin-left:2px;" 
+                      ng-model="opt.row_group"
+                      ng-options="s as s.c_desc || s.c_name for s in opt.group | orderBy:opt.display.groupOrderby "
+                      ng-disabled = "opt.display.groupDisabled" 
+                      ng-change="opt.display.groupChange(opt.row_group)"
+                      >   
+        </select> 
+      </div>  
+
+      <div class="form-group" ng-show="opt.allowOp.indexOf('group2') > -1 && opt.mode!='form'" style="margin-right:10px;">
+        <label for="">{{opt.display2.groupLable || 'Group' }}</label>
+        <select class="form-control"  
+                ng-model="opt.row_group2"
+                ng-options="s as s.c_desc || s.c_name for s in opt.group2 | orderBy:opt.display2.groupOrderby "
+                ng-disabled = "opt.display2.groupDisabled"
+                >   
+        </select>
+      </div> 
+
+      <div class="form-group" ng-show="opt.allowOp.indexOf('mShow') > -1 && opt.mode!='form'" style="margin-right:10px;">
+        <label ><b>เดือน : &nbsp;</b> </label>
+        <div class="input-group" >
+          <input ng-model="opt.date.d_month" class="form-control" id="d_month" type="text" is-open="date_month.opened" 
+    
+             datepicker-popup="MMMM yyyy"  
+             datepicker-mode="'month'"
+             min-mode="'month'" 
+             max-mode="'year'" 
+             close-text="Close" 
+
+             ng-change="opt.date.month_change(true)" readonly />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDateMonth($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div> 
+      </div> 
+
+
+
+      <div class="form-group" ng-show="!isConfirmDelete && opt.mode=='table' && opt.allowOp.indexOf('noSearch') < 0" >
+        <label for="">ค้นหา</label>
+        <div class="input-group" style="max-width:145px; margin-left:2px;"  >
+          <div class="input-group-addon"><i class="fa fa-search"></i></div>
+          <input type="text" class="form-control" placeholder="Search..." ng-model="opt.q"  >
+        </div>
+      </div> 
+      <div class="form-group" ng-show="opt.mode=='table' && opt.allowOp.indexOf('search1') > -1" >
+        <label for="">{{opt.display.search1 || 'Search' }}</label>
+        <div class="input-group" style="max-width:145px; margin-left:2px;"  >
+          <div class="input-group-addon"><i class="fa fa-search"></i></div>
+          <input type="text" class="form-control" placeholder="Search..." ng-model="opt.filter_search1.search"  >
+        </div>
+      </div> 
+      <div class="form-group" ng-show="opt.mode=='table' && opt.allowOp.indexOf('search2') > -1" >
+        <label for="">{{opt.display.search2 || 'Search' }}</label>
+        <div class="input-group" style="max-width:145px; margin-left:2px;"  >
+          <div class="input-group-addon"><i class="fa fa-search"></i></div>
+          <input type="text" class="form-control" placeholder="Search..." ng-model="opt.filter_search2.search"  >
+        </div>
+      </div> 
+      <div class="form-group" ng-show="opt.mode=='table' && opt.allowOp.indexOf('search3') > -1" >
+        <label for="">{{opt.display.search3 || 'Search' }}</label>
+        <div class="input-group" style="max-width:145px; margin-left:2px;"  >
+          <div class="input-group-addon"><i class="fa fa-search"></i></div>
+          <input type="text" class="form-control" placeholder="Search..." ng-model="opt.filter_search3.search"  >
+        </div>
+      </div> 
+
+      <div class="form-group" ng-show="opt.allowOp.indexOf('group3') > -1 && opt.mode!='form'" style="margin-left:10px;">
+        <label for="groupLable"><b>{{opt.display.groupLable || 'Group' }}</b></label>
+        <select class="form-control"  
+                      style="min-width:140px; margin-left:2px;" 
+                      ng-model="opt.row_group"
+                      ng-options="s as s.c_desc || s.c_name for s in opt.group | orderBy:opt.display.groupOrderby "
+                      ng-disabled = "opt.display.groupDisabled" >   
+        </select> 
+      </div>        
+      <div class="form-group" ng-show="opt.mode=='table' && opt.allowOp.indexOf('checkbox1') > -1" >
+        <input type="checkbox" ng-model="opt.checkbox1.check"  
+            ng-true-value="'1'" ng-false-value="'0'" 
+        /> <label for="">{{opt.checkbox1.label}}</label>       
+      </div> 
+
+
+
+    </div>   
+       
+    <div class="col-xs-12 col-sm-12 col-md-5" ng-show="!isConfirmDelete">  
+      <div class="pull-right" ng-show="opt.mode!='form'">
+        <pagination
+          total-items="filterRows.length"
+          items-per-page="opt.itemPerPage"
+          ng-model="opt.currentPage"
+          max-size="4"
+          class="pagination pull-right "
+          boundary-links="true"
+          rotate="false"
+          num-pages="numPages"
+          ng-change="pageChanged()">
+        </pagination>
+      </div>
+
+      <!--
+      <div class="pull-right" ng-show="opt.mode=='form'">
+        <pager
+          total-items="filterRows.length"
+          items-per-page="1"
+          ng-model="opt.currentPage"
+          ng-change="pageChanged()">
+        </pager>
+      </div>
+      -->
+
+    </div>
+  </div>  
+</div>
+ 
+<div class="row space_line_5" ng-show="opt.allowOp.indexOf('ext') > -1 && opt.mode=='table'"> 
+  <div class="col-md-12" >  
+    <div class="form-group form-inline" style="margin-bottom:0px;"  >
+      <label><b>{{opt.ext.label1}} : &nbsp;</b> </label>
+      <div class="input-group">
+        <select class="form-control"  
+            style="min-width:140px; margin-left:2px;" 
+            ng-model="opt.ext.row1"
+            ng-options="s as s.c_desc || s.c_name for s in opt.ext.selectItem1 | orderBy:opt.ext.orderby " 
+        >
+        </select> 
+      </div>
+      <label ng-show="opt.ext.selectItem2"><b>&nbsp;&nbsp;{{opt.ext.label2}} : &nbsp;</b> </label>
+      <div class="input-group" ng-show="opt.ext.selectItem2">
+        <select class="form-control"  
+            style="min-width:140px; margin-left:2px;" 
+            ng-model="opt.ext.row2"
+            ng-options="s as s.c_desc || s.c_name for s in opt.ext.selectItem2 | orderBy:opt.ext.orderby " 
+        >
+        </select> 
+      </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button title="Add Item" 
+              class="btn btn-primary btn-flat"
+              ng-click="opt.ext.fn()"><i class="fa {{opt.ext.icon}}"></i> {{opt.ext.butTxt}}</button>
+    </div>   
+  </div>
+</div>
+
+<!--
+<div class="row space_line_5">  
+</div>
+-->
+<!-- <div class="row space_line_5">  
+  <div class="col-md-6" >
+    <div class="row">
+      <div class="col-md-7" ng-show="opt.allowOp.indexOf('group2') > -1 && opt.mode!='form'">
+        <div class="form-group">
+          <label class="control-label col-sm-6" style="padding-top:6px;padding-left:0px;"><b>{{opt.display2.groupLable || 'Group' }}</b></label>
+          <div class="col-sm-6" style="padding-left:0px;">
+            <select class="form-control"  
+                ng-model="opt.row_group2"
+                ng-options="s as s.c_desc for s in opt.group2 | orderBy:opt.display2.groupOrderby "
+                ng-disabled = "opt.display2.groupDisabled"
+                >   
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>     -->  
+<div class="row space_line_5" ng-show="opt.allowOp.indexOf('month') > -1 && opt.mode=='table'">  <!-- opt.allowOp.indexOf('month') > -1 month={{opt.date.d_month}}  start={{opt.date.d_start}} end={{opt.date.d_end}} -->
+  <div class="col-md-9" >  
+    <div class="form-group form-inline" style="margin-bottom:0px;"  >
+      <label ng-show="false"><b>เดือน : &nbsp;</b> </label>
+      <div class="input-group" ng-show="false">
+        <input ng-model="opt.date.d_month" class="form-control" id="d_month" type="text" is-open="date_month.opened" 
+  
+           datepicker-popup="MMMM yyyy"  
+           datepicker-mode="'month'"
+           min-mode="'month'" 
+           max-mode="'year'" 
+           close-text="Close" 
+
+           ng-change="opt.date.month_change()" readonly />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="openDateMonth($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div> 
+      <label ng-hide="opt.dateRangeHide1"><b>จากวันที่ : &nbsp;</b> </label>
+      <div class="input-group" ng-hide="opt.dateRangeHide1">
+        <input ng-model="opt.date.d_start" class="form-control" id="d_start" type="text" is-open="date_start.opened"
+          close-text="Close" 
+          datepicker-popup 
+          ng-change="opt.date.date_start_change()" 
+          />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="openDateStart($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+      <label ng-hide="opt.dateRangeHide2">&nbsp;&nbsp;<b>ถึงวันที่ : &nbsp;</b> </label>
+      <div class="input-group" ng-hide="opt.dateRangeHide2">
+        <input ng-model="opt.date.d_end" class="form-control" id="d_end" type="text" is-open="date_end.opened"
+          close-text="Close" 
+          datepicker-popup 
+          ng-change="opt.date.date_end_change()" 
+          />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="openDateEnd($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+    </div>   
+  </div>
+  <div class="col-md-3" > 
+    
+  </div>
+</div>
+
+ 
+
+
+  <!-- FORM -->
+  <div ng-show="opt.mode=='form'" >
+    <div ng-show="opt.transcludeAtTop" ng-transclude></div>
+    <ab-form-fld
+      cols="opt.formFlds"
+      row ="row">
+    </ab-form-fld>
+    <div ng-hide="opt.transcludeAtTop" ng-transclude></div>
+    <!-- <pre>{{row |json}} {{formFlds}}</pre> -->
+  </div>
+
+<div ng-show="opt.mode!='form'" class="space_line_5">
+ 
+  <div class="my-content" style="height: {{content_height}}px; width: 100%;">  
+  <!-- TABLE -->
+  <!--{{iFilter()}} ||   {{iFilter_group()}} ||  {{iFilter_group2()}}-->
+  <table style="width:100%;margin:0px" class="{{opt.classTable}}" ng-show="rows.length >0">
+    <thead>
+      <tr class="{{opt.tableBg}}">
+       <!--{{predicate}}-->
+        <th ng-repeat="col in opt.cols" width="{{col.width}}px" ng-class="{'text-right':col.align=='right', 'text-center':col.align=='center'}" class='text-left' >
+          <input type="checkbox"  ng-if="col.type =='checkbox' && col.checkAll " 
+           ng-true-value="1" ng-false-value="0" ng-model="col.value" 
+           ng-click="colFn(col)" 
+          />       <!--{{col.value}}-->  
+          <span ng-click="doSort(col.map)">{{col.label || col.map}}
+          <i ng-class="{'fa fa-sort-asc':predicate==col.map && reverse, 'fa fa-sort-desc':predicate ==col.map && !reverse, '':predicate !=col.map}">
+          </i></span>
+        </th>
+        <!--
+        <th ng-show="opt.allowOp">
+        </th>
+        -->        
+         
+         <th ng-repeat="but in opt.buttons" width="{{but.width}}px" ></th>
+         <th align="right" width="20px" ng-hide="opt.editBtn.noShow"></th> 
+         <th align="right" width="20px" ng-show="opt.viewBtn.show"></th> 
+         <th align="right" width="20px" ng-show="opt.rowBtn.show"></th> 
+      </tr>
+    </thead>
+  <!--</table> 
+
+    <table width="100%" class="{{opt.classTable}}" ng-show="rows.length >0">   -->
+      <tbody>
+        <tr ng-repeat="row in (filterRows = (rows | filter:iFilter  
+              | filter:iFilter_group | filter:iFilter_group2 
+              | filter:iFilter_fix1 
+              | filter:iFilter_search1  | filter:iFilter_search2  | filter:iFilter_search3 
+              | filter:iFilter_checkbox1 
+              | orderBy:predicate:reverse))"
+            ng-if="$index >=opt.firstRow && $index <opt.lastRow"
+            track by $index
+            ng-class="{'bg-red':1==row.chk_del , 'bg-gray':row.chk_add==1 }"
+            >
+            <!--{{$index}} - {{opt.firstRow}} - {{opt.lastRow}} -->
+            <!--{{row['c_info']['receive_uofm_show']}}-->
+          <td ng-repeat="col in opt.cols" width="{{col.width}}px" align="{{ col.align || 'left' }}" 
+              ng-click="updRow($parent.$index,row)"
+              ng-dblclick="dbClick($parent.$index,row)"
+              
+          >   
+              <!--{{formatValue(row[col.map],col.formatFn,col.formatStr)}}-->
+              <!--{{row[col.map]}}-->
+              <!--{{$parent.$index + 1 }}-->
+             <span ng-if="row.space == col.map">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+             <input type="checkbox"  ng-if="col.type =='checkbox' && col.map2 == undefined" ng-model="row[col.map]" ng-true-value="1" ng-false-value="0" />
+             <input type="checkbox"  ng-if="col.type =='checkbox' && col.map2.length >0" ng-model="row[col.map][col.map2]" ng-true-value="1" ng-false-value="0"  />
+             <!--<span >{{formatValue( rowCol(row,col) ,col.formatFn,col.formatStr)}}</span>-->
+             <span ng-if="!col.type && col.map2 == undefined" ng-model="row[col.map]" ng-hide="row.hide && col.hide">{{formatValue( rowCol(row,col,($parent.$parent.$parent.$index+1)) ,col.formatFn,col.formatStr)}} </span>
+             <span ng-if="!col.type && col.map2.length >0" ng-model="row[col.map][col.map2]" >{{formatValue( rowCol(row,col,($parent.$parent.$parent.$index+1)) ,col.formatFn,col.formatStr)}}</span>
+             <input type="textbox"  ng-if="col.type =='textbox' && col.map2 == undefined" ng-model="row[col.map]" 
+                size="{{col.size}}" style="text-align:{{col.align}}" /> 
+             <img type="textbox"  ng-if="col.type =='img' && col.map2 == undefined" 
+              src="{{row[col.map]}}"
+              height="{{col.height}}" width="{{col.width}}"  border="0"  /> 
+
+ 
+
+             <button class="btn {{ col.btn || 'btn-primary' }} btn-xs" ng-click="butFn(col.fn,$parent.$parent.$index,row)" ng-if="col.type =='button'"><i class="fa {{col.icon}}"></i>{{col.label}}</button> 
+
+          </td>          
+          <td ng-repeat="but in opt.buttons" width="{{but.width}}px" align="right"> 
+             <button class="btn {{ but.btn || 'btn-primary' }} btn-xs" 
+             ng-click="butFn(but.fn,$parent.$index,row)" 
+             ng-hide="row.option_hide"
+             ng-disabled="row.option_disabled"
+              >
+             <i class="fa {{but.icon}}"></i>{{but.label}}</button>    
+          </td>       
+          <td align="right" width="20px" ng-show="opt.rowBtn.show">  
+            <button class="btn btn-primary btn-xs" ng-click="setClick('rowBtn');updRow($parent.$index,row,'rowBtn')" ng-hide='row.rowBtn.noShow'><i class="fa {{ row.rowBtn.icon || 'fa-pencil' }}"></i>{{row.rowBtn.label}}</button>
+          </td>             
+          <td align="right" width="20px" ng-hide="opt.editBtn.noShow">
+            <button class="btn btn-primary btn-xs" ng-click="setClick('editBtn');updRow($parent.$index,row,'editBtn')" ><i class="fa {{ opt.editBtn.icon || 'fa-pencil' }}">{{opt.editBtn.label}}</i></button>
+          </td>
+          <td align="right" width="20px" ng-show="opt.viewBtn.show">  
+            <button class="btn btn-primary btn-xs" ng-click="setClick('viewBtn');updRow($parent.$index,row,'viewBtn')" ><i class="fa fa-search"></i>{{opt.viewBtn.label}}</button>
+          </td>
+
+  <!--
+          <td>{{$index}}</td>
+          <td>{{row["id"]}}</td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  </div>
+</div>
+
+

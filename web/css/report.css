@@ -1,0 +1,50 @@
+#page_contain {
+	width: 625px;
+	height: 900px;
+	font-size: 12px;
+}
+
+.report_title {
+	font-size: 16px;
+}
+
+.report_sub_title {
+	font-size: 13px;
+}
+
+.report_name {
+	font-size: 18px;
+}
+
+.report_table {
+	border: 1px solid black;
+	border-spacing: 0;
+}
+
+.report_table th {
+	border-bottom: 1px solid black;
+}
+
+.report_data td, .report_table th {
+	border-right: 1px solid black;
+}
+
+.report_table th:last-child, .report_data td:last-child  {
+	border-right: 0px;
+}
+
+.report_table th {
+	height: 40px;
+}
+
+.report_data {
+	height: 20px;
+}
+
+.report_border_left {
+	border-left: 1px solid black;
+}
+
+.report_table_start_section td {
+	border-top: 1px solid black;
+}

@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{title}}</h3>
+</div>
+<div class="modal-body">
+	<div ng-show="step==0">
+		show promo for owner
+		<br>or
+		<br>MOTD-message of the day for employee
+	</div>
+	<div ng-show="step==1">
+		Please select shop type you want, we will load sample data for you
+		<select class="form-control"
+			ng-model="cloneFromId"
+			ng-options="s.c_code as s.c_code for s in MODEL.demo_list"></select>
+		<button class="btn btn-block">New Shop</button>
+		<hr>
+		PIN:<input type="text" ng-model="row.c_pin">
+		<button class="btn btn-block">Join Shop</button>
+	</div>
+	<div ng-show="step==2">
+	</div>
+</div>
+<div class="modal-footer">
+  <button ng-show="!row.id"
+  	class="pull-right btn btn-warning" ng-click="close(true)">I will decide later, Log me out now</button>
+  <button ng-show="row.id"
+  	class="pull-right btn btn-warning" ng-click="close(false)">Close</button>
+</div>

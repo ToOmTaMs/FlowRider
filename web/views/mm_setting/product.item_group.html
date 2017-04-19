@@ -1,0 +1,26 @@
+<!--
+<div class="modal-header">
+  <h3 class="modal-title">{{opt.display.modal_title}}</h3>
+</div>
+-->
+<div class="modal-body">
+	<ab-table-3
+		options ="options"
+		rows = "rows"
+		row ="row">
+		<div class="form-group" ng-if="options.mode=='form'">
+ 			<select class="form-control"
+				ng-model="row.i_parent"
+				ng-options="s.id as s.c_desc for s in rows | filter:{id:'!'+row.id} "
+				>
+				<!-- ng-options="s.id as s.c_code +  ': ' + s.c_desc for s in rows | filter:{id:'!'+row.id} | orderBy:'c_code'" -->
+				<option value="">-- No parent --</option>
+			</select>
+		</div>
+	</ab-table-3>
+</div>
+<div class="modal-footer">
+  <button ng-show="options.mode=='form'" class="pull-left btn btn-primary" ng-click="row['rows']=rows;close(row)">Choose this and return</button>
+  <button class="pull-right btn btn-warning" ng-click="close({id:-1,rows:rows})">Close</button>
+</div>
+<!-- ng-options="s.id as s.c_code +  ': ' + s.c_desc for s in excludeOne(rows,row) | orderBy:'c_code'"> -->

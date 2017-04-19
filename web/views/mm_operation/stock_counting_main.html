@@ -1,0 +1,217 @@
+
+	 
+
+
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row" 
+	refashfn="Refresh" 
+	set-refash-fn="setRefashFn(theRefashFn)"
+	set-del-fn="setDelFn(theDelFn)"
+	>
+
+	<treasure-overlay-spinner active='spinner.active'>
+	</treasure-overlay-spinner>
+
+  <div class="my-content" style="height: {{content_height}}px; width: 100%;">		
+
+<div class="row" ng-show="row.hdr.id > 0 ">	
+  		<div class="col-md-6">
+  			<!--<span class="my-header-span text-blue" ng-show="row.hdr.e_status_action=='active_confirm'"><b>อนุมัติแล้ว</b></span>-->
+  		</div>	
+	    <div class="col-md-6">
+	      <div class="btn-group pull-right">
+	      	<button title="Print เอกสารการตรวจนับ"
+	          class="btn btn-info btn-flat" 
+	          ng-show="row.hdr.e_status_action=='active_create' && location_url=='stock_counting_main_new' " 
+	          ng-click="print_action_sc()"><i class="fa fa-print" ></i> Print</button>	
+
+	      	<button title="Print รายงานหลังตรวจนับ"
+	          class="btn btn-info btn-flat" 
+	          ng-show="location_url=='stock_counting_main_print_sc_confirm' " 
+	          ng-click="print_action_sc_confirm()"><i class="fa fa-print" ></i> Print</button>	
+
+	      	<button title="Print รายงานผลต่างจากการตรวจนับ"
+	          class="btn btn-info btn-flat" 
+	          ng-show="row.hdr.e_status_action=='active_create' && location_url=='stock_counting_main_print_sc_dif' " 
+	          ng-click="print_action_sc_dif()"><i class="fa fa-print" ></i> Print</button>	
+
+	        <!--
+	        <button title="Approve"
+	          class="btn btn-primary btn-flat"
+	          ng-show="row.hdr.e_status_action=='active_confirm' && location_url=='stock_counting_main_print_sc_confirm' " 
+	          ng-click="approve_action_sc_confirm();"><i class="fa fa-check"></i> Approve</button> 
+	        -->  
+	       	<button title="Approve"
+	          class="btn btn-primary btn-flat"
+	          ng-show="options.permission_confirm == 'confirm_TA' 
+	          	&& ( row.hdr.e_status_action=='active_create' || row.hdr.e_status_action=='active_confirm' ) && location_url == 'stock_counting_main_complete' "
+	          ng-click="approve_action_ta('add');"><i class="fa fa-check"></i> Approve</button> 
+			
+			<button title="Delete"
+	          class="btn btn-danger btn-flat" 
+	          ng-show="options.permission_confirm == 'confirm_TA' 
+	          	&& ( row.hdr.e_status_action=='active_create' || row.hdr.e_status_action=='active_confirm' )  && location_url == 'stock_counting_main_complete' "
+	          ng-click="delete_msg();theDelFn(delete_action_ta);"><i class="ion ion-close"></i> Delete</button>
+
+
+
+ 		  </div>
+ 		</div>
+ 	</div> 	
+  	
+
+ 	<div class="row space_line_5" ng-hide="options.create">
+
+    	<div class="col-md-4">
+
+
+			<div class="form-group">
+				<label for="d_date" class="col-sm-5 control-label" style="padding-top:8px;">วันที่ตรวจนับ</label>
+				<div class="col-sm-6"> 
+					<input ng-model="row.hdr.d_date" class="form-control" id="d_date" type="text" readonly  />
+				</div>
+			</div> 
+    		<div class="form-group">
+				<label for="c_doc_no" class="col-sm-5 control-label" style="padding-top:8px;">เลขที่เอกสาร</label>
+				<div class="col-sm-6"> 
+					<input ng-model="row.hdr.c_doc_no" class="form-control" id="c_doc_no" type="text" readonly />
+				</div>
+			</div>  
+			
+		</div> 	
+		<div class="col-md-2">	
+
+		</div> 	
+		<div class="col-md-6">	
+			<div class="form-group" >
+					<label for="c_note" class="col-sm-3 control-label" style="padding-top:8px;">หมายเหตุ</label>
+					<div class="col-sm-9">
+						<textarea ng-model="row.hdr.c_note" class="form-control" id="c_note" type="text" rows="4" ng-disabled="options.disabled"></textarea> 
+					</div>	
+			</div>	
+		</div> 
+
+
+ 	</div> 	
+
+
+ 	<div class="row space_line_5" ng-show="options.create" >
+    	<div class="col-md-8"> 
+    		<div class="form-group">
+				<label for="d_date" class="col-sm-3 control-label" style="padding-top:8px;">รหัสสินค้าจาก</label>
+				<div class="col-sm-7"> 
+					<div class="input-group" style="width:100%">
+        	 			<input ng-model="options.searchItem.item1_name" class="form-control" id="item_name1" type="text" readonly>
+			     		<div class="input-group-addon" ng-click="openModal_item('item1')" style="width:30px;"><i class="fa fa-search"></i></div>
+      				</div>
+				</div>
+			</div> 
+    		<div class="form-group">
+				<label for="d_date" class="col-sm-3 control-label" style="padding-top:8px;">ถึง</label>
+				<div class="col-sm-7"> 
+					<div class="input-group" style="width:100%">
+			     		<input ng-model="options.searchItem.item2_name" class="form-control" id="item_name2" type="text" readonly>
+			     		<div class="input-group-addon" ng-click="openModal_item('item2')" style="width:30px;"><i class="fa fa-search"></i></div>
+      				</div>
+				</div>				
+				<div class="col-sm-2"> 
+					<button title="ค้นหา" style="margin-bottom:1px;"
+	         	 		class="btn btn-info btn-flat" 
+	         	 		ng-show="row.hdr.e_status_action=='active_create' && location_url=='stock_counting_main_new' "
+	          			ng-click="setSearchItem()"><i class="fa fa-refresh" ></i> ตกลง</button>	
+				</div>	
+			
+			</div> 
+    	</div>
+
+    	<div class="col-md-4">
+    		<div class="form-group">
+				<label for="c_doc_no" class="col-sm-5 control-label" style="padding-top:8px;">เลขที่เอกสาร</label>
+				<div class="col-sm-6"> 
+					<input ng-model="row.hdr.c_doc_no" class="form-control" id="c_doc_no" type="text" readonly />
+				</div>
+			</div>  
+
+			<div class="form-group">
+				<label for="d_date" class="col-sm-5 control-label" style="padding-top:8px;">วันที่</label>
+				<div class="col-sm-6"> 
+					<input ng-model="row.hdr.d_date" class="form-control" id="d_date" type="text" readonly  />
+				</div>
+			</div> 
+		
+    	</div>	
+    </div> 	
+
+	<div class="row space_line_5 ">	 
+		<div class="col-md-12">	 
+
+		  <table width="100%" class="{{options.classTable}}" >
+		    <thead>
+		      <tr class="{{options.tableBg}}">
+		        <th ng-repeat="col in options.cols_dtl" ng-class="{'text-right':col.align=='right', 'text-center':col.align=='center'}" class='text-left'>
+		        	<input type="checkbox"  ng-if="col.type =='checkbox' && col.checkAll " 
+			           ng-true-value="1" ng-false-value="0" ng-model="col.value" 
+			           ng-click="colFn(col)" 
+			         />  
+
+		        		{{col.label || col.map}}
+
+		        </th>
+		        <th ng-repeat="but in options.cols_buttons" width="{{but.width}}px" align="right"></th>
+		      </tr>
+		    </thead>
+		 
+		    <tbody>
+		      <tr ng-repeat="row_dtl in options.rows_dtl | orderBy:'item_c_name' " 		          
+		          ng-click="">
+		        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" 
+		        	ng-class="[{'bg-olive':row_dtl['chk_add']==1 },{'bg-light-red':row_dtl['chk_del']==1 },{'bg-light-green':row_dtl['chk_edit']==1 } ]"
+		        	align="{{ col.align || 'left' }}"
+		        	> 
+		        	 <input type="checkbox" ng-if="col.type =='checkbox' && row_dtl[col.type]" 
+		        	 	ng-model="row_dtl[col.map]" 
+		        	 	ng-true-value="1" ng-false-value="0" ng-change="col.changeFn(row_dtl)" />
+		        	 <span ng-if="!col.type" ng-model="row_dtl[col.map]" >{{rowCol(row_dtl,col,($parent.$parent.$index+1))}}  </span>
+		        	 <input type="textbox"  ng-if="col.type =='textbox' && !col.valid_number" 
+		        	 	ng-model="row_dtl[col.map]" class="form-control"
+		        	 	ng-change="col.changeFn(row_dtl)" 
+		        	 	size="{{col.size}}" style="text-align:{{col.align}};height:24px;padding6px;" 
+		        	 	ng-readonly="col.readonly==true && row_dtl[col.chk_add]==0 "
+		        	 /> 
+		             <input type="textbox"  ng-if="col.type =='textbox' && col.valid_number =='valid-number' " 
+		             	ng-model="row_dtl[col.map]" class="form-control"
+		             	ng-change="col.changeFn(row_dtl)" 
+		             	size="{{col.size}}" style="text-align:{{col.align}};height:24px;padding6px;" 
+		             	ng-readonly="col.readonly==true && row_dtl[col.chk_add]==0 " 
+		             	valid-number 
+		             />  
+		        </td> 
+			    <td ng-repeat="but in options.cols_buttons" width="{{but.width}}px" align="right"> 		        	
+			         <button class="btn {{ but.btn || 'btn-primary' }} btn-xs" ng-click="but.fn($parent.$index,row_dtl)"  
+			         ng-disabled="row_dtl.option_disabled" ><i class="fa {{but.icon}}" ></i>{{but.label}}</button>
+			    </td> 
+		      </tr>
+
+		    </tbody>
+		    <tfoot class="{{options.tableBg}}" >
+		    	<tr>
+		    		<td ng-repeat="col in options.cols_dtl_footer" colspan="{{col.colspan}}" 
+		    			 ng-class="{'text-right':col.align=='right', 'text-center':col.align=='center'}" class='text-left'
+		    			>
+		    			<span>{{col.label || rowHdr(row.hdr,col) }}</span>
+		    		</td> 
+		    	</tr>	
+		    </tfoot>
+
+		  </table>
+ 
+		</div>
+	</div>
+
+
+
+  </div>
+
+</ab-table-3>

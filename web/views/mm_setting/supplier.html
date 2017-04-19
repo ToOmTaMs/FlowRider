@@ -1,0 +1,114 @@
+ 
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row"
+	refashfn="Refresh" 
+	set-refash-fn="setRefashFn(theRefashFn)"
+	set-del-fn="setDelFn(theDelFn)"
+	>
+
+  	<div class="row" ng-show="row.id" >	
+  		<div class="col-md-6">
+	      <button ng-click="items()"
+			class="btn btn-primary">สินค้าตามผู้จัดจำหน่าย</button>
+ 		</div>	
+	    <div class="col-md-6">
+	      <div class="btn-group pull-right">
+
+			<button title="Delete"
+	          class="btn btn-danger btn-flat" 
+	          ng-click="delete_msg();theDelFn(delete_action);"><i class="ion ion-close"></i> Hidden</button>
+
+ 		  </div>
+ 		</div>
+ 	</div> 	
+
+ 
+
+	<div class="row space_line_5">
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>รหัส : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">				
+					 <input ng-model="row.c_code" class="form-control" id="c_name" type="text" >
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ชื่อ : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">				
+					 <input ng-model="row.c_name" class="form-control" id="c_name" type="text" >
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ที่อยู่ : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">
+					<textarea ng-model="row.c_setting.c_address" class="form-control" id="c_address" type="text" rows="3"></textarea>
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>สาขา : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">				
+					 <input ng-model="row.c_setting.c_location_name" class="form-control" id="c_name" type="text" >
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<input type="checkbox"  ng-model="row.c_setting.c_location_mm" ng-true-value="1" ng-false-value="0" />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><b>สำนักงานใหญ่</b></label>
+				</div> 
+			</div>
+		</div> 
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ผู้ติดต่อ : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">				
+					 <input ng-model="row.c_setting.c_contact" class="form-control" id="c_tax_number" type="text" >
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เลขประจำตัวผู้เสียภาษี : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">				
+					 <input ng-model="row.c_setting.tax_number" class="form-control" id="c_tax_number" type="text" >
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เบอร์โทร : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">
+					<input ng-model="row.c_setting.c_tel" class="form-control" id="c_tel" type="text" >
+				</div> 
+			</div>
+		</div> 
+
+
+    </div>
+
+<!--
+	<div class="row">	 
+		<div class="col-md-12">	 
+			<ab-form-fld
+				cols ="formFlds"
+				row ="row">
+			</ab-form-fld>
+		</div>
+	</div>
+-->
+			
+</ab-table-3>
+ 
+
+

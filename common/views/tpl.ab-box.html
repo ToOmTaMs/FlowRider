@@ -1,0 +1,11 @@
+<div class="box box-{{opt.type}}" ng-hide="opt.hideBox">
+  <div class="box-header">
+    <h3 class="box-title">{{opt.title}}</h3>
+    <div class="box-tools pull-right">
+      <button class="btn btn-{{opt.type}} btn-xs" ng-click="opt.hideBody =!opt.hideBody" ><i ng-class="{'fa fa-minus':!opt.hideBody,'fa fa-plus':opt.hideBody}"></i></button>
+      <button ng-show="opt.allowClose" class="btn btn-{{opt.type}} btn-xs" ng-click="opt.hideBox =true"><i class="fa fa-times"></i></button>
+    </div>
+  </div>
+  <div class="box-body" ng-hide="opt.hideBody" ng-transclude>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<ab-table-3
+	options ="Options"
+	rows = "rows"
+	row ="row">
+	<!--<ab-box>in location.html</ab-box>-->
+	
+	<!--
+	<div class="row">
+		<div class="col-md-12">
+			<h3>{{row.id ? 'Update ID:#'+row.id : 'New Record'}}</h3>
+		</div>
+	</div>	
+	-->
+	
+	<div ng-show="row.id">
+		<button ng-click="stock()"
+			class="btn btn-primary">Item @Branch</button>
+	</div>
+	 
+	<div class="row">	 
+		<div class="col-md-12">	 
+			<ab-form-fld
+				cols ="formFlds"
+				row ="row">
+			</ab-form-fld>
+		</div>
+	</div>
+			
+			 
+	<!--
+	abc {{row.c_name}}
+	<p>You can custom your form here</p>
+	-->
+</ab-table-3>
+<!-- <pre>{{rows | json}}</pre> -->
+<!-- End of file-->

@@ -1,0 +1,160 @@
+
+	 
+
+
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row" 
+	refashfn="Refresh" 
+	set-refash-fn="setRefashFn(theRefashFn)"
+	>
+
+	<treasure-overlay-spinner active='spinner.active'>
+	</treasure-overlay-spinner>
+
+  <div class="my-content" style="height: {{content_height}}px; width: 100%;">		
+
+<div class="row" ng-show="row.hdr.id > 0 ">	
+  		<div class="col-md-6">
+  			<!--<span class="my-header-span text-blue" ng-show="row.hdr.e_status_action=='active_confirm'"><b>อนุมัติแล้ว</b></span>-->
+  		</div>	
+	    <div class="col-md-6">
+	      <div class="btn-group pull-right">
+ 
+
+	      	<button title="Print รายงานหลังการตรวจนับ"
+	          class="btn btn-info btn-flat" 
+	          ng-click="print_action1()"><i class="fa fa-print"></i> Print รายงานหลังการตรวจนับ</button>	
+	        <button title="Print รายงานผลต่างจากการตรวจนับ"
+	          class="btn btn-primary btn-flat" 
+	          ng-click="print_action2()"><i class="fa fa-print"></i> Print รายงานผลต่างจากการตรวจนับ</button>	  
+
+
+ 		  </div>
+ 		</div>
+ 	</div> 	
+  	
+
+ 	<div class="row space_line_5">
+    	<div class="col-md-4"> 
+    		<div class="form-group">
+				<label for="d_date" class="col-sm-4 control-label" style="padding-top:8px;">วันที่</label>
+				<div class="col-sm-6"> 
+					<input ng-model="row.hdr.d_date" class="form-control" id="d_date" type="text" readonly />
+				</div>
+			</div> 
+    	</div>
+    	<div class="col-md-4"> 
+			<div class="form-group">
+				<label for="c_note" class="col-sm-3 control-label" style="padding-top:8px;">หมายเหตุ</label>
+				<div class="col-sm-9">
+					<textarea ng-model="row.hdr.c_note" class="form-control" id="c_note" type="text" rows="6"
+					   ng-disabled="options.disabled" ></textarea> 
+				</div>	
+			</div>	
+    	</div>	
+    	<div class="col-md-4">
+    		<div class="form-group">
+				<label for="c_doc_no" class="col-sm-5 control-label" style="padding-top:8px;">เลขที่เอกสาร</label>
+				<div class="col-sm-6"> 
+					<input ng-model="row.hdr.c_doc_no" class="form-control" id="c_doc_no" type="text" readonly />
+				</div>
+			</div>  
+			
+			<div class="form-group" >
+				<label for="f_fifo_total" class="col-sm-5 control-label" style="padding-top:8px;">รวมราคาทุน</label>
+				<div class="col-sm-6"> 
+					<input ng-model="row.hdr.f_fifo_total" class="form-control" id="f_fifo_total" type="text" readonly />
+				</div>
+			</div> 
+			<div class="form-group" >
+				<label for="f_doc_total" class="col-sm-5 control-label" style="padding-top:8px;">รวมมูลค่าเสียหาย</label>
+				<div class="col-sm-6"> 
+					<input ng-model="row.hdr.f_doc_total" class="form-control" id="f_doc_total" type="text" readonly />
+				</div>
+			</div> 
+    	</div>	
+    </div> 	
+
+   <!--  <div class="row space_line_5">
+    	<div class="col-md-6">
+    		<div class="row">
+				<div class="col-md-4" style="padding-top:8px;">
+					<label><b>วันที่ : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group">
+						<input ng-model="row.hdr.d_date" class="form-control" id="d_date" type="text" readonly />
+              		</div>
+				</div>	
+			</div>
+    	</div>
+    	<div class="col-md-6">
+    		<div class="row">
+				<div class="col-md-4" style="padding-top:8px;">
+					<label><b>เลขที่เอกสาร : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.c_doc_no" class="form-control" id="c_doc_no" type="text" readonly>
+				</div>	
+			</div>	
+    	</div>	
+    </div> 	
+ -->
+ <!--
+    <div class="row" ng-show="row.hdr.id > 0">		
+	    <div class="col-md-12">
+	      <div class="btn-group pull-right">
+
+	      	<button title="Print"
+	          class="btn btn-info btn-flat" 
+	          ng-click="ic_print()"><i class="fa fa-print"></i> Print</button>	
+
+ 		  </div>
+ 		</div>
+ 	</div> 
+ -->
+
+	<div class="row space_line_5 ">	 
+		<div class="col-md-12">	 
+
+		  <table width="100%" class="{{options.classTable}}" >
+		    <thead>
+		      <tr class="{{options.tableBg}}">
+		        <th ng-repeat="col in options.cols_dtl" ng-class="{'text-right':col.align=='right', 'text-center':col.align=='center'}" class='text-left'>{{col.label || col.map}}</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr ng-repeat="row_dtl in options.rows_dtl | orderBy:'c_seq' " 		          
+		          ng-click="">
+		        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" 
+		        	ng-class="{'bg-gray':row_dtl['chk_add']==1 }"
+		        	align="{{ col.align || 'left' }}"
+		        	>
+		        	 <span ng-if="!col.type" ng-model="row_dtl[col.map]" >{{rowCol(row_dtl,col,($parent.$parent.$index+1))}}</span>
+		        	 <input type="textbox"  ng-if="col.type =='textbox' && !col.valid_number" ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" size="{{col.size}}" style="text-align:{{col.align}};" ng-readonly="col.readonly==true"/> 
+		             <input type="textbox"  ng-if="col.type =='textbox' && col.valid_number =='valid-number' " ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" size="{{col.size}}" style="text-align:{{col.align}};" ng-readonly="col.readonly==true" valid-number/>  
+		        </td> 
+		      </tr>
+		    </tbody>
+		    <tfoot class="{{options.tableBg}}" >
+		    	<tr>
+		    		<td ng-repeat="col in options.cols_dtl_footer" colspan="{{col.colspan}}" 
+		    			 ng-class="{'text-right':col.align=='right', 'text-center':col.align=='center'}" class='text-left'
+		    			>
+		    			<span>{{col.label || rowHdr(row.hdr,col) }}</span>
+		    		</td> 
+		    	</tr>	
+		    </tfoot>
+
+		  </table>
+ 
+		</div>
+	</div>
+
+
+
+  </div>
+
+</ab-table-3>

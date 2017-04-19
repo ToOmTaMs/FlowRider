@@ -1,0 +1,43 @@
+<div ng-show="fetchError">
+Error cannot proceed
+</div>
+<div ng-show="!fetchError">
+	<!-- button area -->
+	<div class="text-center">
+		<div class="pull-left">
+			<button ng-show="options.allowOp.indexOf('update') > -1"
+				ng-click="postData()"
+				class="btn btn-primary"><i class="fa fa-save"></i> Save & Close</button>
+			<button class="btn btn-info" ng-click="goBack()"><i class="fa fa-arrow-circle-left"></i> Close</button>
+		</div>
+		<button ng-disabled="!options.showNav || options.prevRow ==null"
+			ng-click="go(options.prevRow)"
+			class="btn"><i class="fa fa-chevron-left"></i> Prev</button>
+<!-- 		<label ng-show="options.showNav" > 1 of 10 </label> -->
+		<button ng-disabled="!options.showNav || options.nextRow ==null"
+			ng-click="go(options.nextRow)"
+			class="btn"> Next <i class="fa fa-chevron-right"></i></button>
+		<div class="pull-right">
+			<button ng-show="!isConfirmDelete && options.allowOp.indexOf('delete') !=-1 && options.rowId >0 !=''" class="btn btn-danger"
+				ng-click="isConfirmDelete = true"><i class="fa fa-times"></i> Delete</button>
+	    <div ng-show="isConfirmDelete" class="box box-danger">
+	    	<div class="box-body">
+		    	<h5>Confirm Deleting this Record</h5>
+		      <button ng-click="delRow()" class="btn btn-success">Yes</button>
+		      <button ng-click="isConfirmDelete = false" class="btn btn-danger">No</button>
+		    </div>
+	    </div>
+	  </div>
+	</div>
+<hr>
+	<div ng-show="options.transcludeAtTop" ng-transclude></div>
+	<div ng-if="cols.length >0" ng-repeat="col in cols"
+		class="form-group">
+		<label for="{{col.map}}">{{col.label}}</label>
+		<input ng-model="row[col.map]"
+			ng-disabled="col.disabled"
+			type="{{col.type || 'text'}}"
+			class="form-control" id="{{col.map}}" />
+	</div>
+	<div ng-hide="options.transcludeAtTop" ng-transclude></div>
+</div>

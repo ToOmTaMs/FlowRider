@@ -1,0 +1,180 @@
+ 
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row" 
+	>
+
+  <div class="my-content" style="height: {{content_height}}px; width: 100%;">	
+
+	<treasure-overlay-spinner active='spinner.active'>
+	</treasure-overlay-spinner>
+
+
+	<div class="row space_line_5">
+		<div class="col-md-4">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>สาขา : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">				
+					<select class="form-control"
+						ng-model="options.location"
+						ng-options="s.c_name for s in MODEL.location_branch "
+						ng-change="change_location()"
+						ng-disabled="row.hdr.id"
+						> 
+					</select>
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ที่อยู่ : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">
+					<textarea ng-model="row.hdr.c_location_address" class="form-control" id="c_desc" type="text" rows="3" ng-disabled="row.hdr.id" ></textarea>
+				</div> 
+			</div>
+		</div> 
+		<div class="col-md-4"> 
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>หมายเหตุ : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<textarea ng-model="row.hdr.c_note" class="form-control" id="c_note" type="text" rows="3" ng-disabled="row.hdr.id"></textarea> 
+				</div>	
+			</div>	 
+		</div> 	
+		<div class="col-md-4">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เลขที่เอกสาร : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.c_doc_no" class="form-control" id="c_doc_no" type="text" readonly>
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>วันที่สร้าง : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group">
+						<input ng-model="row.hdr.d_date" class="form-control" id="d_date" type="text" datepicker-popup  is-open="date1.opened" ng-disabled="row.hdr.id" />
+						<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="openDate1($event)" ng-disabled="row.hdr.id"><i class="glyphicon glyphicon-calendar"></i></button>
+	              		</span>
+              		</div>
+				</div>	
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>กำหนดส่ง : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group">
+						<input ng-model="row.hdr.d_date_send" class="form-control" id="d_date_send" type="text" datepicker-popup is-open="date2.opened" 
+							min-date="minDate" ng-disabled="options.disabled" />
+						<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="openDate2($event)"
+	                			ng-disabled="options.disabled" ><i class="glyphicon glyphicon-calendar"></i></button>
+	              		</span>
+					</div>
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>รวมจำนวนเงิน : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.f_doc_summary" class="form-control" id="f_doc_summary" type="text" readonly>
+				</div>	
+			</div>
+
+		</div>		
+			
+	</div>	
+
+ <!-- <hr> -->
+<div class="row space_line_5" ng-show="row.hdr.id">	
+ <div class="col-md-12">
+	  <table width="100%" class="{{options.classTable}}" >
+	    <thead>
+	      <tr class="{{options.tableBg}}">
+	        <th ng-repeat="col in options.cols_dtl">{{col.label || col.map}}</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr ng-repeat="row_dtl in options.rows_dtl" 
+	          ng-click="">
+	        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" >
+	        	 <span ng-model="row_dtl[col.map]" >{{row_dtl[col.map]}}</span>
+	        </td> 
+	      </tr>
+	    </tbody>
+	  </table>
+ </div> 
+</div> 
+
+<div class="row space_line_5" ng-show="!row.hdr.id">
+
+  <div class="row">	 
+  	<div class="col-xs-12 col-sm-12 col-md-7 form-inline" style="padding-right:0px;"> 
+  		<div class="form-group" style="margin-right:10px;">
+        <label for="">คำนวนใช้งาน</label>
+        <select class="form-control"  
+			 ng-model="options.stockCal" >
+			<option value='1'>1 เดือน</option> 
+			<option value='1.5'>1.5 เดือน</option> 
+			<option value='2'>2 เดือน</option> 
+			<option value='2.5'>2.5 เดือน</option> 
+			<option value='3'>3 เดือน</option>
+		</select>  
+ 	  	<button title="Cal Stcok"
+			   class="btn btn-primary btn-flat" 
+			   ng-click="cal_stock();"><i class="ion ion-check"></i> คำนวน Stock</button> 
+  	</div> 
+  </div>  
+
+  <div class="row">	 
+  	<div class="col-md-12">
+		<div class="btn-group">
+		    <button ng-repeat="but in MODEL.item_group"
+		    	title="{{but.c_desc}}"
+			    class="btn btn-primary btn-flat" ng-class="{'btn-info':options.table_show!=but.id }" 
+			    ng-click="change_show(but.id);"><i class="ion ion-check"></i> {{but.c_desc}}</button> 
+		</div>
+  	</div> 
+  </div>
+  
+  <div class="row"  ng-show='options.table_show==tab.id'  ng-repeat="tab in MODEL.item_group" >	 
+	<div class="col-md-12">	 
+	  <table width="100%" class="{{options.classTable}}" >
+	    <thead>
+	      <tr class="{{options.tableBg}}">
+	        <th ng-repeat="col in options.cols_dtl">{{col.label || col.map}}</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr ng-repeat="row_dtl in options.rows_dtl_array[tab.id] | orderBy:'item_c_name' " 
+	          ng-click="">
+	        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" ng-class="{'bg-gray':row_dtl['chk_add']==1 }">
+	        	 <input type="checkbox"  ng-if="col.type =='checkbox'" ng-model="row_dtl[col.map]" ng-true-value="1" ng-false-value="0" ng-change="col.changeFn(row_dtl)" />
+	        	 <span ng-if="!col.type" ng-model="row_dtl[col.map]" >{{row_dtl[col.map]}}</span>
+	             <input type="textbox"  ng-if="col.type =='textbox' " ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" size="{{col.size}}" style="text-align:{{col.align}};" />  
+	        </td> 
+	      </tr>
+	    </tbody>
+	  </table>
+	</div>
+  </div> 
+
+
+ </div>   
+</div> 
+
+	 
+ 
+
+</ab-table-3>

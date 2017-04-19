@@ -1,0 +1,11 @@
+<div class="box box-solid bg-{{row.c_bg_color}}">
+  <div class="box-header">
+    <h3 class="box-title">{{row.id}} - {{row.c_name || 'empty'}}</h3>
+  </div>
+  <div class="box-body">
+    <code>You get {{row.f_cost | number:2}} บาท</code> {{row.d_last_qclick}}
+    <p>
+      {{row.c_desc || 'empty'}}</a>
+      </p>
+  </div>
+</div>

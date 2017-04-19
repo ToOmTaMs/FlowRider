@@ -1,0 +1,111 @@
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row">
+ 
+
+	<div class="row space_line_5">
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>รหัสลูกค้า : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">				
+					 <input ng-model="row.c_code" class="form-control" id="c_code" type="text" >
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ชื่อ : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">				
+					 <input ng-model="row.c_name" class="form-control" id="c_name" type="text" >
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ที่อยู่ : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">
+					<textarea ng-model="row.c_address" class="form-control" id="c_address" type="text" rows="3"></textarea>
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>สาขา : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">				
+					 <input ng-model="row.c_location_name" class="form-control" id="c_location_name" type="text" >
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ผังราคา : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">				
+					 <select class="form-control"
+						ng-model="row.price_level"
+						ng-options="s.id as s.c_desc for s in MODEL.price_level" 
+						> 
+				</select>	
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ส่วนลด : &nbsp;</b></label>
+				</div>
+				<div class="col-md-4">
+					<div class="input-group">
+                    	<input ng-model="row.f_discount_pct" class="form-control" id="f_discount_pct" type="text" valid-number >
+                    	<span class="input-group-addon">%</span>
+                 	 </div>					 
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<input type="checkbox"  ng-model="row.c_location_mm" ng-true-value="1" ng-false-value="0" />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><b>สำนักงานใหญ่</b></label>
+				</div> 
+			</div>
+		</div> 
+		<div class="col-md-6">
+			<!-- <div class="row">
+				<div class="col-md-4">
+					<label><b>รหัส : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">				
+					 <input ng-model="row.c_code" class="form-control" id="c_code" type="text" >
+				</div> 
+			</div> -->
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เลขที่บัตรประชาชน/เลขที่นิติบุคคล : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">				
+					 <input ng-model="row.c_tax_number" class="form-control" id="c_tax_number" type="text" >
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เบอร์โทร : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">
+					<input ng-model="row.c_tel" class="form-control" id="c_tel" type="text" >
+				</div> 
+			</div>
+			<!-- <div class="row">
+				<div class="col-md-4">
+					<label><b>Tax Number : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">
+					<input ng-model="row.c_tax_number" class="form-control" id="c_tax_number" type="text" >
+				</div> 
+			</div> -->
+		</div> 
+
+
+    </div>
+ 	
+ 
+</ab-table-3>
+ 

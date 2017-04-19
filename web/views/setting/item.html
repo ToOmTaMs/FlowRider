@@ -1,0 +1,95 @@
+ 
+
+<ab-table-3
+    options ="options"
+    rows = "rows"
+    row ="row"
+    >
+    <!--{{row}}-->
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>ลำดับ :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <select class="form-control"
+                        ng-model="row.menu_id"
+                        ng-options="s.id as s.c_name for s in MODEL.menu_group " 
+                        > 
+                    </select>  
+                </div> 
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>ลำดับ :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input class="form-control" ng-model="row.c_seq" >  
+                </div> 
+            </div>
+        </div>
+    </div>
+    
+        
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>ชื่อ (ภาษาที่1) :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input class="form-control" ng-model="row.lng1_c_name" >  
+                </div> 
+            </div>
+        </div>
+    </div>
+   
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>ชื่อ (ภาษาที่2) :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input class="form-control" ng-model="row.lng2_c_name" >  
+                </div> 
+            </div>
+        </div>
+    </div>
+    
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>ชื่อ (ภาษาที่3) :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input class="form-control" ng-model="row.lng3_c_name" >  
+                </div> 
+            </div>
+        </div>
+    </div>
+ 
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>ราคา :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input class="form-control" ng-model="row.price" >  
+                </div> 
+            </div>
+        </div>
+    </div> 
+ 
+    
+       
+</ab-table-3>

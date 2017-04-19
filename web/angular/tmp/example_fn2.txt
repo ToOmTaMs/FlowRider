@@ -1,0 +1,35 @@
+//******* HTML
+
+<button ng-repeat="data in data_list" ng-click='test(data)'>{{data.c_name}}</button>
+
+
+
+//************************
+
+//****** controller
+	$scope.data_list = [
+	    {fn_name:'fn1', c_value:'This is function 1', c_name="B1"},
+	    {fn_name:'fn2', c_value:'This is function 2', c_name="B2"},
+	    {fn_name:'fn3', c_value:'This is function 3', c_name="B3"},
+	  ];
+
+	  $scope.fn_list = {
+	    fn1:function(data){
+	      console.log(data.c_value);
+	    },
+	    fn2:function(data){
+	      console.log(data.c_value);
+	    },
+	    fn3:function(data){
+	      console.log(data.c_value);
+	    },
+	    apply_fn:function(d){
+	      $scope.fn_list[d.fn_name](d);
+	    }
+	  }
+
+	  $scope.test = function(data){
+	  	$scope.fn_list.apply_fn(data);
+	  }
+
+//******

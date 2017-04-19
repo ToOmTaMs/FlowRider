@@ -1,0 +1,27 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" ng-click="cancel()" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="myModalLabel">Import CSV</h4>
+  </div>
+  <div class="modal-body">
+    You can manual enter one RECORD per ROW or choose file to import:
+    <input ng-model="csv"
+      onchange="angular.element(this).scope().fileChanged()"
+      type="file" accept=".csv" id="fileInput"/>
+    <textarea ng-model="row2.csvFile"
+      class="form-control" rows="3"></textarea>
+    <br>MUST Include Header line at line #0 contain field names <b>line #0 don't delete</b>
+    <pre>{{row2.importResult}}</pre>
+    
+    <div>Template file : <a href="{{csv}}">download</a></div>
+    <div>Example : csv file</div>
+    <div></div><span ng-repeat='item in opt'>{{item.col}}<span ng-hide='($index+1)==opt.length'>,</span></span></<div>
+    <div></div><span ng-repeat='item in opt'>{{item.data}}<span ng-hide='($index+1)==opt.length'>,</span></span></<div>    
+  </div> 
+    
+
+  <div class="modal-footer">
+		<button class="btn btn-success" ng-click="ok()">Import</button>
+		<button class="btn btn-danger" ng-click="cancel()">Close</button>
+  </div>
+</div>

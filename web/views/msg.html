@@ -1,0 +1,252 @@
+<tabset>
+	<tab heading="Notification">
+		<ab-table
+			options ="tableOptions1"
+			cols ="cols">
+		</ab-table>
+	</tab>
+	<tab heading="Personal Message comming soon" disabled="true">
+		<div class="form-group">
+			<div class="form-group" ng-repeat="item in pmFlds">
+				<label for="{{item.model}}">{{item.title}}</label><input ng-model="row[item.model]" type="{{item.type || text}}" class="form-control" id="{{item.model}}" />
+			</div>
+			<button class="btn btn-primary" ng-click="sendPM()">Submit</button>
+		</div>
+	</tab>
+	<tab heading="Help">
+	</tab>
+</tabset>
+
+<ab-modal
+	options="modalOptions1">
+<!-- form -->
+	<div>
+		<!--<div class="form-group" ng-repeat="item in msgFlds">-->
+		<div class="row">
+			<div class="col-sd-6 col-md-6 col-ld-6 text-right">
+				<h4>CUSTOMER</h4>
+				<h1 class="">{{total_user_stat}}</h1>
+			</div>
+			<div class="col-sd-6 col-md-6 col-ld-6 text-left">
+				<h4>SELECT</h4>
+				<h1 class="text-green">{{user_stat.result}}</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sd-12 col-md-4 col-ld-4">
+				R ใช้งานล่าสุด {{ sliderR.max*-1 }} ถึง {{ sliderR.min*-1 }} วันก่อน
+				<div range-slider 
+						min="sliderR_option.min" 
+						max="sliderR_option.max" 
+						model-min="sliderR.min" 
+						model-max="sliderR.max" 
+						attach-handle-values="true"
+						filter="numberToDate"
+						on-handle-up="getUserStat()"
+					></div>
+				<span class="pull-left">นานแล้ว</span>
+				<span class="pull-right">ล่าสุด</span>
+			</div>
+			<div class="col-sd-12 col-md-4 col-ld-4">
+				F ใช้งานจำนวน {{ sliderF.min }} ถึง {{ sliderF.max }} ครั้งต่อปี
+				<div range-slider 
+						min="sliderF_option.min" 
+						max="sliderF_option.max" 
+						model-min="sliderF.min" 
+						model-max="sliderF.max" 
+						attach-handle-values="true"
+						on-handle-up="getUserStat()"
+					></div>
+				<span class="pull-left">ไม่บ่อย</span>
+				<span class="pull-right">บ่อย</span>
+			</div>
+			<div class="col-sd-12 col-md-4 col-ld-4">
+				M ยอดใช้จ่ายตั้งแต่ {{ sliderM.min }} ถึง {{ sliderM.max }} บาท
+				<div range-slider 
+						min="sliderM_option.min" 
+						max="sliderM_option.max" 
+						model-min="sliderM.min" 
+						model-max="sliderM.max" 
+						attach-handle-values="true"
+						on-handle-up="getUserStat()"
+					></div>
+				<span class="pull-left">น้อย</span>
+				<span class="pull-right">มาก</span>
+			</div>
+		</div>
+		<div class="row">
+			<hr />
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-3">
+					Status: <select ng-model="row.e_status">
+						<option value="active">Active</option>
+						<option value="pause">Pause</option>
+					</select>
+				</div>
+				<div class="col-md-5">
+					<div class="" ng-show="row.c_type=='SCHEDULE-SEND'">
+						<label for="date_time_event">Schedule</label>
+						<input type="date" ng-model="row.msg.d_date">
+						<input type="time" ng-model="row.msg.c_time" step="600">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="">
+						To list: <select ng-options="item.id as (item.c_name+': '+item.i_count+' emails') for item in lists" ng-model="row.target_id"></select>
+						<button class="btn btn-primary btn-xs" ng-click="addList()"><i class="fa fa-plus"></i></button>
+						<button class="btn btn-danger btn-xs" ng-show="row.target_id" ng-click="delList()"><i class="fa fa-times"></i></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<!--<label for="{{item.model}}">{{item.title}}</label><input ng-model="row[item.model]" type="{{item.type || text}}" class="form-control {{item.type || text}}" id="{{item.model}}" />-->
+				<!--<span ng-repeat="msgType in msgTypeList">
+					<label for="c_msg_type_{{msgType.value}}"><input type="radio" ng-model="$parent.c_msg_type" name="c_msg_type" class="iradio_minimal" id="c_msg_type_{{msgType.value}}" value="{{msgType.value}}" /> {{msgType.name}}</label>
+				</span>-->
+			<div>
+				<label for="c_subject">Subject</label><input ng-model="row.c_subject" type="text" class="form-control" id="c_subject" />
+			</div>
+
+		</div>
+
+		<tabset>
+
+			<tab ng-repeat="step in row.c_message.steps" heading="Step {{$index + 1}}" active="step.active">
+				<div style='float: right;'>
+					<button ng-show="{{$index}} > 0" class="btn btn-danger" ng-click="delStep(step)"><i class="fa fa-time"></i> delete step</button>
+				</div>
+
+				<div style="float: left">
+					<label for="c_msg_type_text">Step Type
+						<select name="c_msg_type" ng-model="step.msgType" ng-init="msgType[0].value" ng-options="msgType.value as msgType.name for msgType in msgTypeList"></select>
+					</label>
+				</div>
+				<div style="clear: both;"></div>
+				<label for="c_message">Step Message</label>
+				<div text-angular ng-model="step.text" name="message_editor_{{$index}}" ta-toolbar="{{taToolbar}}"></div>
+				<!--<textarea ui-tinymce="tinymceOptions" id="c_msg_message" ng-model="step.text"></textarea>-->
+				<!--<mce-editor ng-model="c_message1" id="c_msg_message"></mce-editor>-->
+
+				<div ng-show="step.msgType=='question'">
+					<div>
+						<label for="c_question_meta_key">Question Meta Key</label>
+							<input ng-model="step.c_meta_key" type="text" class="form-control" id="c_question_meta_key_{{$index}}" />
+						 </label>
+					</div>
+
+					<div>
+						<label for="c_question_type">Question Type
+							<select ng-model="step.qType" class="" ng-init="questionType[0].value" id="c_question_type" ng-options="questionType.value as questionType.name for questionType in questionTypeList"></select>
+						 </label>
+					</div>
+
+					<div ng-show="step.qType=='checkbox' || step.qType=='radio'">
+						<label>Choices :</label>
+
+							<div id='c_question_input_content_{{$index}}'>
+								<div class="input-group" ng-repeat="choice in step.choices">
+                                    <span class="input-group-addon">#{{$index + 1}}</span>
+                                    <!--<input type="text" class="form-control" value="{{choice.value}}" width="20%" placeholder="Value of choice">-->
+                                    <input type="text" class="form-control" ng-model='choice.text' width="80%" placeholder="Choice">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-danger btn-flat" type="button" ng-click="removeChoice($index, choice)"><i class="fa fa-trash-o"></i></button>
+                                    </span>
+                                </div>
+                                <br />
+							</div>
+							<button class="btn btn-success" ng-click="addChoice($index)"><i class="fa fa-plus"></i> Add choice</button>
+					</div>
+				</div>
+			</tab>
+			<tab class="bg-info" ng-click="addStep()">
+				<tab-heading>
+			        <i class="fa fa-plus"></i>
+			    </tab-heading>
+			</tab>
+		</tabset>
+		
+		<div class="form-group" ng-show="0">
+			<div>
+				<label for="">Attach Image(s)</label>
+				<div flow-init="flowOptions"
+						 flow-name="obj.flowObj"
+				     flow-files-submitted="$flow.upload()"
+				     flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
+				  <span class="btn btn-default" flow-btn>Upload New Image</span>
+				  <span class="btn btn-default" ng-click="showMedia()">Select From Library</span>
+				  <div class="" ng-show="row.img_url.length || row._lib_img.length">
+				  	<div ng-repeat="i in row._img_url" >
+				  		<div class="pull-left gallery-box">
+						    <div class="btn-group">
+						  		<label><input type="checkbox" ng-model="row._curImg[$index]"> Remove</label>
+						  	</div>
+						    <div>
+					  			<img ng-src="{{i.url}}" height="150" class="thumbnail"/>
+					  		</div>
+						  </div>
+				  	</div>
+				  	<div ng-repeat="i in row._lib_img" >
+				  		<div class="pull-left gallery-box">
+						    <div class="btn-group">
+						  		<label><input type="checkbox" ng-model="row._curLibImg[$index]"> Remove</label>
+						  	</div>
+						    <div>
+					  			<img ng-src="{{i.url}}" height="150" class="thumbnail"/>
+					  		</div>
+						  </div>
+				  	</div>
+				  </div>
+				  <div class="pull-left">
+				    <div ng-repeat="file in $flow.files" class="gallery-box">
+				      <!--<span class="title">{{file.name}}</span>-->
+				      <div class="btn-group">
+				        <a class="btn btn-xs btn-danger" ng-click="file.cancel()">
+				          Cancel
+				        </a>
+				      </div>
+				      <div class="thumbnail" ng-show="$flow.files.length">
+				        <img flow-img="file" />
+				      </div>
+				      <div class="progress progress-striped" ng-show="file.isUploading()" ng-class="{active: file.isUploading()}">
+				        <div class="progress-bar" role="progressbar"
+				             aria-valuenow="{{file.progress() * 100}}"
+				             aria-valuemin="0"
+				             aria-valuemax="100"
+				             ng-style="{width: (file.progress() * 100) + '%'}">
+				          <span class="sr-only">{{file.progress()}}% Complete</span>
+				        </div>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+
+				<div class="clearfix"><br /></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+</ab-modal>
+
+<ab-modal options="ListOptions" >
+	<div>
+		<label for="c_name">List Name</label><input ng-model="row2.c_name" type="text" class="form-control" id="list_c_name" />
+	</div>
+	You can manual enter one email per row or choose file to import:
+	<div>
+		<input ng-model="csv"
+	    onchange="angular.element(this).scope().fileChanged()"
+	    type="file" accept=".csv" id="fileInput"/>
+    </div>
+
+	<textarea ng-model="row2.csvFile"
+		class="form-control" rows="3"></textarea>
+	<br><input type="checkbox" ng-model="row2.headerLine">Include Header line at line #0
+	<br><button type="submit" ng-disabled="listLoading" class="btn btn-primary" ng-click="importList()">Create List</button>
+	<span ng-show="listLoading">Please wait..</span>
+	<pre>{{row2.importResult}}</pre>
+</ab-modal>
+
+<!-- End of file-->

@@ -1,0 +1,1043 @@
+ 
+  <treasure-overlay-spinner active='spinner.active'>
+  </treasure-overlay-spinner>
+  
+  
+ 
+
+<div class="row">	
+	<div class="col-md-6" >  
+	  <div class="form-group">
+	    <span class="my-header-span"><b>Report</b></span>
+	  </div>          
+	</div> 
+	<div class="col-md-6" >  
+	    <div class="btn-group pull-right">
+	      <!--  <button title="Get" 
+	          class="btn btn-primary btn-flat"
+	          ng-click="get_report()" ><i class="fa fa-plus"></i> Get</button>
+	      -->
+
+ 		</div>          
+	</div>   
+</div> 
+
+<!--{{options.report.c_type}}-->
+
+
+<div class="row">
+	<div class="col-md-6">
+		<label><b>รายงาน : &nbsp;</b></label>
+		<select class="form-control"
+			ng-model="options.report"
+			ng-options="s.c_name for s in options.reports "
+			ng-change="change_report()"
+			> 
+		</select>
+
+
+	          <!--{{options.reportOpt}}-->
+	          <!--{{url_report_show}} -->
+	</div> 
+	<div class="col-md-6">
+		<br>
+		<button title="Get Report" 
+	          class="btn btn-primary btn-flat "
+	          ng-click="get_report('pdf')" ><i class="fa fa-plus"></i> แสดงรายงาน</button>
+	    <button title="Get Excel" 
+	          class="btn btn-info btn-flat "
+	          ng-click="get_report('csv')" ><i class="fa fa-plus"></i> แสดง Excel</button>
+		<!--<button title="Get Excel" 
+	          class="btn btn-info btn-flat "
+	          ng-click="get_report('excel')" ><i class="fa fa-plus"></i> แสดง Excel</button>-->
+			  
+	    <button title="Reset" 
+	          class="btn btn-danger btn-flat "
+	          ng-click="get_reset()" ><i class="ion ion-close"></i> Reset</button>
+	    <!--
+	    <button title="Stop Start Report" 
+	          class="btn btn-primary btn-flat "
+	          ng-click="stop_start_report()" ><i class="fa fa-plus"></i> Stop/Start Report</button>
+	    -->      
+		<iframe src='{{url_report}}' ng-disabled='true' style='position:fixed;top:-1000px;'></iframe>
+
+
+	</div>	
+
+</div> 	
+
+
+<br>
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_outstanding_stock') > -1"> 
+	
+	  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>วันที่</b></label>
+        <div class="input-group">
+			     <input ng-model="options.reportOpt.pdate" class="form-control" id="pdate" type="text" datepicker-popup  is-open="date3.opened" />
+			     <span class="input-group-btn">
+            	<button type="button" class="btn btn-default" ng-click="openDate3($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+           </span>
+      	</div>
+      </div>  
+
+    </div> 
+
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>ประเภทสินค้า</b></label>
+        <div class="input-group">
+    			<select class="form-control"
+    				ng-model="options.item_group1"
+    				ng-options=" s.c_code + ' ' + s.c_desc for s in options.MODEL.item_group | orderBy:c_code " 
+    				> 
+    			</select>
+      	</div>
+      </div>  
+
+      <div class="form-group">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+    			<select class="form-control"
+    				ng-model="options.item_group2"
+    				ng-options=" s.c_code + ' ' + s.c_desc for s in options.MODEL.item_group | orderBy:c_code " 
+    				> 
+    			</select>
+      	</div>
+      </div>  
+
+    </div> 
+
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>สินค้าจาก</b></label>
+        <div class="input-group" style="width:650px;">
+        	<input ng-model="options.rp_stock.item1_name" class="form-control" id="item_name1" type="text" readonly>
+			    <div class="input-group-addon" ng-click="openModal_item('item1')" style="width:30px;"><i class="fa fa-search"></i></div>
+      	</div>
+      </div>  
+
+    </div> 
+
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>สินค้าถึง</b></label>
+        <div class="input-group" style="width:650px;">
+			     <input ng-model="options.rp_stock.item2_name" class="form-control" id="item_name1" type="text" readonly>
+			     <div class="input-group-addon" ng-click="openModal_item('item2')" style="width:30px;"><i class="fa fa-search"></i></div>
+      	</div>
+      </div>  
+
+    </div> 
+
+</div>
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_history_stock') > -1"> 
+	
+  	<div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>วันที่</b></label>
+        <div class="input-group">
+  		    <input ng-model="options.reportOpt.dStart" class="form-control" id="dStart" type="text" datepicker-popup  is-open="date1.opened" />
+  		    <span class="input-group-btn">
+        		<button type="button" class="btn btn-default" ng-click="openDate1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+      		</span>
+      	</div>
+      </div>  
+
+      <div class="form-group">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+  		    <input ng-model="options.reportOpt.dEnd" class="form-control" id="dEnd" type="text" datepicker-popup is-open="date2.opened" />
+  		    <span class="input-group-btn">
+        		<button type="button" class="btn btn-default" ng-click="openDate2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+      		</span>
+  	    </div>
+      </div>  
+
+
+    </div> 
+
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+        <div class="form-group">
+          <label for="" style="width:100px;" ><b>ประเภทสินค้า</b></label>
+          <div class="input-group">
+      			<select class="form-control"
+      				ng-model="options.item_group1"
+      				ng-options=" s.c_code + ' ' + s.c_desc for s in options.MODEL.item_group  | orderBy:c_code " 
+      				> 
+      			</select>
+        	</div>
+        </div>  
+
+        <div class="form-group">
+          <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+          <div class="input-group">
+      			<select class="form-control"
+      				ng-model="options.item_group2"
+      				ng-options=" s.c_code + ' ' + s.c_desc for s in options.MODEL.item_group  | orderBy:c_code " 
+      				> 
+      			</select>
+        	</div>
+        </div>  
+
+    </div> 
+
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+        <div class="form-group">
+          <label for="" style="width:100px;" ><b>สินค้าจาก</b></label>
+          <div class="input-group" style="width:650px;">
+          	<input ng-model="options.rp_stock.item1_name" class="form-control" id="item_name1" type="text" readonly>
+  			    <div class="input-group-addon" ng-click="openModal_item('item1')" style="width:30px;"><i class="fa fa-search"></i></div>
+        	</div>
+        </div>  
+
+    </div> 
+
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+        <div class="form-group">
+          <label for="" style="width:100px;" ><b>สินค้าถึง</b></label>
+          <div class="input-group" style="width:650px;">
+  			    <input ng-model="options.rp_stock.item2_name" class="form-control" id="item_name1" type="text" readonly>
+  			    <div class="input-group-addon" ng-click="openModal_item('item2')" style="width:30px;"><i class="fa fa-search"></i></div>
+        	</div>
+        </div>  
+
+    </div> 
+
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+    	 <input type="checkbox" ng-model="options.rp_stock.transection" ng-true-value="1" ng-false-value="0" /> พิมพ์รายการไม่เคลื่อนไหว
+    </div> 
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+    	 <input type="checkbox" ng-model="options.rp_stock.rp_history_detail_stock" ng-true-value="1" ng-false-value="0" /> พิมพ์รายละเอียดความเคลื่อนไหวสต๊อกสินค้า
+    </div> 
+
+</div>
+
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_stockcard') > -1"> 
+	
+	<div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>วันที่</b></label>
+        <div class="input-group">
+			    <input ng-model="options.reportOpt.dStart" class="form-control" id="dStart" type="text" datepicker-popup  is-open="date1.opened" />
+			    <span class="input-group-btn">
+        		<button type="button" class="btn btn-default" ng-click="openDate1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+      		</span>
+      	</div>
+      </div>  
+
+	    <div class="form-group">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+			   <input ng-model="options.reportOpt.dEnd" class="form-control" id="dEnd" type="text" datepicker-popup is-open="date2.opened" />
+			   <span class="input-group-btn">
+        		<button type="button" class="btn btn-default" ng-click="openDate2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+      		</span>
+		    </div>
+      </div>  
+
+  </div> 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>ประเภทสินค้า</b></label>
+        <div class="input-group">
+    			<select class="form-control"
+    				ng-model="options.item_group1"
+    				ng-options=" s.c_code + ' ' + s.c_desc for s in options.MODEL.item_group  | orderBy:c_code " 
+    				> 
+    			</select>
+      	</div>
+      </div>  
+
+      <div class="form-group">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+    			<select class="form-control"
+    				ng-model="options.item_group2"
+    				ng-options=" s.c_code + ' ' + s.c_desc for s in options.MODEL.item_group  | orderBy:c_code " 
+    				> 
+    			</select>
+      	</div>
+      </div>  
+
+  </div> 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>สินค้าจาก</b></label>
+        <div class="input-group" style="width:650px;">
+        	 <input ng-model="options.rp_stock.item1_name" class="form-control" id="item_name1" type="text" readonly>
+			     <div class="input-group-addon" ng-click="openModal_item('item1')" style="width:30px;"><i class="fa fa-search"></i></div>
+      	</div>
+      </div>  
+
+  </div> 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>สินค้าถึง</b></label>
+        <div class="input-group" style="width:650px;">
+			     <input ng-model="options.rp_stock.item2_name" class="form-control" id="item_name1" type="text" readonly>
+			     <div class="input-group-addon" ng-click="openModal_item('item2')" style="width:30px;"><i class="fa fa-search"></i></div>
+      	</div>
+      </div>  
+
+  </div> 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+    	<input type="checkbox" ng-model="options.rp_stock.transection" ng-true-value="1" ng-false-value="0" /> พิมพ์รายการไม่เคลื่อนไหว
+  </div> 
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+    	<input type="checkbox" ng-model="options.rp_stock.balance" ng-true-value="1" ng-false-value="0" /> แสดงยอดคงเหลือเป็น 0 
+  </div> 
+
+</div>
+
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_prepare_stock') > -1"> 
+	
+	<div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>วันที่</b></label>
+        <div class="input-group">
+			     <input ng-model="options.reportOpt.dStart" class="form-control" id="dStart" type="text" datepicker-popup  is-open="date1.opened" />
+			     <span class="input-group-btn">
+        		 <button type="button" class="btn btn-default" ng-click="openDate1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+      		 </span>
+      	</div>
+      </div>  
+
+	    <div class="form-group">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+			     <input ng-model="options.reportOpt.dEnd" class="form-control" id="dEnd" type="text" datepicker-popup is-open="date2.opened" />
+			     <span class="input-group-btn">
+        		  <button type="button" class="btn btn-default" ng-click="openDate2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+      		</span>
+		    </div>
+      </div>  
+
+  </div> 
+ 
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+  
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>ลำดับสินค้าจาก</b></label>
+        <div class="input-group">
+	 		    <input ng-model="options.rp_stock.num_start" class="form-control" id="num_start" type="text" valid-number >
+      	</div>
+      </div> 
+
+      <div class="form-group">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+			     <input ng-model="options.rp_stock.num_end" class="form-control" id="num_end" type="text" valid-number >
+      	</div>
+      </div>
+
+  </div> 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+  
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>สินค้าจาก</b></label>
+        <div class="input-group" style="width:650px;">
+        	 <input ng-model="options.rp_stock.item1_name" class="form-control" id="item1_name" type="text" readonly>
+			     <div class="input-group-addon" ng-click="openModal_item('item1')" style="width:30px;"><i class="fa fa-search"></i></div>
+      	</div>
+      </div>  
+  
+  </div> 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+  
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>สินค้าจถึง</b></label>
+        <div class="input-group" style="width:650px;">
+			     <input ng-model="options.rp_stock.item2_name" class="form-control" id="item2_name" type="text" readonly>
+			     <div class="input-group-addon" ng-click="openModal_item('item2')" style="width:30px;"><i class="fa fa-search"></i></div>
+      	</div>
+      </div>  
+  
+  </div> 
+
+</div>
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_all_price') > -1"> 
+  
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+  
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>วันที่</b></label>
+        <div class="input-group">
+            <input ng-model="options.reportOpt.pdate" class="form-control" id="pdate" type="text" datepicker-popup  is-open="date3.opened" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="openDate3($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+        </div>
+      </div>  
+  
+  </div> 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+  
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>ประเภทสินค้า</b></label>
+        <div class="input-group">
+  	      <select class="form-control"
+  	        ng-model="options.item_group1"
+  	        ng-options=" s.c_code + ' ' + s.c_desc for s in options.MODEL.item_group  | orderBy:c_code " 
+  	        > 
+  	      </select>
+        </div>
+      </div>  
+      
+      <div class="form-group">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+  	      <select class="form-control"
+  	        ng-model="options.item_group2"
+  	        ng-options=" s.c_code + ' ' + s.c_desc for s in options.MODEL.item_group  | orderBy:c_code " 
+  	        > 
+  	      </select>
+        </div>
+      </div>  
+    
+  </div> 
+ 
+</div>
+
+ 
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_do_customer') > -1"> 
+ 
+	<div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+      
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>วันที่</b></label>
+        <div class="input-group">
+    			<input ng-model="options.reportOpt.dStart" class="form-control" id="dStart" type="text" datepicker-popup  is-open="date1.opened" />
+    			<span class="input-group-btn">
+        		<button type="button" class="btn btn-default" ng-click="openDate1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+      		</span>
+      	</div>
+      </div>  
+  	  <div class="form-group">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+    			<input ng-model="options.reportOpt.dEnd" class="form-control" id="dEnd" type="text" datepicker-popup is-open="date2.opened" />
+    			<span class="input-group-btn">
+        		<button type="button" class="btn btn-default" ng-click="openDate2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+      		</span>
+  		  </div>
+      </div>  
+
+
+  </div>   
+ 
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>สาขา</b></label>
+        <div class="input-group">
+          <select class="form-control"
+            ng-model="options.location_branch_from"
+            ng-options=" s.c_name for s in options.MODEL.location_branch " 
+            ng-change="change_location_branch_from()"
+            > 
+          </select>
+        </div>
+      </div>  
+
+      <div class="form-group">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+          <select class="form-control"
+              ng-model="options.location_branch_to"
+              ng-options=" s.c_name for s in options.MODEL.location_branch " 
+              ng-change="change_location_branch_to()"
+              > 
+          </select>
+        </div>
+      </div>
+ 
+  </div> 
+
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+    	<input type="checkbox" ng-model="options.rp_stock.rp_detail_do_customer" ng-true-value="1" ng-false-value="0" /> พิมพ์รายละเอียดยอดโอนสินค้า
+  </div> 
+     
+</div>
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_do_by_customer') > -1"> 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+      
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>วันที่</b></label>
+        <div class="input-group">
+          <input ng-model="options.reportOpt.dStart" class="form-control" id="dStart" type="text" datepicker-popup  is-open="date1.opened" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDate1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>  
+      <div class="form-group">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+          <input ng-model="options.reportOpt.dEnd" class="form-control" id="dEnd" type="text" datepicker-popup is-open="date2.opened" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDate2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>  
+
+
+  </div>   
+ 
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>สาขา</b></label>
+        <div class="input-group">
+          <select class="form-control"
+            ng-model="options.location_branch_from"
+            ng-options=" s.c_name for s in options.MODEL.location_branch " 
+            ng-change="change_location_branch_from()"
+            > 
+          </select>
+        </div>
+      </div>  
+
+      <div class="form-group">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+          <select class="form-control"
+              ng-model="options.location_branch_to"
+              ng-options=" s.c_name for s in options.MODEL.location_branch " 
+              ng-change="change_location_branch_to()"
+              > 
+          </select>
+        </div>
+      </div>
+ 
+  </div> 
+
+  
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+    <div class="form-group">
+      <label for="" style="width:100px;" ><b>ประเภทสินค้า</b></label>
+      <div class="input-group">
+        <select class="form-control"
+          ng-model="options.item_group1"
+          ng-options=" s.c_code + ' ' + s.c_desc for s in options.MODEL.item_group  | orderBy:c_code " 
+          > 
+        </select>
+      </div>
+    </div>  
+
+    <div class="form-group">
+      <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+      <div class="input-group">
+        <select class="form-control"
+          ng-model="options.item_group2"
+          ng-options=" s.c_code + ' ' + s.c_desc for s in options.MODEL.item_group  | orderBy:c_code " 
+          > 
+        </select>
+      </div>
+    </div>  
+
+  </div>  
+
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+      <input type="checkbox" ng-model="options.rp_stock.rp_detail_do_customer" ng-true-value="1" ng-false-value="0" /> พิมพ์รายละเอียดยอดโอนสินค้า
+  </div> 
+     
+</div>
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_counting_stock') > -1"> 
+  
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>วันที่</b></label>
+        <div class="input-group">
+          <input ng-model="options.reportOpt.dStart" class="form-control" id="dStart" type="text" datepicker-popup  is-open="date1.opened" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDate1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>  
+
+      <div class="form-group">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+          <input ng-model="options.reportOpt.dEnd" class="form-control" id="dEnd" type="text" datepicker-popup is-open="date2.opened" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDate2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>  
+
+  </div> 
+ 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>สินค้าจาก</b></label>
+        <div class="input-group" style="width:650px;">
+           <input ng-model="options.rp_stock.item1_name" class="form-control" id="item_name1" type="text" readonly>
+           <div class="input-group-addon" ng-click="openModal_item('item1')" style="width:30px;"><i class="fa fa-search"></i></div>
+        </div>
+      </div>  
+
+  </div> 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>สินค้าถึง</b></label>
+        <div class="input-group" style="width:650px;">
+           <input ng-model="options.rp_stock.item2_name" class="form-control" id="item_name1" type="text" readonly>
+           <div class="input-group-addon" ng-click="openModal_item('item2')" style="width:30px;"><i class="fa fa-search"></i></div>
+        </div>
+      </div>  
+
+  </div> 
+
+</div>
+
+
+
+<div class="row">
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style="" ng-show="options.report.c_type.indexOf('dStart') > -1"> 
+
+      <div class="form-group" >
+        <label for="" style="width:100px;" ><b>วันที่</b></label>
+        <div class="input-group">
+          <input ng-model="options.reportOpt.dStart" class="form-control" id="dStart" type="text" datepicker-popup  is-open="date1.opened" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDate1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>  
+
+      <div class="form-group" ng-show="options.report.c_type.indexOf('dEnd') > -1">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+          <input ng-model="options.reportOpt.dEnd" class="form-control" id="dEnd" type="text" datepicker-popup is-open="date2.opened" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDate2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>  
+
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style="" ng-show="options.report.c_type.indexOf('pdate') > -1"> 
+
+      <div class="form-group" >
+        <label for="" style="width:100px;" ><b>วันที่</b></label>
+        <div class="input-group">
+          <input ng-model="options.reportOpt.pdate" class="form-control" id="pdate" type="text" datepicker-popup  is-open="date3.opened" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDate3($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div> 
+
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style="" ng-show="options.report.c_type.indexOf('location_from') > -1"> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>สาขา</b></label>
+        <div class="input-group">
+          <select class="form-control"
+            ng-model="options.location_branch_from"
+            ng-options=" s.c_name for s in options.MODEL.location_branch " 
+            ng-change="change_location_branch_from()"
+            > 
+          </select>
+        </div>
+      </div>  
+
+      <div class="form-group" ng-show="options.report.c_type.indexOf('location_to') > -1">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+          <select class="form-control"
+              ng-model="options.location_branch_to"
+              ng-options=" s.c_name for s in options.MODEL.location_branch " 
+              ng-change="change_location_branch_to()"
+              > 
+          </select>
+        </div>
+      </div>
+
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style="" ng-show="options.report.c_type.indexOf('sub_id') > -1"> 
+
+     <div class="form-group">
+        <label for="" style="width:100px;" ><b>ผู้จัดจำหน่าย</b></label>
+        <div class="input-group">
+          <select class="form-control"
+            ng-model="options.vendor"
+            ng-options="s.c_name for s in options.MODEL.vendor "
+            ng-change="change_vendor()"
+          > 
+          </select>
+        </div>
+      </div> 
+
+  </div>  
+
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style="" ng-show="options.report.c_type.indexOf('sub_from') > -1"> 
+
+     <div class="form-group">
+        <label for="" style="width:100px;" ><b>ผู้จัดจำหน่าย </b></label>
+        <div class="input-group">
+          <select class="form-control"
+            ng-model="options.vendor_from"
+            ng-options="s.c_name for s in options.MODEL.vendor_select "
+            ng-change="change_vendor_from()"
+          > 
+          </select>
+        </div>
+      </div>  
+
+      <div class="form-group" ng-show="options.report.c_type.indexOf('sub_from') > -1">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+          <select class="form-control"
+            ng-model="options.vendor_to"
+            ng-options="s.c_name for s in options.MODEL.vendor_select "
+            ng-change="change_vendor_to()"
+          > 
+          </select>
+        </div>
+      </div>   
+      
+  </div> 
+
+ 
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style="" ng-show="options.report.c_type.indexOf('cus_id') > -1"> 
+
+      <div class="form-group">
+        <label for="" style="width:100px;" ><b>ลูกค้า </b></label>
+        <div class="input-group">
+          <select class="form-control"
+            ng-model="options.customer"
+            ng-options="s.c_name for s in options.MODEL.customer "
+            ng-change="change_customer()"
+          > 
+          </select>
+        </div>
+      </div> 
+
+  </div> 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style="" ng-show="options.report.c_type.indexOf('cus_from') > -1"> 
+
+     <div class="form-group">
+        <label for="" style="width:100px;" ><b>ลูกค้า </b></label>
+        <div class="input-group">
+          <select class="form-control"
+            ng-model="options.customer_from"
+            ng-options="s.c_name for s in options.MODEL.customer_select "
+            ng-change="change_customer_from()"
+          > 
+          </select>
+        </div>
+      </div> 
+ 
+
+      <div class="form-group" ng-show="options.report.c_type.indexOf('cus_to') > -1">
+        <label for="" style="width:50px;" ><b> &nbsp;&nbsp;  ถึง</b></label>
+        <div class="input-group">
+          <select class="form-control"
+            ng-model="options.customer_to"
+            ng-options="s.c_name for s in options.MODEL.customer_select "
+            ng-change="change_customer_to()"
+          > 
+          </select>
+        </div>
+      </div>       
+
+  </div> 
+ 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style="" ng-show="options.report.c_type.indexOf('cate_id') > -1"> 
+
+     <div class="form-group">
+        <label for="" style="width:100px;" ><b>ประเภทสินค้า </b></label>
+        <div class="input-group">
+          <select class="form-control"
+            ng-model="options.item_group"
+            ng-options="s.c_desc for s in options.MODEL.all_item_group  | orderBy:c_code "
+            ng-change="change_item_group()"
+          > 
+          </select>
+        </div>
+      </div> 
+
+  </div> 
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style="" ng-show="options.report.c_type.indexOf('item_id') > -1"> 
+
+     <div class="form-group">
+        <label for="" style="width:100px;" ><b>สินค้า </b></label>
+        <div class="input-group">
+          <select class="form-control"
+            ng-model="options.product"
+            ng-options="s.c_name for s in options.MODEL.product "
+            ng-change="change_product()"
+          > 
+          </select>
+        </div>
+      </div> 
+
+  </div> 
+  
+
+  <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style="" ng-show="options.report.c_type.indexOf('item_all_id') > -1"> 
+
+     <div class="form-group">
+        <label for="" style="width:100px;" ><b>สินค้า </b></label>
+        <div class="input-group">
+          <select class="form-control"
+            ng-model="options.product_all"
+            ng-options="s.c_name for s in options.MODEL.product_all "
+            ng-change="change_product_all()"
+          > 
+          </select>
+        </div>
+      </div> 
+
+  </div> 
+   
+
+</div>
+
+
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_sale_cash') > -1  "> 
+
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+       <input type="checkbox" ng-model="options.rp_stock.rp_sale_detail_cash" ng-true-value="1" ng-false-value="0" /> พิมพ์รายละเอียด
+    </div> 
+
+</div>
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_sale_credit') > -1 "> 
+
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+       <input type="checkbox" ng-model="options.rp_stock.rp_sale_detail_credit" ng-true-value="1" ng-false-value="0" /> พิมพ์รายละเอียด
+    </div> 
+
+</div>
+
+  
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_ir_by_supplier') > -1  "> 
+
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+       <input type="checkbox" ng-model="options.rp_stock.rp_ir_by_supplier_detail" ng-true-value="1" ng-false-value="0" /> พิมพ์รายละเอียด
+    </div> 
+
+</div>
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_ir_cash') > -1 "> 
+
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+       <input type="checkbox" ng-model="options.rp_stock.rp_ir_cash_detail" ng-true-value="1" ng-false-value="0" /> พิมพ์รายละเอียด
+    </div> 
+
+</div>
+
+<div class="row"  ng-show="options.report.c_type.indexOf('rp_return_to_mm') > -1  "> 
+
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+       <input type="checkbox" ng-model="options.rp_stock.return_to_mm_no" ng-true-value="1" ng-false-value="0" /> ยังไม่ได้รับคืน
+    </div> 
+    <div class="col-xs-12 col-sm-12 col-md-12 form-inline space_line_5" style=""> 
+       <input type="checkbox" ng-model="options.rp_stock.return_to_mm_yes" ng-true-value="1" ng-false-value="0" /> รับคืนเรียบร้อย
+    </div> 
+
+</div>
+
+
+<!--{{options.report.c_type}} {{options.report.c_type.indexOf('item_id')}}-->
+
+<!--
+
+<div class="row space_line_5" >
+
+
+	<div class="col-md-4">		
+
+		<div class="row" ng-show="options.report.c_type.indexOf('dStart') > -1">
+			<label><b>วันที่เริ่ม : &nbsp;</b></label>
+			<div class="input-group">
+				<input ng-model="options.reportOpt.dStart" class="form-control" id="dStart" type="text" datepicker-popup  is-open="date1.opened" />
+				<span class="input-group-btn">
+            		<button type="button" class="btn btn-default" ng-click="openDate1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          		</span>
+      		</div>
+		</div>		 
+
+    <div class="row" ng-show="options.report.c_type.indexOf('location_from') > -1" >
+      <label><b>สาขา : &nbsp;</b></label>
+      <div class="input-group">
+        <select class="form-control"
+          ng-model="options.location_from"
+          ng-options=" s.c_name for s in options.MODEL.location_branch " 
+        > 
+        </select>
+      </div>
+    </div>
+
+
+		<div class="row" ng-show="options.report.c_type.indexOf('pdate') > -1">
+			<label><b>วันที่ : &nbsp;</b></label>
+			<div class="input-group">
+				<input ng-model="options.reportOpt.pdate" class="form-control" id="pdate" type="text" datepicker-popup  is-open="date3.opened" />
+				<span class="input-group-btn">
+            		<button type="button" class="btn btn-default" ng-click="openDate3($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          		</span>
+      		</div>
+		</div>
+
+		<div class="row" ng-show="options.report.c_type.indexOf('sub_id') > -1">
+			<label><b>ผู้จัดจำหน่าย : &nbsp;</b></label>
+			<select class="form-control"
+				ng-model="options.vendor"
+				ng-options="s.c_name for s in options.MODEL.vendor "
+				ng-change="change_vendor()"
+				> 
+			</select>
+		</div>
+
+		<div class="row" ng-show="options.report.c_type.indexOf('cate_id') > -1">
+			<label><b>ประเภทสินค้า : &nbsp;</b></label>
+			<select class="form-control"
+				ng-model="options.item_group"
+				ng-options="s.c_desc for s in options.MODEL.all_item_group  | orderBy:c_code "
+				ng-change="change_item_group()"
+				> 
+			</select>
+		</div>
+
+		
+		<div class="row" ng-show="options.report.c_type.indexOf('item_id') > -1">
+			<label><b>สินค้า : &nbsp;</b></label>
+			<select class="form-control"
+				ng-model="options.product"
+				ng-options="s.c_name for s in options.MODEL.product "
+				ng-change="change_product()"
+				> 
+			</select>
+		</div>	
+
+		<div class="row" ng-show="options.report.c_type.indexOf('item_all_id') > -1">
+			<label><b>สินค้า : &nbsp;</b></label>
+			<select class="form-control"
+				ng-model="options.product_all"
+				ng-options="s.c_name for s in options.MODEL.product_all "
+				ng-change="change_product_all()"
+				> 
+			</select>
+		</div>	
+
+		<div class="row" ng-show="options.report.c_type.indexOf('cus_id') > -1">
+			<label><b>ลูกค้า : &nbsp;</b></label>
+			<select class="form-control"
+				ng-model="options.customer"
+				ng-options="s.c_name for s in options.MODEL.customer "
+				ng-change="change_customer()"
+				> 
+			</select>
+		</div>	
+
+		
+  </div>	
+
+
+
+	<div class="col-md-4">
+		<div class="row" ng-show="options.report.c_type.indexOf('dEnd') > -1">
+			<label><b>วันที่สิ้นสุด : &nbsp;</b></label>
+			<div class="input-group">
+				<input ng-model="options.reportOpt.dEnd" class="form-control" id="dEnd" type="text" datepicker-popup is-open="date2.opened" />
+				<span class="input-group-btn">
+            		<button type="button" class="btn btn-default" ng-click="openDate2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          		</span>
+			</div>
+		</div>
+
+    <div class="row" ng-show="options.report.c_type.indexOf('location_to') > -1" >
+      <label><b>ถึงสาขา : &nbsp;</b></label>
+      <div class="input-group">
+        <select class="form-control"
+        ng-model="options.location_to"
+        ng-options=" s.c_name for s in options.MODEL.location_branch " 
+        > 
+      </select>
+      </div>
+    </div>
+ 
+	</div>		
+
+</div>
+
+
+ -->
+
+
+
+
+
+
+ 
+
+
+
+
+<!--
+<div class="my-content" style="height: {{content_height}}px; width: 100%;">
+		<iframe src='{{url_report}}' style="height: 99%; width: 100%;" ></iframe>
+</div>-->
+
+
+
+ 
+
+
+ 
+
+
+ 

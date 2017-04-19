@@ -1,0 +1,41 @@
+<!--
+<div class="modal-header">
+  <h3 class="modal-title">{{options.display.modal_title}}</h3>
+</div>
+-->
+<div class="modal-body">
+	<ab-table-3
+		options ="options"
+		rows = "rows"
+		row ="row">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label  for="item_type" ><b>Prict List : &nbsp;</b> </label>
+					<select class="form-control"
+						ng-model="row.price_level"
+						ng-options="s.id as s.c_desc for s in MODEL.price_level"></select>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+					<label  for="item_type" ><b>Location : &nbsp;</b> </label>
+					<select class="form-control"
+						ng-model="row.location_id"
+						ng-options="s.id as s.c_name for s in MODEL.location"></select>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+					<label  for="item_type" ><b>Unit : &nbsp;</b> </label>
+					<select class="form-control"
+						ng-model="row.uofm_id"
+						ng-options="s.id as s.c_desc for s in MODEL.uofm"></select>
+				</div>
+			</div>
+		</div>
+	</ab-table-3>
+</div>
+<div class="modal-footer">	
+  <button class="pull-right btn btn-warning" ng-click="close({id:-1})">Close</button>
+</div>

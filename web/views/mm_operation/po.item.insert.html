@@ -1,0 +1,18 @@
+ <div class="modal-body">
+ 
+ 	<treasure-overlay-spinner active='spinner.active'>
+	</treasure-overlay-spinner> 
+	
+	<ab-table-3
+		options ="options"
+		rows = "rows"
+		row ="row">
+	</ab-table-3>
+ 
+</div>
+<div class="modal-footer">
+  <button class="pull-left btn btn-success" ng-click="saveAll({rows:rows})"><i class="fa fa-check"></i> Select</button>
+  <button class="pull-right btn btn-warning" ng-click="close({id:-1,rows:rows})"><i class="fa fa-close"></i> Close</button>
+</div>
+
+ 

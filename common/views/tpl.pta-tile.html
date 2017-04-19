@@ -1,0 +1,23 @@
+<div class="small-box bg-{{row.c_bg_color}}">
+  <div class="inner">
+    <h3>
+      {{row.f_cost + (row.f_bonus*1)}} <sup style="font-size:20px">บาท {{row.c_title}}</sup>
+    </h3>
+    <p>
+      {{row.c_desc}}
+    </p>
+  </div>
+  <div class="icon">
+    <i ng-show="row.e_place=='@location'" class="fa fa-map-marker"></i>
+    <!-- <i class="fa fa-road"></i> -->
+    <i ng-show="row.e_place!='@location'" class="fa fa-globe"></i>
+    <i ng-show="row.e_type=='ppl'" class="ion ion-person-add"></i>
+    <i ng-show="row.e_type!='ppl'" class="ion ion-bag"></i>
+  </div>
+<!--   <span class="pull-left">B</span>
+  <span class="pull-right">A</span>
+-->
+ 	<a href="#" class="small-box-footer">
+    More info <i class="fa fa-arrow-circle-right"></i>
+  </a>
+</div>

@@ -1,0 +1,235 @@
+ 
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row"
+	refashfn="Refresh" 
+	set-refash-fn="setRefashFn(theRefashFn)"
+	savefn="SaveFN" 
+	set-save-fn="setSaveFn(theSaveFn)"
+	set-del-fn="setDelFn(theDelFn)"
+	>
+
+  <div class="my-content" style="height: {{content_height}}px; width: 100%;">		
+	<!--
+	<div ng-show="row.id">
+		<button ng-click="items()"
+			class="btn btn-primary">Item @Supplier</button>
+	</div>-->
+	<!--{{row.hdr}}-->
+  	<div class="row" ng-show="row.hdr.id > 0">		
+  		<div class="col-md-6">
+  			<span class="my-header-span text-blue" ng-show="row.hdr.e_status_action=='active_create'"><b>รออนุมัติ</b></span>
+  			<span class="my-header-span text-blue" ng-show="row.hdr.e_status_action=='active_confirm'"><b>รออนุมัติ</b></span>
+  			<span class="my-header-span text-blue" ng-show="row.hdr.e_status_action=='active_complete'"><b>อนุมัติแล้ว</b></span>
+  			<span class="my-header-span text-red" ng-show="row.hdr.e_status=='delete'"><b>ยกเลิก</b></span>
+  		</div>	
+	    <div class="col-md-6">
+	      <div class="btn-group pull-right">
+
+
+			<button title="Delete"
+	          class="btn btn-danger btn-flat" 
+	          ng-click="delete_msg();theDelFn(delete_action);" 
+	          ng-show="row.hdr.e_status_action=='active_create'"
+	          ><i class="ion ion-close"></i> Delete</button>
+
+	      	<button title="Print"
+	          class="btn btn-info btn-flat" 
+	          ng-show="row.hdr.e_status_action=='active_create' || row.hdr.e_status_action=='active_confirm' || row.hdr.e_status_action=='active_complete'"
+	          ng-click="print_action()"><i class="fa fa-print"
+	          ></i> Print</button>	
+
+	          <!--
+	         <button title="Approve"
+	          class="btn btn-primary btn-flat"
+	          ng-click="approve_action();"
+	          ng-show="row.hdr.e_status_action=='active_create'"
+	          ><i class="fa fa-check"></i> ยืนยันการสร้าง</button> 
+	          -->
+
+	          <button title="Approve"
+	          class="btn btn-primary btn-flat"
+	          ng-click="complete_action();"
+	          ng-show="row.hdr.e_status_action=='active_confirm' && options.action=='complete' "
+	          ><i class="fa fa-check"></i> Approve</button> 
+	          
+
+ 		  </div>
+ 		</div>
+ 	</div> 	
+ 	<!--{{Employee}}-->
+	<div class="row space_line_5"> 
+		<div class="col-md-4">
+ 			<div class="row">
+				<div class="col-md-4">
+					<label><b>พนักงาน</b></label>
+				</div>
+				<div class="col-md-8">				 
+					<div class="input-group col-md-12" >											
+						<input ng-model="row.hdr.c_emp_name" class="form-control" id="c_emp_name" type="text" readonly>
+						<div class="input-group-addon" ng-click="openModal_employee()" style="width:30px;" 
+							ng-disabled="options.rows_dtl.length>0 || options.disabled" 
+							ng-hide="options.rows_dtl.length>0 || options.disabled" 
+							><i class="fa fa-search"></i></div>	
+			      	</div>  
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ฝ่าย : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.emp_group" class="form-control" id="emp_group" type="text" readonly >
+				</div>	
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เดือน : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.month_th_name" class="form-control" id="month_th_name" type="text" readonly >
+				</div>	
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>วงเงิน : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.f_benefit | number : 2" class="form-control" id="f_benefit" type="text" readonly style="text-align:right;">
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>จำนวนเงินที่ใช้ : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.f_used | number : 2" class="form-control" id="f_used" type="text" readonly style="text-align:right;">
+				</div>	
+			</div>	
+
+		</div> 
+
+		<div class="col-md-4">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>หมายเหตุ</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<textarea ng-model="row.hdr.c_note" class="form-control" id="c_note" type="text" rows="6"
+						ng-disabled="options.disabledNote"  ></textarea> 
+				</div>	
+			</div>	
+		</div> 
+
+		<div class="col-md-4">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เลขที่ใบเบิก : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.c_doc_no" class="form-control" id="c_doc_no" type="text" readonly>
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>วันที่สร้าง : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.d_date" class="form-control" id="d_date" type="text" datepicker-popup  is-open="date1.opened"
+							min-date="minDate" ng-disabled="true" />
+					<!--<div class="input-group">
+						<input ng-model="row.hdr.d_date" class="form-control" id="d_date" type="text" datepicker-popup  is-open="date1.opened"
+							min-date="minDate" ng-disabled="true" />
+						<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="openDate1($event)"><i class="glyphicon glyphicon-calendar" ng-disabled="true"  ></i></button>
+	              		</span>
+              		</div>-->
+				</div>	
+			</div>
+			
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>รวมจำนวนเงิน : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.f_doc_summary | number : 2" class="form-control" id="f_doc_summary" type="text" readonly style="text-align:right;">
+				</div>	
+			</div>	
+		</div> 
+
+	</div>
+
+
+ 
+	<div class="row" ng-hide="options.disabled || row.hdr.f_used >= row.hdr.f_benefit " >		
+	    <div class="col-md-12">
+	      <div class="btn-group pull-right">
+
+	        <button title="Add Item" 
+	          class="btn btn-primary btn-flat"
+	          ng-click="add_items()"><i class="fa fa-plus"></i> Add Item</button>
+
+ 		  </div>
+ 		</div>
+ 	</div> 	
+ 
+		<!--{{options.rows_dtl}}-->
+	<div class="row space_line_5 ">	 
+		<div class="col-md-12">	 
+
+		  <table width="100%" class="{{options.classTable}}" >
+		     <thead>
+		      <tr class="{{options.tableBg}}">
+		        <th ng-repeat="col in options.cols_dtl">{{col.label || col.map}}</th>
+		        <th width="20px" >Option</th> 
+		        <th ng-repeat="but in options.cols_buttons" width="{{but.width}}px" ></th>
+		      </tr>
+		    </thead>
+			<tbody ng-repeat="row_dtl in options.rows_dtl" 	>
+		      <tr ng-click="">
+		        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" >
+		        	 <span ng-if="!col.type" ng-model="row_dtl[col.map]" >{{rowCol(row_dtl,col,($parent.$parent.$index+1))}}</span>
+		             <input type="textbox" class="form-control" size="{{col.size}}" style="text-align:{{col.align}};height:20px;padding4px;" 
+		             	ng-if="col.type =='textbox' && !col.valid_number" ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" 
+		             	ng-readonly="col.readonly" ng-disabled="row_dtl.disabled" />  
+		             <input type="textbox" class="form-control" size="{{col.size}}" style="text-align:{{col.align}};height:24px;padding6px;"  
+		             	ng-if="col.type =='textbox' && col.valid_number =='valid-number' " 
+		             	ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" 
+		             	ng-readonly="col.readonly" ng-disabled="row_dtl.disabled" valid-number/>  
+		             <select ng-if="col.type =='select' " 
+		             	class="form-control"
+						ng-model="row_dtl[col.map]"
+						style="height:24px;padding:0px;"
+						ng-options="s.id as s.c_name for s in row_dtl[col.option] "
+						ng-disabled="row_dtl.disabled" 
+						> 
+					 </select>
+		        </td> 
+		        <td>
+		        	<input type="checkbox"  ng-model="row_dtl.i_add_note" ng-true-value="1" ng-false-value="0" 
+		        	ng-disabled="row_dtl.disabled"  />
+		        </td> 
+		        <td ng-repeat="but in options.cols_buttons" width="{{but.width}}px" align="right"> 		        	
+		            <button class="btn {{ but.btn || 'btn-primary' }} btn-xs" ng-click="but.fn($parent.$index,row_dtl)"  
+		            ng-disabled="row_dtl.option_disabled" ><i class="fa {{but.icon}}" ></i>{{but.label}}</button>
+		        </td> 
+		      </tr>
+		      <tr ng-show="row_dtl.i_add_note" > 
+		      	<td colspan="9">
+		      		Note / Serial Number : <input type="textbox" class="form-control" ng-model="row_dtl.c_add_option_note" style="width:350px;display: inline-block;padding: 4px;height: 24px;" 
+		      		ng-disabled="row_dtl.option_disabled"   >
+		      	</td>
+		      </tr>		      
+		    </tbody>
+		  </table>
+ 
+		</div>
+	</div>
+ 		
+			
+  </div>
+
+ 
+
+</ab-table-3>

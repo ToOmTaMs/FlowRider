@@ -1,0 +1,24 @@
+<style type="text/css">
+  form.tab-form-demo .tab-pane {
+    margin: 20px 20px;
+  }
+</style>
+<div class="modal-header">
+  ระบุรายละเอียด
+</div>
+<div class="modal-body">
+  <!--<div class="my-content" style="height: 100%; width: 100%;">	-->
+  <div class="my-content" style="height: {{content_height}}px; width: 100%;">
+    <form name="outerForm" class="tab-form-demo">
+      <uib-tabset active="active">
+        <uib-tab index="$index + 1" ng-repeat="tab in tabs" heading="{{tab.title}}" disable="tab.disabled">
+          {{tab.content}}
+          <div ng-include="tab.templateUrl"></div>
+        </uib-tab>
+      </uib-tabset>
+    </form>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="pull-right btn btn-warning" ng-click="close()">Close</button>
+</div>

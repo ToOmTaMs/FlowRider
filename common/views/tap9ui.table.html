@@ -1,0 +1,82 @@
+<div>
+  <div ng-show="mode.browse">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr><td width="50%">
+        <div ng-show="conf.allowSearch">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button type="submit" name="seach" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+            </span>
+            <input size="10" tooltip="See? Now click away..."  tooltip-trigger="focus" tooltip-placement="right" type="search" ng-model="q" class="form-control search" placeholder="Search...">
+          </div>
+          </div>
+        </div>
+      </td>
+      <td width="50%" align="right">
+        <button ng-show="conf.allowAdd" class="btn btn-xs btn-primary"  ng-click="setMode('add',null,-1)" ><i class="ion ion-plus"></i> {{conf.addNameButton}}</button>
+        <button class="btn btn-xs btn-primary" ng-click="doGet()"><i ng-class="isLoading ? conf.loadingClass : 'ion ion-refresh'"></i></button>
+      </td>
+      </tr>
+      <tr ng-show="{{conf.isHeadTemplate}}"><td><div ng-include="conf.headTemplate"></div></td></tr>
+    </table>
+
+    <table class="{{conf.tableClass}}" ng-show="filterRows.length >0">
+      <thead>
+        <tr class="{{conf.headerClass}}">
+          <th ng-show="conf.showCheckbox" width="1%">
+            <input type="checkbox" ng-model="checkAll" ng-change="doSelectAll()">
+          </th>
+          <th ng-repeat="col in cols"><span ng-click="doSort(col.map)">{{col.label || col.map}}</span>
+          </th>
+          <th ng-show="conf.hasDetailView">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="{{conf.rowClass}}"
+          ng-repeat="row in (filterRows = (rows  | filter:q | filter:searchs:true   )) | orderBy:predicate:reverse"
+            ng-if="$index >=firstRow && $index <lastRow"
+            track by $index>
+          <td ng-show="conf.showCheckbox">
+            <input type="checkbox" ng-model="row.isSelected">
+          </td>
+          <td>{{$index}}</td>
+          <td ng-repeat="col in cols">{{showData(row,col)}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination
+      ng-show="conf.showPagination && filterRows.length >0"
+      total-items="filterRows.length"
+      items-per-page="conf.itemPerPpage"
+      ng-model="currentPage"
+      max-size="6"
+      class="pagination-sm pull-right"
+      boundary-links="true"
+      rotate="false"
+      num-pages="numPages"
+      ng-change="pageChanged()"></pagination>
+  </div> <!-- browse Mode -->
+
+
+  <div class="box box-primary" ng-show="!mode.browse">
+    <div class="box-header">
+      <h3 class="box-title">{{add_edit_view}} {{$parent.pageTitle}}</h3>
+        <div class="box-tools pull-right">
+          <button class="btn btn-primary btn-xs" ng-click="mode={};mode.browse=true;"><i class="fa fa-times"></i></button>
+        </div>
+    </div><!-- /.box-header -->
+    <div class="box-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div ng-include="conf.editTemplate"></div>
+          <div>
+            <!--auto template-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.box -->
+
+
+</div>

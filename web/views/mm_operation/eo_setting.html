@@ -1,0 +1,97 @@
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row">
+
+	
+	<div class="row space_line_5">
+		<div class="col-md-4">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ฝ่าย : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">	
+					<select class="form-control" 
+						ng-model="options.emp_group";
+						ng-options="s.c_desc for s in MODEL.all_emp_group " 
+						> 
+					</select> 
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เดือน : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">
+					<input ng-model="row.hdr.d_month_show" class="form-control" id="d_date" readonly />
+					<!--		
+					<div class="input-group">
+			        <input ng-model="row.hdr.d_date" class="form-control" id="d_date" type="text" is-open="date1.opened" 
+			  
+			           datepicker-popup="MMMM yyyy"  
+			           datepicker-mode="'month'"
+			           min-mode="'month'" 
+			           max-mode="'year'" 
+			           close-text="Close" 
+			           min-date="minDate" 
+
+			           ng-change="options.month_change()" readonly />
+			        <span class="input-group-btn">
+			          <button type="button" class="btn btn-default" ng-click="openDate1($event)"><i class="glyphicon glyphicon-calendar" ></i></button>
+			        </span>
+			      </div> -->
+				</div> 
+			</div>
+		</div>  
+		<div class="col-md-4">
+			<div class="row">
+				<div class="col-md-12">
+					<!--{{options.chk_date}}-->
+				</div> 
+			</div>
+		</div>  
+
+ 	</div> 
+
+ 	<div class="row space_line_5 ">	 
+		<div class="col-md-12">	 
+		  <table width="100%" class="{{options.classTable}}" >
+		    <thead>
+		      <tr class="{{options.tableBg}}">
+		        <th ng-repeat="col in options.cols_dtl_th" width="{{col.width}}px" colspan="{{col.colspan}}" style="text-align:{{col.align}}" >{{col.label || col.map}}</th> 
+		      </tr>
+		    </thead>		    
+		    <tbody ng-repeat="row_dtl in ( options.rows_dtl | filter:options.iFilter_group )"  >  
+		      <tr ng-click="">
+		        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" style="text-align:{{col.align}}">
+		        	 <span ng-if="!col.type" ng-model="row_dtl[col.map]" >{{rowCol(row_dtl,col,($parent.$parent.$index+1))}}</span>
+		             <input type="textbox" class="form-control" size="{{col.size}}" style="text-align:{{col.align}};height:20px;padding4px;" 
+		             	ng-if="col.type =='textbox' && !col.valid_number" ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" 
+		             	ng-readonly="col.readonly" ng-disabled="row_dtl.disabled" />  
+		             <input type="textbox" class="form-control" size="{{col.size}}" style="text-align:{{col.align}};height:24px;padding6px;"  
+		             	ng-if="col.type =='textbox' && col.valid_number =='valid-number' " 
+		             	ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" 
+		             	ng-readonly="col.readonly" ng-disabled="row_dtl.disabled" valid-number/>  
+		             <select ng-if="col.type =='select' " 
+		             	class="form-control"
+						ng-model="row_dtl[col.map]"
+						style="height:24px;padding:0px;"
+						ng-options="s.id as s.c_desc_show  || s.c_desc for s in row_dtl[col.option] "
+						ng-disabled="row_dtl.disabled" 
+						ng-change="col.changeFn(row_dtl)" 
+						> 
+					 </select>
+					 <!--{{row_dtl.uofm_c_name}}<!--{{row_dtl.uofm_option}}-->
+		        </td> 
+		      </tr>		       
+		      </tr>		      
+		    </tbody>
+		  </table>
+ 
+		</div>
+	</div>
+ 
+</ab-table-3>
+ 

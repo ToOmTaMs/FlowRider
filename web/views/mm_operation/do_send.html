@@ -1,0 +1,117 @@
+ 
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row" 
+	>
+
+  <div class="my-content" style="height: {{content_height}}px; width: 100%;">		
+	<!--
+	<div ng-show="row.id">
+		<button ng-click="items()"
+			class="btn btn-primary">Item @Supplier</button>
+	</div>-->
+	<!--{{row.hdr}}-->
+
+	<div class="row space_line_5">
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>Branch : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">		
+					<input ng-model="row.hdr.c_to_name" class="form-control" id="c_to_name" type="text" readonly />					
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>Address : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">
+					<textarea ng-model="row.hdr.c_to_address" class="form-control" id="c_to_address" type="text" rows="3" readonly></textarea>
+				</div> 
+			</div>
+		</div> 
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>Doc No. : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group">
+						<input ng-model="row.hdr.c_doc_no" class="form-control" id="c_doc_no" type="text" readonly>
+					</div>
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>Date : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group">
+						<input ng-model="row.hdr.d_date" class="form-control" id="d_date" type="text" datepicker-popup  is-open="date1.opened" readonly />
+              		</div>
+				</div>	
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>Send Date : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group">
+						<input ng-model="row.hdr.d_date_send" class="form-control" id="d_date_send" type="text" datepicker-popup is-open="date2.opened" readonly />
+					</div>
+				</div>	
+			</div>
+		</div>		
+	 
+		<!--{{options.rows_dtl}}-->
+	<div class="row space_line_5 ">	 
+		<div class="col-md-12">	 
+
+		  <table width="100%" class="{{options.classTable}}" >
+		    <thead>
+		      <tr class="{{options.tableBg}}">
+		        <th ng-repeat="col in options.cols_dtl">{{col.label || col.map}}</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr ng-repeat="row_dtl in options.rows_dtl" 		          
+		          ng-click="">
+		        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" >
+		        	 <span ng-if="!col.type" ng-model="row_dtl[col.map]" >{{row_dtl[col.map]}}</span>
+		             <input type="textbox"  ng-if="col.type =='textbox' " ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" size="{{col.size}}" style="text-align:{{col.align}};" />  
+		        </td> 
+		      </tr>
+		    </tbody>
+		  </table>
+ 
+		</div>
+	</div>
+	<hr>
+	<div class="row">	 
+		<div class="col-md-6">	 
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>Remark. : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<textarea ng-model="row.hdr.c_note" class="form-control" id="c_note" type="text" rows="3" readonly ></textarea> 
+				</div>	
+			</div>	
+		</div>
+		<div class="col-md-6">	 
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>Summary : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.f_doc_summary" class="form-control" id="f_doc_summary" type="text" readonly>
+				</div>	
+			</div>				
+		</div>
+	</div>			
+			
+  </div>
+
+</ab-table-3>

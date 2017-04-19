@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Flow House Bangkok</title>
+  <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+
+  <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">-->
+
+  <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">-->
+  <link href="../common/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+  <link href="../common/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link href="../common/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+  <link href="../common/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+  <link href="../common/css/appberry.css" rel="stylesheet" type="text/css" />
+
+  <!-- daterange picker -->
+  <!--<link href="../common/css/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />-->
+  <!-- iCheck for checkboxes and radio inputs -->
+  <!--<link href="../common/css/iCheck/all.css" rel="stylesheet" type="text/css" />-->
+
+
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+  <![endif]-->
+  <link href="../common/css/toaster.css" rel="stylesheet" />
+  <link href="../common/css/tympanus-pushmenu.css" rel="stylesheet" />
+  <link href="../common/css/textAngular.css" rel="stylesheet" />
+  <link href="../common/css/tap10.css" rel="stylesheet" />
+  <link href="./css/rg-web.css" rel="stylesheet" />
+  <link href="./css/report.css" rel="stylesheet" />
+  <!--<link href="./plugin/ng-tags-input/ng-tags-input.bootstrap.css" rel="stylesheet" />-->
+  <link href="./plugin/ng-tags-input/ng-tags-input.css" rel="stylesheet" />
+  <link href="../common/css/ngrs-range-slider.css" rel="stylesheet" />
+</head>
+<body id="appBody" class="skin-blue" ng-app="abAPP" ng-controller="RootCtrl">
+  <!-- header logo: style can be found in header.less -->
+  <header class="header ps-header">
+    <a href="index.html" class="logo">
+    <!-- Add the class icon to your logo image or logo icon to add the margining -->
+    Flow House Bangkok
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top" role="navigation">
+      <!-- Sidebar toggle button-->
+      
+      <!--
+      <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      -->
+   
+  	 <!--<button ng-click="activeSide(!isSide)" ><i class="fa fa-plus"></i> {{isSide}}</button>-->
+  	 
+  	 <!--{{ABuser.data}}-->
+      <div class="navbar-right">
+        <ul class="nav navbar-nav">
+        <!-- Messages: style can be found in dropdown.less-->
+          <!-- <ab-nav-dropdown options="notificationOption">
+            <li> 
+              <ul class="menu" >
+                <li ng-repeat="item in notifications | orderBy:'-d_send' | limitTo:5  "> 
+                  <a href="#">
+                    <div class="pull-left">
+                      <img ng-src="img/avatar3.png" class="img-circle" alt="User Image"/>
+                    </div>
+                    <h4>
+                      {{item.c_from || 'Stock MM'}}
+                      <small><i class="fa fa-clock-o"></i>{{item.c_time || 'long ago'}}</small>
+                    </h4>
+                    <p>{{item.c_subject}}</p>
+                  </a>
+                </li> 
+              </ul>
+            </li>
+            <li class="footer">
+              <a class="pull-left" ng-click="">View All</a>
+              <button class="pull-right btn btn-sm" ng-click="toggleGetNotification()">
+                {{buNotification[stopGetNotification]}}
+              </button>
+            </li>
+          </ab-nav-dropdown> -->
+
+          <!-- User Account: style can be found in dropdown.less -->
+          <!--<li class="dropdown user user-menu" on-toggle="toggled(open)">
+            <a href="#" class="dropdown-toggle">-->     
+          <li class="dropdown home">
+         	<a href="#home"><i class="fa fa-home"></i></a>
+          </li>
+          <li class="dropdown member">
+         	<a href="#member_manage"><i class="fa fa-newspaper-o"></i></a>
+          </li>
+          <li class="dropdown agent">
+         	<a href="#agent_manage"><i class="fa fa-users"></i></a>
+          </li>
+          <li class="dropdown report">
+         	<a href="#report_member"><i class="fa fa-pie-chart"></i></a>
+          </li>
+          <li class="dropdown setting">
+         	<a href="#conf"><i class="fa fa-gear"></i></a>
+          </li>
+                  
+          <li class="dropdown user user-menu">
+            <a class="dropdown-toggle" data-toggle="dropdown"> 
+ 
+              <i class="glyphicon glyphicon-user"></i> 
+              <span>{{(ABuser.data.lng1_FName + ' ' + ABuser.data.lng1_LName)}} <i class="caret"></i></span>
+            </a>
+            <!--<div class="dropdown-toggle" data-toggle="dropdown">
+
+              <i class="glyphicon glyphicon-user"></i> 
+              <span>{{(ABuser.data.c_fname + ' ' + ABuser.data.c_lname) || ABuser.c_email}} <i class="caret"></i></span>
+            </div>-->
+
+<!--{{ABuser.data.emp_role}}-->
+
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header bg-light-blue">
+                <div class='img'>{{ABuser.data.lng1_FName | uppercase | limitTo: 1}}{{ABuser.data.lng1_LName | uppercase | limitTo: 1}}</div>
+                <!-- <img ng-src="{{ABuser.data.c_photo_url}}" class="img-circle" alt="User Image" /> -->
+                <p>
+                  {{(ABuser.data.lng1_FName + ' ' + ABuser.data.lng1_LName )}} 
+                  <!--<small>Member since {{ABuser.data.d_create}}</small>-->
+                </p>
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <!-- <div class="pull-left">
+                  <a href="#profile" class="btn btn-default btn-flat">Profile</a>
+                </div> -->
+                <div class="pull-right">
+                  <a href="#signout" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <div class="wrapper row-offcanvas row-offcanvas-left">
+  	<aside class="left-side sidebar-offcanvas " ng-class="{'left-side sidebar-offcanvas': isSide , 'left-side sidebar-offcanvas collapse-left': !isSide}" >
+  		<section class="sidebar"> 
+  			<ab-menu menu="menu"></ab-menu>
+  		</section>
+  	</aside>
+  	<aside class="right-side strech"  ng-class="{'right-side strech': !isSide , 'right-side': isSide}" >
+  	 
+       <!-- Main content -->
+       <section class="content" ng-view><!-- /.content --></section>
+
+   </aside>
+  
+        
+      
+  </div><!-- ./wrapper -->
+  <toaster-container></toaster-container>
+
+  <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>-->
+  <script src="../common/js/jquery.min.js"></script>
+  <script src="../common/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="../common/js/AdminLTE/app.js" type="text/javascript"></script>
+
+  <script src="../common/js/jquery.print.min.js" type="text/javascript"></script>
+  
+  
+
+  <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script>-->
+  <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>-->
+
+
+  <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular-route.min.js"></script>-->
+  <!--<script src="../common/js/angular.min.js"></script>-->
+  <script src="../common/js/angular.js"></script>
+  <script src="../common/js/angular-route.min.js"></script>
+
+
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.min.js"></script>-->
+   
+
+  <!--<script src="http://code.angularjs.org/1.2.21/angular-animate.min.js" ></script>-->
+
+
+  <!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>-->
+  <script src="../common/js/angular-animate.js"></script>
+ 
+
+
+  <script src="../common/js/textAngular-rangy.min.js" type="text/javascript"></script>
+  <script src="../common/js/textAngular-sanitize.min.js" type="text/javascript"></script>
+  <script src="../common/js/textAngular.min.js" type="text/javascript"></script>
+
+ 
+  <!--<script src="../common/js/ui-bootstrap-tpls-0.11.0.min.js"></script>-->
+  <script src="../common/js/ui-bootstrap-tpls-0.14.3.js"></script>
+  
+  <script src="../common/js/ui-bootstrap-slider.js"></script>
+
+  <script src="../common/js/moment.min.js"></script>
+  <script src="../common/js/toaster.js"></script>
+  <script src="../common/js/ng-flow-standalone.min.js"></script>
+
+  <script src="../common/js/ab-angular.js"></script>
+
+  <script src="./plugin/ng-tags-input/ng-tags-input.js"></script>
+ 
+  <script src="../common/js/angular-loading/treasure-overlay-spinner.js"></script>
+  <link href="../common/js/angular-loading/treasure-overlay-spinner.css" rel="stylesheet" />
+
+  <script src="../common/js/angular-translate/angular-translate.min.js"></script>    
+  <script src="../common/js/angular-translate/angular-translate-loader-static-files.min.js"></script>
+    
+  <!--<script src="http://code.angularjs.org/1.0.8/i18n/angular-locale_th-th.js"></script>-->
+  <script src="../common/js/code.angularjs.org/1.0.8/i18n/angular-locale_th-th.js"></script>
+
+  <!--<script src="plugin/windows-874.js"></script>-->
+  <script src="../config.js"></script>
+  <script src="angular/function.js"></script>
+  <script src="angular/app.js"></script>
+  <script src="angular/controllers.js"></script>
+  <script src="angular/settingCtrl.js"></script>
+  <script src="angular/homeCtrl.js"></script>
+  <!--<script src="angular/exMembserCtrl.js"></script>-->
+
+
+  <!---->  
+  <!--<script src="angular/operationCtrl.js"></script>-->
+  <script src="angular/reportCtrl.js"></script>
+  
+  <!--<script src="angular/msgCtrl.js"></script>-->
+  <script src="angular/services.js"></script>
+  <script src="angular/directives.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<div class="row">		
+	<div class="col-md-8" >  
+	  <div class="form-group">
+	    <span class="my-header-span" ><b>Setting > Receipt</b> </span><small></small></span> 
+	  </div>          
+	</div>   
+</div>
+
+ {{options.conf}}
+<div class="my-content" style="height: {{content_height}}px; width: 100%;">		
+	<div class="row">	
+		<div class="col-md-12">
+			<label><b>หัวใบเสร็จ</b></label>
+		</div>
+	</div>
+	<div class="row" ng-repeat="row in options.conf">	
+		<div class="col-md-3">
+			<label><b>{{row.label}}</b></label>
+		</div>
+		<div class="col-md-6">
+			<input ng-model="row.map" class="form-control" id="c_vendor_tax_number" type="text">  
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+
+</div>

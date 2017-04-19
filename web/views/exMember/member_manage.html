@@ -1,0 +1,78 @@
+<div>
+           
+  <div class="row">   
+    <div class="col-xs-12 col-sm-12 col-md-7 form-inline" style="padding-right:0px;">     
+      <div class="form-group">
+        <span class="my-header-span" ng-show="opt.display.modal_title==''||opt.display.modal_title==null"><b>{{getPageTitle()}}</b> </span><small>{{getPageCaption()}}</small>
+        <span class="my-header-span" ng-if="opt.display.modal_title != undefined "><b>{{getPageTitleModal()}} <!--{{opt.display.modal_title}}--></b> </span> 
+      </div>          
+    </div>  
+  </div>  
+
+  <div class="row space_line_5">
+    <div class="col-md-5">
+        <div class="row">
+            <div class="col-md-6">
+                <label><b>รหัส Exclusive Member : &nbsp;</b></label>
+            </div>
+            <div class="col-md-6">              
+                <input ng-model="row.hdr.ExMemCus_code" class="form-control" id="ExMemCus_code" type="text" >
+            </div> 
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="row">
+            <div class="col-md-6">
+                <label><b>รหัสบัตรประชาชน : &nbsp;</b></label>
+            </div>
+            <div class="col-md-6">              
+                <input ng-model="row.hdr.MemCus_citizenid" class="form-control" id="MemCus_citizenid" type="text" >
+            </div> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button title="Search" 
+            class="btn btn-primary btn-flat "
+            ng-click="get_member()" ><i class="fa fa-search"></i> ค้นหา</button>
+    </div>        
+  </div>
+
+<!--{{rows_dtl}}-->
+
+    <div class="row space_line_5 ">  
+        <div class="col-md-12">  
+      
+
+          <table width="100%" class="{{options.classTable}}" >
+            <thead>
+              <tr class="{{options.tableBg}}">
+                <th ng-repeat="col in options.cols_dtl" width="{{col.width}}px" colspan="{{col.colspan}}" style="text-align:{{col.align}}" class='text-left' >{{col.label || col.map}} </th> 
+                <th ng-repeat="but in options.cols_buttons" width="{{but.width}}px" ></th>
+              </tr>
+            </thead>            
+            <tbody ng-repeat="row_dtl in rows_dtl"  > 
+              <tr ng-click="">
+                <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" style="text-align:{{col.align}}">
+                     <span ng-if="!col.type" ng-model="row_dtl[col.map]" >{{rowCol(row_dtl,col,($parent.$parent.$index+1))}}</span>
+                     <img type="textbox"  ng-if="col.type =='img' && col.map2 == undefined" 
+                          src="{{row_dtl[col.map]}}"
+                          height="{{col.height}}" width="{{col.width}}"  border="0"  /> 
+                </td> 
+
+                <td ng-repeat="but in options.cols_buttons" width="{{but.width}}px" align="right">                  
+                    <button class="btn {{ but.btn || 'btn-primary' }} btn-xs" 
+                    ng-click="but.fn($parent.$index,row_dtl)"  
+                    ng-hide="row_dtl.option_hide"
+                    ng-disabled="row_dtl.option_disabled" ><i class="fa {{but.icon}}" ></i>{{but.label}}</button>
+                </td> 
+              </tr>
+          
+            </tbody>
+          </table>
+ 
+        </div>
+    </div>
+
+
+
+</div>    

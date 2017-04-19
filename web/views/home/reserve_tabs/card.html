@@ -1,0 +1,120 @@
+<!-- <div class="container-fluid"> -->
+  <div class="row">
+    <!-- <div class="col-md-12"> -->
+      <div class="col-md-6">
+        <div class="well well-sm">
+          <div class="list-group">
+            <button ng-click="select_card(crad.id)" ng-repeat="crad in cards" type="button" class="list-group-item btn-group-justified">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="col-md-6">
+                    {{crad.title}}
+                  </div>
+                  <div class="col-md-6">
+                    {{crad.max}} ชั่วโมง
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="col-md-6">
+                    คงเหลือ {{crad.balance}} ชั่วโมง
+                  </div>
+                  <div class="col-md-6">
+                    วันหมดอายุ {{crad.exp}}
+                  </div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <form class="form-horizontal">
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-3 control-label">ชื่อสมาชิก</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 control-label">ชื่อบัตร</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 control-label">ชั่วโมง</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 control-label">วันหมดอายุ</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control">
+            </div>
+          </div>
+          <hr>
+          <label class="radio-inline"><input type="radio" ng-model="card.methods" name="inlineRadioOptions" id="inlineRadio1" value="1" ng-checked="true"> ใช้บัตร</label>
+          <label class="radio-inline"><input type="radio" ng-model="card.methods" name="inlineRadioOptions" id="inlineRadio2" value="2"> ต่ออายุชั่วโมง</label>
+          <hr>
+          <div ng-show="card.methods == 1">
+            <div class="form-group row">
+              <label class="col-sm-3 control-label">จำนวนชั่วโมง</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 control-label">เลน</label>
+              <div class="col-sm-9">
+                <select class='form-control' >
+                  <option value="1">เลน 1</option>
+                  <option value="2">เลน 2</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 control-label">เวลาที่เริ่ม</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 control-label">เวลาที่สิ้นสุด</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+          </div>
+
+          <div ng-show="card.methods == 2">
+            <div class="form-group row">
+              <label class="col-sm-3 control-label">ราคา</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 control-label">จำนวนเดือน</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 control-label">วันหมดอายุ</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-offset-2 col-sm-9">
+              <button type="submit" class="btn btn-success">ตกลง</button>
+              <button type="button" class="btn btn-danger">ยกเลิก</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    <!-- </div> -->
+  </div>
+<!-- </div> -->

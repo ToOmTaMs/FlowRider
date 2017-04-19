@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h3 class="modal-title">Item Matrix</h3>
+</div>
+<div class="modal-body">
+	<ab-table-3
+		options ="options"
+		rows = "rows"
+		row ="row">
+		
+<!--                 
+		<div class="form-group" ng-if="options.mode=='form'">			 
+			<div class="input-group"> 
+				<div class="input-group-addon" ng-click="openModal('item_matrix')"><i class="fa fa-plus"></i></div>
+	 			<select class="form-control" 
+					ng-model="row.matrix_dimension"
+					ng-options="s.matrix_dimension as s.matrix_dimension for s in unq_matrix"
+					>
+				</select>  
+			</div>
+		</div>
+-->
+	</ab-table-3>
+</div>
+<div class="modal-footer">
+  <button ng-show="options.mode=='form'" class="pull-left btn btn-primary" ng-click="row['rows']=rows;close(row)">Choose this and return</button>
+  <button class="pull-right btn btn-warning" ng-click="close({id:-1,rows:rows})">Close</button>
+</div>
+<!-- ng-options="s.id as s.c_code +  ': ' + s.c_desc for s in excludeOne(rows,row) | orderBy:'c_code'"> -->

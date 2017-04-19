@@ -1,0 +1,114 @@
+<div id="ab-wrapper" class="popup">
+<style>
+body{
+  overflow: hidden;
+}
+#ab-wrapper.popup {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+
+  -webkit-transform: translate(0px, -100%) scale(0, 0);
+  -moz-transform: translate(0px, -100%) scale(0, 0);
+  -o-transform: translate(0px, -100%) scale(0, 0);
+  -ms-transform: translate(0px, -100%) scale(0, 0);
+  transform: translate(0px, -100%) scale(0, 0);
+
+  opacity: 0;
+}
+#ab-wrapper.open {
+  -webkit-transform: translate(0px, 0px) scale(1, 1);
+  -moz-transform: translate(0px, 0px) scale(1, 1);
+  -o-transform: translate(0px, 0px) scale(1, 1);
+  -ms-transform: translate(0px, 0px) scale(1, 1);
+  transform: translate(0px, 0px) scale(1, 1);
+  opacity: 1;
+}
+</style>
+<div id="logo" class="text-center"><img border="0" src="{{logo-url}}"></div>
+
+<div class="row">
+
+  <div id="loginbox" style="margin-top:20px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+
+    <div class="panel panel-info" >
+      <div class="panel-heading">
+        <div class="panel-title">{{login-title}}</div>
+        <!--<div style="float:right; font-size: 80%; position: relative; top:-20px"><a href="#" onClick="jQuery('#loginbox').hide(); jQuery('#reset-passwd-box').show()">{{reset-password-title}}</a> <a id="bu-close-popup2" class="" href="#" onclick="AppBerry.popupClose()">[x]</a></div>-->
+      </div>
+      <div style="padding-top:30px" class="panel-body" >
+        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+        <div style="display:none" id="login-success" class="alert alert-success col-sm-12"></div>
+        <form id="login-form" class="form-horizontal" role="form" onsubmit="return false">
+          <div style="margin-bottom: 25px" class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="{{loginuser-placeholder}}">
+          </div>
+          <div style="margin-bottom: 25px" class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input id="login-password" type="password" class="form-control" name="password" placeholder="{{loginpassword-placeholder}}">
+          </div>
+          <div style="margin-top:10px" class="form-group">
+            <!-- Button -->
+            <div class="col-sm-12 controls">
+              <button id="btn-login" class="btn btn-success" onclick="AppBerry.doAuth()">{{login-button}}</button>
+              <!--<button id="btn-fblogin" class="btn btn-primary" onclick="AppBerry.FBlogin()">Login with Facebook</button>-->
+            </div>
+          </div>
+          <!--
+          <div class="form-group">
+            <div class="col-md-12 control">
+              <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                {{login-footer-msg}}
+              </div>
+            </div>
+          </div>
+        -->
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="reset-passwd-box" style="display:none;margin-top:20px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <div class="panel panel-info" >
+      <div class="panel-heading">
+        <div class="panel-title">{{reset-password-title}}</div>
+        <div style="float:right; font-size: 80%; position: relative; top:-20px"><a href="#" onClick="jQuery('#loginbox').show(); jQuery('#reset-passwd-box').hide()">{{login-title}}</a> <a id="bu-close-popup" class="" href="#" onclick="AppBerry.popupClose()">[x]</a></div>
+      </div>
+      <div style="padding-top:30px" class="panel-body" >
+        <div style="display:none" id="reset-passwd-alert" class="alert alert-danger col-sm-12"></div>
+        <div style="display:none" id="reset-passwd-success" class="alert alert-success col-sm-12"></div>
+        <form id="reset-passwd-form" class="form-horizontal" role="form" onsubmit="return false">
+          <div style="margin-bottom: 25px" class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input id="login-email" type="email" class="form-control" name="useremail" value="" placeholder="{{reset-password-placeholder}}">
+          </div>
+          <div style="margin-top:10px" class="form-group">
+            <!-- Button -->
+            <div class="col-sm-12 controls">
+              <button id="btn-reset-passwd" href="#" class="btn btn-success" onclick="AppBerry.doForgetPasswd()">{{reset-password-button}}</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-12 control">
+              <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                {{reset-password-footer-msg}}
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div> <!--wrapper -->

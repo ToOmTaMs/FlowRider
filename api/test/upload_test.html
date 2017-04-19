@@ -1,0 +1,75 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<script src="jquery.uploadfile.min.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="uploadfile.min.css">
+
+
+
+<script type="text/javascript">
+
+    $(function() {
+        $("#file").uploadFile({
+            //url:"http://192.168.1.225/fr_enterprise_dev/api/v1/index.php/item.test",
+            url:"http://192.168.1.224:82/fderm_center_ps/index.php/smart_card/exclusive_member_con/iUpload_pic",
+            fileName:"file",
+            dynamicFormData: function()
+            {
+                 
+            },
+            onSuccess:function(files,data,xhr)
+            {
+                console.log("success",data);
+            },
+            onError: function(files,status,errMsg)
+            {
+                console.log('Error',errMsg);
+            }
+
+        });
+
+    });
+
+
+function start_upload_file_pic() {
+    /*
+	var file_data = $('#file').prop('files')[0];
+    var form_data = new FormData();
+
+    form_data.append('file', file_data);
+    console.log("file_data",file_data);
+    console.log("form_data",form_data);
+    $.ajax({
+        url: 'http://192.168.1.225/fr_enterprise_dev/api/v1/index.php/item.test', // point to server-side PHP script 
+        dataType: 'text', // what to expect back from the PHP script
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: form_data,
+        type: 'post',
+        success: function (response) {
+            //$('#msg').html(response); // display success response from the PHP script
+            aleart("success");
+
+            console.log("success",response);
+        },
+        error: function (response) {
+            //$('#msg').html(response); // display error response from the PHP script
+             console.log("error",response);
+        }
+    });
+    */
+
+
+
+ 
+}
+</script>
+</head>
+<body>
+upload file
+<input type="file" accept="image/*" name="file"  id="file" onchange="start_upload_file_pic()"  />
+
+</body>
+</html>
+

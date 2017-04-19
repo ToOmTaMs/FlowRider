@@ -1,0 +1,66 @@
+<section class="sidebar"> 
+  <ul class="sidebar-menu">   
+    <li ng-repeat="item in menu | filter:{ hidden: '!true' }"  
+        on-last-repeat-menu 
+      class="{{item.type}}">
+      <!--<a href="{{item.url || '#'}}" >-->
+      <a href="{{item.url}}" >    
+        <i class="fa {{item.icon || 'fa-dashboard'}}"></i> <span>{{item.title || item.url || 'no-title'   }} </span>
+        <small ng-if="item.badge" class="badge pull-right bg-{{item.badge.color}}">{{item.badge.text}}</small>
+        <i class="fa fa-angle-left pull-right" ng-if="item.type =='treeview'"></i>
+      </a>
+      <ul class="treeview-menu" >
+            <li ng-repeat="item2 in item.submenu | filter:{ hidden: '!true' }"
+              class="{{item2.type}}">
+              <a href="{{item2.url || '#'}}" >
+                <i class="fa {{item2.icon || 'fa-angle-double-right'}}"></i> <span>{{item2.title || item2.url || 'no-title'}}</span>
+                <small ng-if="item.badge" class="badge pull-right bg-{{item2.badge.color}}">{{item2.badge.text}}</small>
+                <i class="fa fa-angle-left pull-right" ng-if="item2.type =='treeview'"></i>
+              </a>
+              <ul class="treeview-menu" >
+                    <li ng-repeat="item3 in item2.submenu | filter:{ hidden: '!true' }">
+                      <a href="{{item3.url || '#'}}" >
+                        <i class="fa {{item3.icon || 'fa-angle-double-right'}}"></i> <span>{{item3.title || item3.url || 'no-title'}}</span>
+                        <small ng-if="item.badge" class="badge pull-right bg-{{item3.badge.color}}">{{item3.badge.text}}</small>
+                        <i class="fa fa-angle-left pull-right" ng-if="item3.type =='treeview'"></i>
+                      </a>
+                    </li>
+              </ul>      
+            </li>
+      </ul>
+    </li>
+    
+    <!-- test 
+        <li class="treeview active">
+            <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>UI Elements</span>
+                <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="pages/UI/general.html"><i class="fa fa-angle-double-right"></i> General</a></li>
+                <li><a href="pages/UI/icons.html"><i class="fa fa-angle-double-right"></i> Icons</a></li>
+                <li><a href="pages/UI/buttons.html"><i class="fa fa-angle-double-right"></i> Buttons</a></li>
+                <li><a href="pages/UI/sliders.html"><i class="fa fa-angle-double-right"></i> Sliders</a></li>
+                <li><a href="pages/UI/timeline.html"><i class="fa fa-angle-double-right"></i> Timeline</a></li>
+            </ul>
+        </li>
+        -->
+                        
+                        
+                        
+  </ul>
+  
+  <!--
+    <a class="item item-rangy-red" ng-click="isCollapsed = !isCollapsed" ><i class="fi flaticon-shopping43"></i> {{'สินค้า' | translate }}</a>
+        <div  ng-show="!isCollapsed">
+          <a class="sub-menu item item-rangy-red" ng-click="mainGo('main.item_group')"><i class='ion-arrow-right-b'></i> {{'กลุ่ม' | translate }}</a>
+          <a class="sub-menu item item-rangy-red" ng-click="mainGo('main.size')" ng-show="a_comp_matrix.size"><i class='ion-arrow-right-b'></i> {{'ขนาด' | translate }}</a>  
+          <a class="sub-menu item item-rangy-red" ng-click="mainGo('main.color')" ng-show="a_comp_matrix.color"><i class='ion-arrow-right-b'></i> {{'สี' | translate }}</a>   
+          <a class="sub-menu item item-rangy-red" ng-click="mainGo('main.uofm')" ng-click="toggleLeft()"><i class='ion-arrow-right-b'></i> {{'หน่วย' | translate }}</a>
+          <a class="sub-menu item item-rangy-red" ng-click="mainGo('main.item')" ><i class='ion-arrow-right-b'></i> {{'รายการ' | translate }}</a>
+        </div>
+        -->
+        
+        
+</section>

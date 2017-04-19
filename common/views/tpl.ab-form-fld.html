@@ -1,0 +1,44 @@
+<div ng-if="cols.length >0" ng-repeat="col in cols"
+	class="form-group">
+	<label for="{{col.map}}">{{col.label || col.map}}</label>
+
+ 
+	<input ng-model="row[col.map]"
+		ng-disabled="col.disabled"
+		type="{{col.type || 'text'}}"
+		class="form-control" 
+	    ng-if="col.map2 == undefined && col.type != 'textarea' "
+	    id="{{col.map}}"
+		/> 	
+	<input ng-model="row[col.map][col.map2]"
+		ng-disabled="col.disabled"
+		type="{{col.type || 'text'}}"
+		class="form-control"  
+		ng-if="col.map2.length >0 && col.type != 'textarea' "
+		id="{{col.map+'.'+col.map2}}"	 
+		/>
+	 
+ 
+    <textarea ng-model="row[col.map]" 
+        ng-disabled="col.disabled" 
+        type="text" 
+    	class="form-control"     	
+    	rows="{{col.row || 5}}"    	
+    	id="{{col.map}}"
+    	ng-if="col.map2 == undefined && col.type == 'textarea' "
+    	>
+    </textarea> 
+    <textarea ng-model="row[col.map][col.map2]" 
+        ng-disabled="col.disabled" 
+        type="text" 
+    	class="form-control"     	
+    	rows="{{col.row || 5}}"    	
+    	id="{{col.map}}"
+    	ng-if="col.map2.length >0 && col.type == 'textarea' "
+    	>
+    </textarea> 
+    
+
+	<!-- -{{col.map }}- -{{col.map2.length }}- 	-->	
+
+</div>

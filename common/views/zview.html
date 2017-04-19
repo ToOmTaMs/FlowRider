@@ -1,0 +1,27 @@
+<tabset>
+	<tab heading="Notification">
+		<ab-table
+			options ="tableOptions1"
+			cols ="cols1">
+		</ab-table>
+	</tab>
+</tabset>
+
+<ab-modal
+	options="modalOptions1">
+<!-- form -->
+	<ab-box options="{ title:'Notification Detail', hideBody: false }" >
+		<div>
+			<div class="form-group">
+				 <label for="email">Email</label><input ng-model="row.c_email" type="text" class="form-control" id="email" />
+			</div>
+			<div class="form-group">
+				 <label for="passwd">Password</label><input ng-model="row.c_passwd" type="text" class="form-control" id="passwd" />
+			</div>
+
+		</div>
+	</ab-box>
+</ab-modal>
+
+
+<!-- End of file-->

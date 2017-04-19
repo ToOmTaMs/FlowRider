@@ -1,0 +1,111 @@
+
+<!--<button ng-click="activeSide(!isSide)" ><i class="fa fa-plus"></i> {{isSide}}</button>--> 
+
+<ab-table-3
+    options ="options"
+    rows = "rows"
+    row ="row"
+    >
+    <!--{{row}}-->
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>เลขที่สมาชิก :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input type="text" class="form-control" ng-model="row.MemCode"  ng-disabled="true">  
+                </div> 
+            </div>
+        </div>
+    </div>
+    
+        
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>ชื่อ :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input type="text" class="form-control" id="FName" ng-model="row.FName" >  
+                </div> 
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>นามสกุล :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input type="text" class="form-control" id="LName" ng-model="row.LName" >  
+                </div> 
+            </div>
+        </div>
+    </div>
+    
+     <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>เบอร์มือถือ :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input type="text" class="form-control" id="Mobile" ng-model="row.Mobile" >  
+                </div> 
+            </div>
+        </div>
+ 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>สัญชาติ :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input type="text" class="form-control" id="nationality" ng-model="row.nationality" >  
+                </div> 
+            </div>
+        </div>
+    </div>       
+     
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>วันเกิด :</b></label>
+                </div>
+                <div class="col-md-8">   
+                    
+					<div class="input-group " >
+						<input type="text" class="form-control" id="BirthDay" ng-model="row.BirthDay" 
+							datepicker-popup  
+							is-open="date1.opened"  
+							close-text="Close" 
+							ng-change="BirthDay_change()" 
+							/>
+						<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="openDate1($event)" 
+	                			 ><i class="glyphicon glyphicon-calendar"></i></button>
+	              		</span>
+              		</div>
+              		
+                </div> 
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>อายุ :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input class="form-control" ng-model="row.age" >  
+                </div> 
+            </div>
+        </div>
+    </div>   
+     
+    
+    
+          
+</ab-table-3>

@@ -1,0 +1,80 @@
+<!--
+<div class="modal-header">
+  <h3 class="modal-title">{{opt.display.modal_title}}</h3>
+</div>
+-->
+<div class="modal-body">
+
+	<treasure-overlay-spinner active='spinner.active'>
+	</treasure-overlay-spinner> 
+
+	<ab-table-3
+		options ="options"
+		rows = "rows"
+		row ="row"
+		savefn="SaveFN" 
+		set-save-fn="setSaveFn(theSaveFn)"
+
+
+		>
+		<div class="row space_line_5">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-4">
+						<label><b>Name : &nbsp;</b></label>
+					</div>
+					<div class="col-md-8">				
+						 <input ng-model="row.c_name" class="form-control" id="c_name" type="text" >
+					</div> 
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label><b>Address : &nbsp;</b></label>
+					</div>
+					<div class="col-md-8">
+						<textarea ng-model="row.c_address" class="form-control" id="c_address" type="text" rows="3"></textarea>
+					</div> 
+				</div>
+			</div> 
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-4">
+						<label><b>Code : &nbsp;</b></label>
+					</div>
+					<div class="col-md-8">				
+						 <input ng-model="row.c_code" class="form-control" id="c_code" type="text" >
+					</div> 
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label><b>Tel : &nbsp;</b></label>
+					</div>
+					<div class="col-md-8">
+						<input ng-model="row.c_tel" class="form-control" id="c_tel" type="text" >
+					</div> 
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label><b>Tax Number : &nbsp;</b></label>
+					</div>
+					<div class="col-md-8">
+						<input ng-model="row.c_tax_number" class="form-control" id="c_tax_number" type="text" >
+					</div> 
+				</div>
+			</div> 
+
+
+	    </div>
+ 	
+
+
+
+	</ab-table-3>
+</div>
+<div class="modal-footer">
+  <button class="pull-left btn btn-success" ng-click="saveAll({rows:rows})"><i class="fa fa-check"></i> เลือก</button>		
+  <!--<button ng-show="options.mode=='form'" class="pull-left btn btn-success" ng-click="row['rows']=rows;close(row)"><i class="fa fa-check"></i> เลือก</button>-->
+  <button class="pull-right btn btn-warning" ng-click="close({id:-1,rows:rows})"><i class="fa fa-close"></i> Close</button>
+</div>
+
+

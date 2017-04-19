@@ -1,0 +1,670 @@
+ 
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row"
+	refashfn="Refresh" 
+	set-refash-fn="setRefashFn(theRefashFn)"
+	savefn="SaveFN" 
+	set-save-fn="setSaveFn(theSaveFn)"
+	set-del-fn="setDelFn(theDelFn)"
+	>
+
+  <div class="my-content" style="height: {{content_height}}px; width: 100%;">		
+	<!--
+	<div ng-show="row.id">
+		<button ng-click="items()"
+			class="btn btn-primary">Item @Supplier</button>
+	</div>-->
+	<!--{{row.hdr.e_status_action}} // {{options.doc_type}} // {{row.hdr.e_status}} // {{row.hdr.e_action}} //
+	<br>{{row.hdr}}-->
+	<!--{{row.hdr.e_status_action}}-->
+  	<div class="row" ng-show="row.hdr.id > 0 && options.doc_type=='PO' ">	
+  		<div class="col-md-6">
+  			<span class="my-header-span text-blue" ng-show="row.hdr.e_status_action=='active_create'"><b>ยังไม่อนุมัติ</b></span>
+  			<span class="my-header-span text-blue" ng-show="row.hdr.e_status_action=='active_confirm'"><b>อนุมัติแล้ว</b></span>
+  			<span class="my-header-span text-blue" ng-show="row.hdr.e_status_action=='active_complete'"><b>อนุมัติแล้ว</b></span>
+  			<span class="my-header-span text-blue" ng-show="row.hdr.e_status_action=='active_missing'"><b>อนุมัติแล้ว</b></span>
+  			<span class="my-header-span text-blue" ng-show="row.hdr.e_status_action=='active_missing_complete'"><b>อนุมัติแล้ว</b></span>
+  			<span class="my-header-span text-red" ng-show="row.hdr.e_status=='delete'"><b>ยกเลิก</b></span>
+  		</div>	
+	    <div class="col-md-6">
+	      <div class="btn-group pull-right">
+
+			<button title="Delete"
+	          class="btn btn-danger btn-flat" 
+	          ng-show="row.hdr.e_status_action=='active_create'"
+	          ng-click="delete_msg();theDelFn(delete_action);"><i class="ion ion-close"></i> ลบใบสั่งซื้อ</button>
+
+	      	<button title="Print"
+	          class="btn btn-info btn-flat" 
+	          ng-show="row.hdr.e_status_action=='active_create' 
+	          	|| row.hdr.e_status_action=='active_confirm'
+	          	|| row.hdr.e_status_action=='active_complete'
+	          	|| row.hdr.e_status_action=='active_missing'
+	          	|| row.hdr.e_status_action=='active_missing_complete'
+	          	"
+	          ng-click="print_action()"><i class="fa fa-print"></i> Print</button>	
+
+	         <button title="Approve"
+	          class="btn btn-primary btn-flat"
+	          ng-show="row.hdr.e_status_action=='active_create'"
+	          ng-click="approve_action();"><i class="fa fa-check"></i> Approve</button> 
+
+	     <!--
+	        <button title="Approve"
+	          class="btn btn-primary btn-flat"
+	          ng-click="SaveFN()"><i class="fa fa-check"></i> Approve</button>
+	      -->
+
+ 		  </div>
+ 		</div>
+ 	</div> 	
+
+  	<div class="row" ng-show="row.hdr.id > 0 && options.doc_type=='IR' ">		
+	    <div class="col-md-12">
+	      <div class="btn-group pull-right">
+
+	        <button title="Close PO"
+	          class="btn btn-primary btn-flat"
+	          ng-show="options.doc_type=='IR'"
+	          ng-click="po_missing();"><i class="ion ion-close"></i> Close PO</button> 
+
+ 		  </div>
+ 		</div>
+ 	</div> 
+
+	<div class="row space_line_5"> 
+		<div class="col-md-4">
+			<!--
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ผู้จัดจำหน่าย</b></label>
+				</div>
+				<div class="col-md-8">				
+					<select class="form-control"
+						ng-model="options.vendor"
+						ng-options="s.c_name for s in MODEL.vendor "
+						ng-change="change_vendor()"
+						ng-disabled="options.rows_dtl.length>0 || options.disabled "
+						> 
+					</select>
+				</div> 
+			</div>
+			-->
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ผู้จัดจำหน่าย</b></label>
+				</div>
+				<div class="col-md-8">				 
+					<div class="input-group col-md-12" >											
+						<input ng-model="row.hdr.c_vendor_name" class="form-control" id="c_vendor_name" type="text" readonly>
+						<div class="input-group-addon" ng-click="openModal_vendor()" style="width:30px;" 
+							ng-disabled="options.rows_dtl.length>0 || options.disabled" 
+							ng-hide="options.rows_dtl.length>0 || options.disabled" 
+							><i class="fa fa-search"></i></div>	
+			      	</div>  
+				</div> 
+			</div>
+
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ผู้ติดต่อ</b></label>
+				</div>
+				<div class="col-md-8">				
+					<input ng-model="row.hdr.c_vendor_contact" class="form-control" id="c_vendor_contact" type="text" ng-disabled="options.disabled" >  
+				</div> 
+			</div>
+
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ที่อยู่</b></label>
+				</div>
+				<div class="col-md-8">
+					<textarea ng-model="row.hdr.c_vendor_address" class="form-control" id="c_vendor_address" type="text" rows="4" 
+						ng-disabled="options.disabled" ></textarea>
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เลขประจำตัวผู้เสียภาษี</b></label>
+				</div>
+				<div class="col-md-8">				
+					<input ng-model="row.hdr.c_vendor_tax_number" class="form-control" id="c_vendor_tax_number" type="text" ng-disabled="options.disabled" >  
+				</div> 
+			</div>
+
+			<div class="row" ng-show="options.ir.show">
+				<div class="col-md-4">
+					<label><b>เลขที่ใบกำกับภาษี</b></label>
+				</div>
+				<div class="col-md-8">
+					<input ng-model="row.hdr.c_verdor_tax_doc_no" class="form-control" id="c_verdor_tax_doc_no" type="text" ng-disabled="options.ir.disabled">
+				</div> 
+			</div>
+			<div class="row" ng-show="options.ir.show">
+				<div class="col-md-4" >
+					<label><b>วิธีการจ่าย : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<label> <input type="radio" ng-model="row.hdr.c_type" value="cash" ng-change="c_type_change()" 
+						ng-disabled="options.ir.disabled" > เงินสด </label>
+					<label> <input type="radio" ng-model="row.hdr.c_type" value="credit" ng-change="c_type_change()" 
+						ng-disabled="options.ir.disabled" > เงินเชื่อ </label>
+					<!--
+					<select class="form-control" ng-model="row.hdr.c_type" 
+						ng-disabled="options.ir.disabled" 
+						ng-change="c_type_change()" 
+						> 
+						<option value="เงินสด">เงินสด</option>
+						<option value="เงินเชื่อ">เงินเชื่อ</option>
+	              	</select>
+	                -->
+				</div>	
+			</div>
+
+			
+
+
+
+		</div> 
+
+		<div class="col-md-4">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เบอร์โทร</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.c_vendor_tel" class="form-control" id="c_vendor_tel" type="text" ng-disabled="options.disabled" >
+				</div>	
+			</div>
+
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>หมายเหตุ</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<textarea ng-model="row.hdr.c_note" class="form-control" id="c_note" type="text" rows="6"
+						ng-disabled="options.disabledNote"  ></textarea> 
+				</div>	
+			</div>	
+
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ผู้มีอำนวจลงนาม</b></label>
+				</div>
+				<div class="col-md-8">				
+					<input ng-model="row.hdr.c_po_sign_by" class="form-control" id="c_po_sign_by" type="text" ng-disabled="options.disabled" >  
+				</div> 
+			</div>
+
+		</div>
+
+		<div class="col-md-4">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เลขที่เอกสาร</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.c_doc_no" class="form-control" id="c_doc_no" type="text" readonly>
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>วันที่สร้าง</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group ps-po-add-edit" >
+						<input ng-model="row.hdr.d_date" class="form-control" id="d_date" type="text" datepicker-popup  is-open="date1.opened" 
+							min-date="minDate" ng-disabled="options.disabled" />
+						<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="openDate1($event)" 
+	                			ng-disabled="options.disabled" ><i class="glyphicon glyphicon-calendar"></i></button>
+	              		</span>
+              		</div>
+				</div>	
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>กำหนดส่ง</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group ps-po-add-edit" >
+						<input ng-model="row.hdr.d_date_send" class="form-control" id="d_date_send" type="text" datepicker-popup is-open="date2.opened" 
+							min-date="minDate" ng-disabled="options.disabled" />
+						<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="openDate2($event)" 
+	                			ng-disabled="options.disabled" ><i class="glyphicon glyphicon-calendar"></i></button>
+	              		</span>
+					</div>
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ส่งที่</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<select class="form-control"
+						ng-model="options.location"
+						ng-options="s.c_name for s in MODEL.location "
+						ng-change="change_location()"
+						ng-disabled="options.disabled"
+						> 
+					</select>
+				</div>	
+			</div>	
+			<div class="row" ng-show="options.missing || options.ir">
+				<div class="col-md-4">
+					<label><b>เอกสารอ้างอิง</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.c_refer_c_doc_no" class="form-control" id="c_refer_c_doc_no" type="text" readonly>
+				</div>	
+			</div>
+			
+
+			<div class="row" style="margin-top:10px;" ng-hide="options.disabled" >		
+		    	<div class="col-md-12">
+		      		<div class="btn-group pull-right"> 
+		        		<button title="Add Item" 
+		          			class="btn btn-primary btn-flat"
+		          			ng-click="add_items()"><i class="fa fa-plus"></i> เพิ่มสินค้า</button> 
+	 		  		</div>
+	 			</div>
+	 		</div>	
+		</div>		
+		
+			
+	</div>	 
+		<!--{{options.rows_dtl}}-->
+	<div class="row space_line_5 ">	 
+		<div class="col-md-12">	 
+
+		  <table width="100%" class="{{options.classTable}}" >
+		    <thead>
+		      <tr class="{{options.tableBg}}">
+		        <th ng-repeat="col in options.cols_dtl_th" width="{{col.width}}px" colspan="{{col.colspan}}" style="text-align:{{col.align}}" >{{col.label || col.map}}</th>
+		        <th width="20px" >Option</th> 
+		        <th ng-repeat="but in options.cols_buttons" width="{{but.width}}px" ></th>
+		      </tr>
+		    </thead>		    
+		    <tbody ng-repeat="row_dtl in options.rows_dtl" 	> 
+		      <tr ng-click="">
+		        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" style="text-align:{{col.align}}">
+		        	 <span ng-if="!col.type" ng-model="row_dtl[col.map]" >{{rowCol(row_dtl,col,($parent.$parent.$index+1))}}</span>
+		             <input type="textbox" 
+		                class="form-control" size="{{col.size}}" style="text-align:{{col.align}};height:24px;padding6px;"  
+		             	ng-if="col.type =='textbox' && !col.valid_number" ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" 
+		             	ng-readonly="col.readonly" 
+		             	ng-disabled="row_dtl.disabled" 
+		             	/>  
+		             <input type="textbox" 
+		                class="form-control" size="{{col.size}}" style="text-align:{{col.align}};height:24px;padding6px;"  
+		             	ng-if="col.type =='textbox' && col.valid_number =='valid-number' " 
+		             	ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" 
+		             	ng-readonly="col.readonly" 
+		             	ng-disabled="row_dtl.disabled" 
+		             	valid-number/>  
+		             <select ng-if="col.type =='select' " 
+		             	class="form-control" style="height:24px;padding:0px;"
+						ng-model="row_dtl[col.map]"						
+						ng-options="s.id as s.c_desc_show  || s.c_desc for s in row_dtl[col.option] "
+						ng-disabled="row_dtl.disabled" 
+						ng-change="col.changeFn(row_dtl)" 
+						> 
+					 </select>
+					 <!--{{row_dtl.uofm_c_name}}<!--{{row_dtl.uofm_option}}-->
+		        </td> 
+		        <td>
+		        	<input type="checkbox"  ng-model="row_dtl.i_add_note" ng-true-value="1" ng-false-value="0" 
+		        	ng-disabled="row_dtl.option_disabled"  />
+		        </td> 
+		        <td ng-repeat="but in options.cols_buttons" width="{{but.width}}px" align="right"> 		        	
+		            <button class="btn {{ but.btn || 'btn-primary' }} btn-xs" ng-click="but.fn($parent.$index,row_dtl)"  
+		            ng-disabled="row_dtl.option_disabled" ><i class="fa {{but.icon}}" ></i>{{but.label}}</button>
+		        </td> 
+		      </tr>
+		      <tr ng-show="row_dtl.i_add_note" > 
+		      	<td colspan="5">
+		      		Note / Serial Number : <input type="textbox" class="form-control" ng-model="row_dtl.c_add_option_note" style="width:350px;display: inline-block;padding: 4px;height: 24px;" 
+		      		ng-disabled="row_dtl.option_disabled"   >
+		      	</td>
+		      	<td colspan="{{options.cols_dtl.length + 2 - 5}}">
+		      		<input type="checkbox"   ng-model="row_dtl.i_add_branch" ng-true-value="1" ng-false-value="0" ng-change="change_branch($index)" 
+		      			ng-disabled="row_dtl.option_disabled" />
+		      		<span>ส่งที่สาขา : </span>
+		      		<select style="width:300px;display: inline-block;padding: 0px;height: 24px;padding: 0px;"
+		      			class="form-control"
+						ng-model="options.location_branch[$index]"
+						ng-options="s.c_name for s in MODEL.location_branch "
+						ng-change="change_branch($index)"
+						ng-show="row_dtl.i_add_branch" 
+						ng-disabled="row_dtl.option_disabled"
+						> 
+					</select>
+		      	</td>
+		      </tr>		      
+		    </tbody>
+		  </table>
+ 
+		</div>
+	</div>
+	<hr>
+	<div  class="row">	  
+		<div  class="col-sm-3 col-md-4">	
+		</div>
+		<div id="ps-po-add-summary" class="col-sm-9 col-md-8">	 
+			<div class="row">
+				<div class="col-md-3">
+					<label><b>รวมเป็นเงิน : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-9 text-right font-lg">
+					{{row.hdr.f_doc_summary | number:2}}
+					<!-- <input ng-model="row.hdr.f_doc_summary" class="form-control" id="f_doc_summary" type="text" readonly> --> 
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-3">
+					<label><b>ส่วนลดเพิ่ม : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-3">
+					<div class="input-group">
+                    	<input ng-model="row.hdr.f_doc_discount_pct" class="form-control" id="f_doc_discount_pct" type="text" ng-change="row_hdr_change('discount_pct')" 
+                    		valid-number ng-disabled="options.disabled" >
+                    	<span class="input-group-addon">%</span>
+                 	</div>				  
+				</div>	
+				<div class="col-md-6 text-right font-lg"> 
+					{{row.hdr.f_doc_discount | number:2}}
+					<!-- <input ng-model="row.hdr.f_doc_discount" class="form-control" id="f_doc_discount" type="text" ng-change="row_hdr_change('')" valid-number> -->
+				</div>	
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<label><b>รวมหลังลด : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-9 text-right font-lg">
+					{{row.hdr.f_doc_subtotal | number:2}}
+					<!-- <input ng-model="row.hdr.f_doc_subtotal" class="form-control" id="f_doc_subtotal" type="text" readonly > -->
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-3">
+					<label><b>Vat : &nbsp;</b> </label>
+				</div>					
+				<div class="col-md-3">
+					<select class="form-control" ng-model="row.hdr.f_tax_chk"  ng-change="row_hdr_change('')" 
+						ng-disabled="options.disabled" > 
+						<option value="no_vat">ไม่มี</option>
+						<option value="include">Include</option>
+						<option value="exclude">Exclude</option>
+	              	</select>
+
+					<!-- <label> <input type="radio" ng-model="row.hdr.f_tax_chk" value="no_vat" ng-change="row_hdr_change('')" > No Vat </label>
+					<label> <input type="radio" ng-model="row.hdr.f_tax_chk" value="include" ng-change="row_hdr_change('')" > Include </label>
+					<label> <input type="radio" ng-model="row.hdr.f_tax_chk" value="exclude" ng-change="row_hdr_change('')" > Exclude </label>  -->
+				</div>	
+				<div class="col-md-3">
+					<div class="input-group">
+                    	<input ng-model="row.hdr.f_tax_pct" class="form-control" id="f_tax_pct" type="text" ng-change="row_hdr_change('')" 
+                    		valid-number readonly >
+                    	<span class="input-group-addon">%</span>
+                 	</div> 
+				</div>
+				<div class="col-md-3 text-right font-lg">
+					{{row.hdr.f_tax | number:2}}
+				</div>
+			</div>	
+			<!-- <div class="row">
+				<div class="col-md-4">
+				</div>	
+				<div class="col-md-3">
+					<div class="input-group">
+                    	<input ng-model="row.hdr.f_tax_pct" class="form-control" id="f_tax_pct" type="text" ng-change="row_hdr_change('')" readonly >
+                    	<span class="input-group-addon">%</span>
+                 	 </div>				  
+				</div>	
+				<div class="col-md-5">
+					<input ng-model="row.hdr.f_tax" class="form-control" id="f_tax" type="text" ng-change="row_hdr_change('')" readonly >
+				</div>	
+			</div>	 -->
+			<div class="row">
+				<div class="col-md-3">
+					<label><b>รวมทั้งสิ้น : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-9 text-right font-lg">
+					{{row.hdr.f_doc_total | number:2}}
+					<!-- <input ng-model="row.hdr.f_doc_total" class="form-control" id="f_doc_total" type="text" readonly > -->
+				</div>	
+			</div>	
+			<!-- <div class="row">
+				<div class="col-md-4">
+					<label><b>Text : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.f_doc_total_text" class="form-control" id="f_doc_total_text" type="text" readonly >
+				</div>	
+			</div> -->	
+		</div>
+	</div>			
+			
+  </div>
+
+
+<div id="full-table-content" ng-show='false'>
+	 <div id='page_contain'>
+		<div class='report_title'>บริษัท เฟเชียล เอสเธติค จำกัด</div>
+		<div class='report_sub_title'>59/58 เมืองทองธานี 3 ถ.แจ้งวัฒนะ นนทบุรี 12345</div>
+		<table id='header_table' width='100%' border='0'>
+			<tr>
+				<td width='3%'></td>
+				<td width='47%'></td>
+				<td width='25%' class='report_name' align='right'>ใบสั่งซื้อ</td>
+				<td width='25%'></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td align='center'>เลขประจำตัวผู้เสียภาษี 012345678910</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>ผู้จำหน่าย ว003</td>
+				<td align='right'>เลขที่ใบสั่งซื้อ</td>
+				<td>205878946</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>ร้าน วิฑูรย์เภสัช</td>
+				<td align='right'>วันที่</td>
+				<td>02/06/58</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>246/2 ถ.ประชาดิพัฒน์ สามเสนใน พญาไทย กรุงเทพฯ 10400</td>
+				<td align='right'>กำหนดส่งสินค้าภายในวันที่</td>
+				<td>03/06/58</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan='3'>โทร. 02-22554848, 02-27487198, F.016151614</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan='3'>เรียน.</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan='3' align='center'>บริษัท เฟเชียล เอสเธติค จำกัด มีความประสงค์ที่จะจัดซื้อ/จัดหาสินค้าและบริการ ตามรายละเอียดดังต่อไปนี้</td>
+			</tr>
+		</table>
+
+		<table class='report_table' width='100%'>
+			<tr>
+				<th width='5%'>No.</th>
+				<th width='20%'>รหัสสินค้า/รายละอียด</th>
+				<th width='5%'>คลัง</th>
+				<th width='10%'>จำนวน</th>
+				<th width='10%'>หน่วยละ</th>
+				<th width='10%'>ส่วนลด</th>
+				<th width='10%'>จำนวนเงิน</th>
+			</tr>
+			<tr class='report_data'>
+				<td align='center'>1</td>
+				<td>T4020 N20 2000 ml ไม่มี Set</td>
+				<td align='center'>01</td>
+				<td align='center'>20ขวด</td>
+				<td align='right'>34.00</td>
+				<td align='right'></td>
+				<td align='right'>346.00</td>
+			</tr>
+			<tr class='report_data'>
+				<td align='center'>2</td>
+				<td>T4026 N20 100 ml ABC</td>
+				<td align='center'>01</td>
+				<td align='center'>50ขวด</td>
+				<td align='right'>17.00</td>
+				<td align='right'></td>
+				<td align='right'>4,000.00</td>
+			</tr>
+			<tr class='report_data'>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr class='report_data'>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr class='report_data'>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr class='report_data'>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr class='report_data'>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr class='report_data'>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr class='report_data'>
+				<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr class='report_table_start_section'>
+				<td colspan='4'>หมายเหตุ</td>
+				<td colspan='2'>รวมเป็นเงิน</td>
+				<td class='report_border_left' align='right'>4,346.00</td>
+			</tr>
+			<tr>
+				<td colspan='4'></td>
+				<td colspan='2'>หักส่วนลด</td>
+				<td class='report_border_left' align='right'>0.00</td>
+			</tr>
+			<tr>
+				<td colspan='4'></td>
+				<td colspan='2'>จำนวนเงินหลังหักส่วนลด</td>
+				<td class='report_border_left' align='right'>4,346.00</td>
+			</tr>
+			<tr>
+				<td colspan='6'></td>
+				<td class='report_border_left'></td>
+			</tr>
+			<tr>
+				<td colspan='4'></td>
+				<td colspan='2'>จำนวนภาษีมูลค่าเพิ่ม 7.00%</td>
+				<td class='report_border_left' align='right'>304.22</td>
+			</tr>
+			<tr>
+				<td colspan='4'>ตัวอักษร:(สี่พันหกร้อยห้าสิบหกบาทยี่สิบสองสตางค์).</td>
+				<td colspan='2'>จำนวนรวมทั้งสิ้น</td>
+				<td class='report_border_left' align='right'>4,650.22</td>
+			</tr>
+			<tr class='report_table_start_section'>
+				<td colspan='7'>***กรุณาแนบใบ PO เวลาส่งสินค้า***</td>
+			</tr>
+			<tr>
+				<td colspan='5'>สถานที่ส่งของ :</td>
+				<td colspan='2'></td>
+			</tr>
+			<tr>
+				<td colspan='5'>รับของเอง</td>
+				<td colspan='2' align='center'>ลงชื่อ  ................................</td>
+			</tr>
+			<tr>
+				<td colspan='5'></td>
+				<td colspan='2' align='center'>นายแพทย์พงศ์ธร วัฒนศิริสุข</td>
+			</tr>
+			<tr>
+				<td colspan='5'>โทร.</td>
+				<td colspan='2' align='center'>(ผู้มีอำนาจลงนาม)</td>
+			</tr>
+			<tr>
+				<td colspan='7'>&nbsp;</td>
+			</tr>
+		</table>
+	 </div>
+</div>
+
+
+
+
+<!--
+<div id="full-table-content" class="padding div_border div_width">
+
+   <div style="height:250px;  position: relative; " class="div_border div_width">  
+   	  <div style="height:90px; " class="div_border div_width" >
+        <div style="width:340px; position: absolute; " class="div_border">
+        	<div class="div_border font15">{{row.hdr.c_po_name}} ddd </div>
+        	<div class="div_border font8" ng-bind-html="toBR(row.hdr.c_po_address)" ></div>
+        	<div class="div_border font8" >2222</div>
+        </div>
+        <div style="width:340px; position: absolute; right:0px; text-align: center; " class="div_border font30B">ใบสั่งซื้อ</div>
+  	  </div>
+  	  <div style="height:90px; " class="div_border div_width" >
+        <div style="width:340px; position: absolute; " class="div_border">
+        	<div class="div_border font10">{{row.hdr.c_vendor_code}} ddd </div>
+        	<div class="div_border font10">{{row.hdr.c_vendor_name}} ddd </div>
+        	<div class="div_border font10" ng-bind-html="toBR(row.hdr.c_vendor_address)" ></div>
+        </div>
+        <div style="width:340px; position: absolute; right:0px; text-align: center; " class="div_border">
+        	<div class="div_border" style="position:static; "> 
+        		<div class="div_border font10" style="width:100px; position: relative; "  >d</div>
+        		<div class="div_border font10" style="width:100px; position: absolute; "  >xxxx</div>
+        		<div class="div_border font10" style="width:100px; position: absolute; right:0px;  "  >yyyy</div>
+        	<div>
+        	
+        	<div class="div_border font10" style="position: relative; ">วันที่ : {{row.hdr.c_vendor_name}}</div>
+        	<div class="div_border font10" style="position: relative; "> กำหนดส่งสินค้าภายในวันที่ : {{row.hdr.c_vendor_name}}</div>
+        </div>
+  	  </div>
+	</div>
+
+	<div style="height:400px; " class="div_border div_width">
+	 
+		<table  class="div_width"class="font10">
+		    <thead>
+		      <tr>
+		        <th ng-repeat="col in options.cols_dtl">{{col.label || col.map}}</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr ng-repeat="row_dtl in options.rows_dtl" 		          
+		          ng-click="">
+		        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" >
+		        	 <span  ng-model="row_dtl[col.map]" >{{row_dtl[col.map]}}</span>   
+		        </td> 
+		      </tr>
+		    </tbody>
+		</table>
+	 
+	</div>
+	<div style="height:250px; " class="div_border div_width">
+
+	</div>
+ 
+
+
+</div> 
+-->
+
+
+</ab-table-3>

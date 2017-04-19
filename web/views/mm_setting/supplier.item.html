@@ -1,0 +1,17 @@
+ <div class="modal-body">
+	<ab-table-3
+		options ="options"
+		rows = "rows"
+		row ="row"
+		refashfn="Refresh" 
+		set-refash-fn="setRefashFn(theRefashFn)"
+		>
+	</ab-table-3>
+</div>
+<div class="modal-footer"> 
+  <!--<button class="pull-left btn btn-primary" ng-click="theRefashFn()"><i class="fa fa-refresh"></i> Refresh1</button>
+  <button class="pull-left btn btn-primary" ng-click="Refresh()"><i class="fa fa-refresh"></i> Refresh</button>-->
+  <button class="pull-left btn btn-success" ng-click="saveAll({rows:rows})"><i class="fa fa-save"></i> Save All</button>
+  <button class="pull-right btn btn-warning" ng-click="close({id:-1,rows:rows})">Close</button>
+</div>
+

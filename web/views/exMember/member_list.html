@@ -1,0 +1,379 @@
+ 
+<iframe src='{{url_report}}' ng-disabled='true' style='position:fixed;top:-1000px;'></iframe>
+
+
+<div ng-show="options.Member_manage &&  !options.Member_manage_return">
+          <!-- {{options.Member_manage}}  {{options.Member_manage_return}} -->
+  <div class="row">        
+    <div class="col-xs-12 col-sm-12 col-md-7 form-inline" style="padding-right:0px;">     
+      <div class="form-group">
+        <span class="my-header-span" ng-show="opt.display.modal_title==''||opt.display.modal_title==null"><b>{{getPageTitle()}}</b> </span><small>{{getPageCaption()}}</small>
+        <span class="my-header-span" ng-if="opt.display.modal_title != undefined "><b>{{getPageTitleModal()}} <!--{{opt.display.modal_title}}--></b> </span> 
+      </div>          
+    </div>  
+  </div> 
+  <div class="row space_line_5">
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-6">
+                <label><b>รหัส Exclusive Member : &nbsp;</b></label>
+            </div>
+            <div class="col-md-6">              
+                <input ng-model="options.ExMemCus_code" class="form-control" id="options_ExMemCus_code" type="text" >
+            </div> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-6">
+                <label><b>รหัสบัตรประชาชน : &nbsp;</b></label>
+            </div>
+            <div class="col-md-6">              
+                <input ng-model="options.MemCus_citizenid" class="form-control" id="options_MemCus_citizenid" type="text" >
+            </div> 
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-6">
+                <label><b>บัตร Exclusive Member : &nbsp;</b></label>
+            </div>
+            <div class="col-md-6">              
+                <div class="input-group">
+                        <input ng-model="options.UUID" class="form-control" id="options_UUID" type="text" ng-readonly='!options.options_uuidFocus' >
+                        <span class="input-group-btn" >
+                            <button type="button" class="btn btn-default" ng-click="options.options_uuidFocus=true"
+                                onclick="$('#options_UUID').val('');$('#options_UUID').focus(); "
+                                ><i class="fa fa-pencil"></i></button>
+                        </span>
+                    </div> 
+            </div> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button title="Search" 
+            class="btn btn-primary btn-flat "
+            ng-click="get_member()" ><i class="fa fa-search"></i> ค้นหา</button>
+    </div>        
+  </div>
+
+</div>
+
+
+   
+<ab-table-3
+    options ="options"
+    rows = "rows"
+    row ="row"
+    set-refash-fn="setRefashFn(theRefashFn)"
+    set-save-fn="setSaveFn(theSaveFn)"
+    set-del-fn="setDelFn(theDelFn)"
+    set-upd-fn="setUpdFn(theUpdFn)"
+    set-chg-page-fn="setChgPageFn(theChgPageFn)"
+    set-chg-mode-fn="setChgModeFn(theChgModeFn)"
+    >
+
+
+  <div class="my-content" style="height: {{content_height}}px; width: 100%;">       
+    <!--
+    <div ng-show="row.id">
+        <button ng-click="items()"
+            class="btn btn-primary">Item @Supplier</button>
+    </div>-->
+    <!--{{row.hdr}}-->  <!--ng-hide="row.hdr.e_create_by=='PO'"-->
+    <!--{{row.hdr}}-->
+    <div class="row" ng-show="row.hdr.ExMemCus_hdr_id > 0">  
+        <div class="col-md-6">
+            <span class="my-header-span text-blue" ng-show="row.hdr.e_action=='Create'"><b>ยังไม่ได้ Activate</b></span>
+            <span class="my-header-span text-blue" ng-show="row.hdr.e_action=='Print'"><b>Print แล้ว</b></span> 
+            <span class="my-header-span text-blue" ng-show="row.hdr.e_action=='Verify'"><b>Verify แล้ว</b></span> 
+            <span class="my-header-span text-red" ng-show="row.hdr.e_status=='delete'"><b>ยกเลิก</b></span>
+
+        </div>      
+        <div class="col-md-6" ng-hide="options.Member_manage">
+          <div class="btn-group pull-right">
+
+             <button title="Activate"
+              class="btn btn-primary btn-flat"
+              ng-show="row.hdr.e_action=='Create'"
+              ng-click="activate_action();alert('');"><i class="fa fa-check"></i> {{options.activateText}}</button> 
+
+             <button title="Verify"
+              class="btn btn-primary btn-flat"
+              ng-show="row.hdr.e_action=='Print' && options.uuidFocus"
+              ng-click="activate_action();"><i class="fa fa-check"></i> Verify บัตร</button> 
+       
+          </div>
+        </div>
+        <div class="col-md-6" ng-show="options.Member_manage_return">
+          <div class="btn-group pull-right">  
+             <button title="Return" 
+              class="btn btn-primary btn-flat "
+              ng-click="get_return()" ><i class="fa fa-reply"></i> Return</button>
+          </div>
+        </div>
+
+    </div>  
+
+    <div class="row space_line_5">
+        <div class="col-md-5">
+            <div class="row" ng-show="options.Member_manage" >
+                <div class="col-md-4">
+                    <label><b>ชื่อเจ้าของบัตร : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MainCard_Name" class="form-control" id="MainCard_Name" type="text" readonly>
+                </div> 
+            </div>
+            <div class="row" ng-show="options.Member_manage" >
+                <div class="col-md-4">
+                    <label><b>เลขที่บัตรประชาชนเจ้าของบัตร : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MainCard_citizenid" class="form-control" id="MainCard_citizenid" type="text" readonly>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label><b>ชื่อผู้ถือบัตร </b></label>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>DN : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_DN" class="form-control" id="MemCus_DN" type="text" readonly>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>สาขา : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_Branch" class="form-control" id="MemCus_Branch" type="text" readonly>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>ชื่อ : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_fname" class="form-control" id="MemCus_fname" type="text" readonly>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>นามสกุล : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_lname" class="form-control" id="MemCus_lname" type="text" readonly>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>เลขที่บัตรประชาชน : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_citizenid" class="form-control" id="MemCus_citizenid" type="text" readonly>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>Passport : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_Passport" class="form-control" id="MemCus_Passport" type="text" readonly>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>วันเกิด : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_birthdate" class="form-control" id="MemCus_birthdate" type="text" readonly>
+                </div> 
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>ที่อยู่ : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">
+                    <textarea ng-model="row.hdr.MemCus_address" class="form-control" id="MemCus_address" type="text" rows="3"
+                        readonly ></textarea>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>ตำบล : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_district" class="form-control" id="MemCus_district" type="text" readonly>
+                </div>             
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>อำเภอ : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_city" class="form-control" id="MemCus_city" type="text" readonly>
+                </div>             
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>จังหวัด : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_state" class="form-control" id="MemCus_state" type="text" readonly>
+                </div>             
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>รหัสไปรณีย์ : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_zip" class="form-control" id="MemCus_zip" type="text" readonly>
+                </div>             
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>เบอร์บ้าน : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_hmphone" class="form-control" id="MemCus_hmphone" type="text" readonly>
+                </div>             
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>เบอร์มือถือ : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.MemCus_mobilephone" class="form-control" id="MemCus_mobilephone" type="text" readonly>
+                </div>             
+            </div>
+        </div> 
+        <div class="col-md-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>รหัสบัตร : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.ExMemCus_code" class="form-control" id="ExMemCus_code" type="text" readonly>
+                </div> 
+            </div>
+            <div class="row" ng-show="row.hdr.e_action=='Print' || row.hdr.e_action=='Verify' || options.Member_manage " >
+                <div class="col-md-4">
+                    <label><b>UUID : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">            
+                <!-- {{options.uuidFocus focus="options.uuidFocus" }}  -->
+                    <div class="input-group">
+                        <input ng-model="row.hdr.UUID" class="form-control" id="UUID" type="text" ng-readonly='!options.uuidFocus' >
+                        <span class="input-group-btn" >
+                            <button type="button" class="btn btn-default" ng-click="options.uuidFocus=true"
+                                onclick="$('#UUID').focus(); "
+                                ng-disabled="row.hdr.e_action!='Print'"
+                                ><i class="fa fa-pencil"></i></button>
+                        </span>
+                    </div> 
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>วันที่สร้าง : &nbsp;</b> </label>
+                </div>  
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input ng-model="row.hdr.d_activate" class="form-control" id="d_activate" type="text" datepicker-popup  is-open="date1.opened"
+                            min-date="minDate" ng-disabled="options.disabled" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openDate1($event)"
+                                ng-disabled="options.disabled" ><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>  
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>วันที่พิมพ์ : &nbsp;</b> </label>
+                </div>  
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input ng-model="row.hdr.d_printcard" class="form-control" id="d_printcard" type="text" datepicker-popup is-open="date2.opened" 
+                            min-date="minDate" ng-disabled="options.disabled" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openDate2($event)"
+                                ng-disabled="options.disabled" ><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>  
+            </div>  
+             <div class="row">
+                <div class="col-md-4">
+                    <label><b>วันที่ Verify : &nbsp;</b> </label>
+                </div>  
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input ng-model="row.hdr.d_verify" class="form-control" id="d_verify" type="text" datepicker-popup is-open="date3.opened" 
+                            min-date="minDate" ng-disabled="options.disabled" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openDate3($event)"
+                                ng-disabled="options.disabled" ><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>  
+            </div>     
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>ที่อยู่จัดส่ง : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">
+                    <textarea ng-model="row.hdr.c_send" class="form-control" id="c_send" type="text" rows="3"
+                        ng-disabled="options.disabled" ></textarea>
+                </div> 
+            </div>  
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>วงเงิน : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.m_use_price" class="form-control" id="m_use_price" type="text" readonly>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>ยอดคงเหลือวงเงิน : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.m_use_price_remain" class="form-control" id="m_use_price_remain" type="text" readonly>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label><b>วงเงินส่วนแถม : &nbsp;</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input ng-model="row.hdr.m_free_price" class="form-control" id="m_free_price" type="text" readonly>
+                </div> 
+            </div>  
+
+        </div>   
+        <div class="col-md-2">
+         {{row.hdr.no_pic}}
+            <div class="row" ng-show="row.hdr.no_pic">
+                <label><b>ไม่ส่งรูปภาพ : &nbsp;</b> </label>               
+            </div> 
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="{{row.hdr.MemCus_Pic}}" />
+                </div>                
+            </div>   
+        </div>      
+    </div>  
+
+
+ 
+
+</ab-table-3>

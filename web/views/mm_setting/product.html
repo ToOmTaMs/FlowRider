@@ -1,0 +1,598 @@
+ 
+
+
+
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row"
+	refashfn="Refresh" 
+	set-refash-fn="setRefashFn(theRefashFn)"
+	set-del-fn="setDelFn(theDelFn)"
+	>
+	<!--{{row}}-->
+  	<div class="row"  >		
+	    <div class="col-md-12">
+	      <div class="btn-group pull-right">
+
+			<button title="Delete" ng-show="false"
+	          class="btn btn-danger btn-flat" 
+	          ng-click="delete_msg();theDelFn(delete_action);"><i class="ion ion-close"></i> Hidden</button>
+
+			<button title="Stock" 
+			  class="btn btn-primary"
+			  ng-hide="!row.id"
+			  ng-click="stock()" >ดูจำนวนคงเหลือ</button>	
+
+ 		  </div>
+ 		</div>
+ 	</div> 	
+	
+<div class="my-content" style="height: {{content_height}}px; width: 100%;">	
+	<!--
+	<div class="row">
+		<div class="col-md-12">
+			<h3>{{row.id ? 'Update ID:#'+row.id : ''}}</h3>
+		</div>
+	</div>	
+	-->
+	<div class="row">
+		<!--
+		<div class="col-md-3">
+			<div class="form-group">  !--<div class="form-group form-inline">--
+				<label  for="item_type" ><b>Type : &nbsp;</b> </label>
+				<select id="item_type" class="form-control"
+					ng-model="row.item_type"
+					ng-options="s.c_code as s.c_code for s in MODEL.item_type">
+				</select>
+				<br>
+				<label>{{(MODEL['item_type'] | filter: {c_code:row.item_type})[0]['c_desc']}}!-- {{row.item_type}} --</label>
+				!--{{MODEL.item_type}}--
+			</div>
+		</div> -->
+		<div class="col-md-4">
+			<div class="form-group">
+				<label><b>ประเภทสินค้า : &nbsp;</b> </label>
+				<!-- <div class="input-group">					 -->
+					<!-- <div class="input-group-addon" ng-click="openModal('item_group')"><i class="fa fa-plus"></i></div> -->
+						<!-- ng-options="s.id as s.c_code +  ': ' + s.c_desc for s in MODEL.item_group | orderBy:'c_code'" -->					
+					<!--<select class="form-control"
+						ng-model="row.item_group_id"
+						ng-options="s.id as s.c_desc for s in MODEL.item_group "
+						>
+					</select>-->
+					<select class="form-control"
+						ng-model="options.item_group"
+						ng-options="s.c_desc for s in MODEL.item_group "
+						ng-change="change_item_group()"
+						> 
+					</select>
+				<!-- </div> -->
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label><b>รหัส : &nbsp;</b> </label>	
+				<input ng-model="row.c_code" class="form-control" id="c_code" type="text" ng-disabled="row.id" >
+			</div>	
+		</div>	
+		<div class="col-md-4">
+			<div class="form-group">
+				<label><b>H-CODE : &nbsp;</b> </label>	
+				<input ng-model="row.hcode" class="form-control" id="hcode" type="text" readonly  >
+			</div>	
+		</div>			
+	</div>	
+
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
+				<label><b>ชุดของหน่วย : &nbsp;</b> </label>				
+				<!--<div class="input-group">	-->				
+					<!--<div class="input-group-addon" ng-click="openModal('uofm')"><i class="fa fa-plus"></i></div>-->
+					<!-- ng-options="s.id as s.c_code + ': ' + s.c_desc for s in MODEL.uofm" -->					
+					<!--<select class="form-control"
+						ng-model="options.uofm"
+						ng-options="s.c_desc for s in MODEL.uofm "
+						ng-change="change_uofm()"
+						> 
+					</select>-->
+
+				<!-- </div> -->
+				<!--</div>-->
+					<select class="form-control"
+						ng-model="options.uofm"
+						ng-options="s.c_desc_show for s in MODEL.uofm "
+						ng-change="change_uofm()"
+						> 
+					</select>
+
+			</div>
+		</div>	
+		<div class="col-md-4">
+			<!--
+			<div class="form-group">
+				<label><b>หน่วยรับที่ MM : &nbsp;</b> </label>	 
+			</div>	
+			<div class="form-group">
+				label><b>{{row.receive_uofm}}</b> </label>	 
+				<label><b>{{row.receive_uofm_show}}</b> </label> 
+			</div>
+			-->
+ 
+			<div class="form-group">
+				<label><b>หน่วย PO MM : &nbsp;</b> </label>	 <!--{{options.po_uofm}}-->		
+				<!--{{row.receive_uofm_show}}
+				{{row.receive_uofm}} 
+				{{options.receive_uofm_list}}-->
+				<select class="form-control"
+						ng-model="options.po_uofm"
+						ng-options="s.c_desc_show || s.c_desc for s in options.receive_uofm_list"
+						ng-change="change_po_uofm()"
+						> 
+				</select>	
+			</div>
+
+		</div>	
+		<div class="col-md-4">
+			<div class="form-group">
+				<label><b>หน่วยรับที่สาขา : &nbsp;</b> </label>	 <!--{{options.location_uofm}}-->			
+				<select class="form-control"
+						ng-model="options.location_uofm"
+						ng-options="s.c_desc_show || s.c_desc for s in options.receive_uofm_list"
+						ng-change="change_location_uofm()"
+						> 
+				</select>	
+			</div>
+		</div>
+		<!-- <div class="col-md-3">
+			<div class="form-group">
+				<label><b>ปริมาณการใช้ต่อครั้ง : &nbsp;</b> </label>	
+				<input ng-model="row.f_perunit" class="form-control" id="f_perunit" type="text">
+			</div>	
+		</div> -->	
+		<!--
+		<div class="col-md-3">		
+			<div class="form-group" ng-show="row.item_type=='matrix-product'">
+				<label><b>Matrix dimesion : &nbsp;</b> </label>
+				<div class="input-group">
+					<div class="input-group-addon" ng-click="openModal('item_matrix')"><i class="fa fa-plus"></i></div>
+					<select id="item_matrix" class="form-control"
+						ng-model="row._matrix"
+						ng-options="s.matrix_dimension for s in MODEL.unq_matrix">
+					</select>
+				</div>
+			</div>
+		</div>				
+		-->		
+					
+	</div>	
+	
+			 
+	
+	
+	<div class="row">	 
+		<div class="col-md-8">
+			<div class="form-group">
+				<label><b>ชื่อ : &nbsp;</b> </label>	
+				<input ng-model="row.c_name" class="form-control" id="c_name" type="text" >
+			</div>	
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<label><b>ลำดับ : &nbsp;</b> </label>	
+				<input ng-model="row.c_seq" class="form-control" id="c_seq" type="text" >
+			</div>
+		</div>	
+
+		<!-- <div class="col-md-3">
+			<div class="form-group">
+				<label><b>ต้นทุนต่อหน่วยรับ (บาท) : &nbsp;</b> </label>	
+				<input ng-model="row.f_CostPrice_ReceiveUnit" class="form-control" id="f_CostPrice_ReceiveUnit" type="text" >
+			</div>	
+		</div>	
+		<div class="col-md-3">
+			<div class="form-group">
+				<label><b>ต้นทุนต่อหน่วยจ่าย (บาท) : &nbsp;</b> </label>	
+				<input ng-model="row.f_CostPrice_SendUnit" class="form-control" id="f_CostPrice_SendUnit" type="text" >
+			</div>	
+		</div>	 -->	
+	</div>
+
+    <div class="row">
+     	
+			<div class="col-md-8"> <!--{{row.e_emp_benefit}}-->
+				<input type="checkbox"  ng-model="row.e_emp_benefit" ng-true-value="'1'" ng-false-value="'0'" />
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><b>ยาสำหรับสวัสดิการพนักงาน</b></label><br>
+				<input type="checkbox"  ng-model="row.e_ishidden" ng-true-value="'1'" ng-false-value="'0'" />
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><b>Hidden</b></label>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label><b>จำนวน/แพ็ค : &nbsp;</b> </label>	
+					<input ng-model="row.f_AmountPerPack" class="form-control" id="f_AmountPerPack" type="text" >
+				</div>
+			</div>	
+
+		
+
+
+	<!--
+		<div class="row space_line_5">
+			<div class="col-md-12">
+				<input type="checkbox"  ng-model="row.c_is_NoShow_Stock" ng-true-value="1" ng-false-value="0" />
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><b>ไม่ Show stock, ไม่ตัด stock เป็นวัสดุสิ้นเปลือง</b></label>
+			</div>
+		</div> 
+
+		<div class="row space_line_5">
+			<div class="col-md-12">
+				<input type="checkbox"  ng-model="row.c_IsExMember" ng-true-value="1" ng-false-value="0" />
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><b>Exclusive Member</b></label>
+			</div>
+		</div> 
+	-->
+	</div>
+
+<!--
+	<div class="row">	 
+		<div class="col-md-8">
+			<div class="form-group">
+				<label><b>รายละเอียด : &nbsp;</b> </label>	
+				<textarea ng-model="row.c_desc" class="form-control" id="c_desc" type="text" rows="5"></textarea>
+			</div>	
+		</div>	
+	</div>	
+-->
+	<!--<div class="row">	
+		<div class="col-md-3">
+			<div class="form-group">
+				<label><b>ราคาขายสาขา : &nbsp;</b> </label>	
+				<input ng-model="row.f_SalePrice" class="form-control" id="f_SalePrice" type="text" >
+			</div>	
+		</div> -->			
+		<!-- <div class="col-md-3">
+			<div class="form-group" ng-hide="true" >
+				<label><b>UPC : &nbsp;</b> </label>	
+				<input ng-model="row.c_upc" class="form-control" id="c_upc" type="text">
+			</div>	
+			<div class="form-group" ng-hide="true"> 
+				<label><b>Generic base Price : &nbsp;</b> </label>	
+				<input type="checkbox" id="_all_location" ng-model="row._all_location"><label for="_all_location">Available at all locations</label>
+				<input ng-model="row.f_price" class="form-control" id="f_price" type="number">
+			</div>	
+			<button ng-click="price_list()" ng-hide="!row.id"
+				class="btn btn-primary">Price @Branch</button>				
+			<button ng-click="stock()"  ng-hide="!row.id"
+				class="btn btn-primary">ดูจำนวนคงเหลือ</button>	
+			
+		</div>	
+ 	</div>		 --> 
+ 
+	<div class="row" >	 
+		<div class="col-md-12">	 
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">ราคาสินค้า</h3>
+				</div>
+				<div class="box-body">
+					<table width="100%" class="table  table-condensed dataTable" >
+					    <thead>
+					      <tr class="bg-yellow">					       
+					        <th><span>ผังราคา</span></th>    
+					        <th><span>ราคา</span></th> 
+					        <th></th>  
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <tr ng-repeat="row_p in price_level" >
+					      	 <td style=" width: 250px;" >{{row_p.c_desc || row_p.price_level_name}}</td>
+					      	 <td style=" width: 120px;" ><input type="textbox" ng-model="row_p.f_price" ng-readonly="row_p.price_level == '204' " class="form-control" style=" height: 25px;"  /></td> 
+					      	 <td></td>
+					      </tr>  
+					    </tbody>
+					</table>  
+				</div>
+				<div class="box-header">
+ 				</div>
+ 			</div>
+ 		</div>
+ 	</div>
+
+
+
+	<!-- <div class="row" ng-hide="row.id">	 
+		<div class="col-md-12">	 
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Price Location</h3>
+				</div>
+				<div class="box-body">
+					<table width="100%" class="table  table-condensed dataTable" >
+					    <thead>
+					      <tr class="bg-yellow">					       
+					        <th><span>Location</span></th>    
+					        <th><span>Price</span></th>   
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <tr ng-repeat="row_p in location_branch" >
+					      	 <td>{{row_p.c_name}}</td>
+					      	 <td><input type="textbox" ng-model="row_p.f_price"/></td> 
+					      </tr>  
+					    </tbody>
+					</table>  
+				</div>
+				<div class="box-header">
+ 				</div>
+ 			</div>
+ 		</div>
+ 	</div>
+ -->
+
+	<div class="row" ng-show='false'>	 
+		<div class="col-md-12">	 
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Images</h3>
+				</div>
+				<div class="box-body">
+				
+					<div class="row">
+						<div class="col-md-12"> 
+							<div ng-repeat="img in row.c_img_url_list track by $index" class="gallery-box">
+								<div class="thumbnail">
+									<img border="0" src="{{img.Picture}}">
+								</div>
+								<div class="btn-group">
+							        <a class="btn btn-xs btn-danger" ng-click="img_list_remove($index)">
+							          Remove
+							        </a>
+							    </div>
+							</div>
+							<!-- <button class="btn btn-default" ng-click="openMediaGallery()">Upload New Image using Gallery</button> -->
+						</div>
+					</div>
+				</div>
+				
+				<div class="box-footer"> 				
+					<div class="row">
+						<div class="col-md-12"> 	
+							<div flow-init="flowOptions"
+									 flow-name="obj.flowObj"
+									 flow-file-success="uploadOk($file,$message)"
+							     flow-files-submitted="$flow.upload()"
+							     flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]">
+							  <span class="btn btn-default" flow-btn>Upload New Image</span>
+							  <div class="pull-left">
+							    <div ng-repeat="file in $flow.files" class="gallery-box">
+							      <span class="title">{{file.name}}</span>
+							      <div class="thumbnail" ng-show="$flow.files.length">
+							        <img flow-img="file" />
+							      </div>
+							      <div class="progress progress-striped" ng-class="{active: file.isUploading()}">
+							        <div class="progress-bar" role="progressbar"
+							             aria-valuenow="{{file.progress() * 100}}"
+							             aria-valuemin="0"
+							             aria-valuemax="100"
+							             ng-style="{width: (file.progress() * 100) + '%'}">
+							          <span class="sr-only">{{file.progress()}}% Complete</span>
+							        </div>
+							      </div>
+							      <div class="btn-group">
+							        <a class="btn btn-xs btn-danger" ng-click="file.cancel()">
+							          Remove
+							        </a>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+					
+						</div>
+					</div>					
+				</div>
+				
+			</div>
+		</div>	
+	</div>	
+			
+	<div class="row">
+		<div ng-show="row.id">
+			
+
+		</div>		
+	</div>	
+		
+	<div class="row" ng-hide="row.id" >	 
+		<div class="col-md-12" ng-show="row.item_type=='matrix-product'">	 
+		
+			<!--
+			<ab-form-fld
+				cols ="formFlds"
+				row ="row">
+			</ab-form-fld>
+			-->
+
+			<div class="box">			
+				<div class="box-header">
+					<h3 class="box-title">Product Option</h3>
+				</div>
+				<div class="box-body">
+					
+					<!--
+					<div class="row">
+						<div class="col-md-3"> 
+							<label><b>Option Name : &nbsp;</b> </label>
+							<input ng-model="row.c_code" id="c_code" type="text" class="form-control" style="margin-top: 6px">
+						</div>	
+						<div class="col-md-9"> 	
+							<label><b>Option Values : &nbsp;</b> </label>	
+							<div class="input-group">
+								<tags-input ng-model="tags" 
+										display-property="name"
+									  	placeholder="Add Option Values" 
+            						  	replace-spaces-with-dashes="false" 
+            							on-tag-added="tagAdded($tag)"
+            							on-tag-removed="tagRemoved($tag)"
+            							
+            							style="margin-right: 10px;"
+            						 > 
+								</tags-input> 
+								<span class="input-group-btn">
+                                    <button class="btn btn-default btn-flat" type="button"><i class="fa fa-trash-o"></i></button> 
+                                </span>
+							</div>	
+					
+							
+							{{tags}}
+									
+						</div>	
+					</div>
+					-->
+					
+					
+					<div class="row" ng-repeat="matrix in item_matrixes">
+						<div class="col-md-3"> 
+							<label ng-show="smallScreen || $index == 0"><b>Option Name : &nbsp;</b> </label>
+							<input ng-model="matrix.matrix_dimension[$index]" type="text" class="form-control" style="margin-top: 6px">
+						</div>	
+						<div class="col-md-9"> 	
+							<label ng-show="smallScreen || $index == 0"><b>Option Values : &nbsp;</b> </label>
+							<div class="input-group">
+								<tags-input ng-model="matrix.tags[$index]" 
+									display-property="c_desc"
+									placeholder="Add Option Values" 
+									min-length="1"									
+            						replace-spaces-with-dashes="false" 
+            						on-tag-added="tagAdded($tag,$index)"
+            						on-tag-removed="tagAdded($tag,$index)"
+            						
+            						style="margin-right: 10px;"
+            					>
+            					</tags-input> 
+            					<span class="input-group-btn">
+									<button class="btn btn-default btn-flat" type="button" ng-click="del_matrix($index)"><i class="fa fa-trash-o"></i></button> 
+								</span>							
+							</div>		
+							<!--{{matrix.tags[$index]}}-->
+															
+						</div>	
+					</div>
+					
+					
+					<div class="row" style="margin-top: 5px;">
+						<div class="col-md-3"> 
+							<button ng-click="add_matrix()"	class="btn btn-primary">Add another option</button>
+						</div>
+						<div class="col-md-9"> 
+						</div>
+					</div>
+					
+					
+					
+				</div>
+				<div class="box-footer"> 
+					<div class="row">
+						<div class="col-md-3"> 
+							<label><b>Edit option : &nbsp;</b> </label>	
+						</div>
+					</div>
+					<!--row_item_matrixes {{row_item_matrixes}}-->
+					
+					
+					<div class="row" ng-repeat="matrix in row_item_matrixes">
+						<div class="col-md-9"> 
+							<div class="row">
+								<div class="col-md-3"> 			
+									<label ng-show="smallScreen || $index == 0"><b>&nbsp;</b> </label>						
+									<div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" ng-model="matrix.chk" >{{matrix.c_name}}
+                                        </label>
+                                    </div>
+                        
+								</div>
+								<div class="col-md-3"> 
+									<label ng-show="smallScreen || $index == 0"><b>Price : &nbsp;</b> </label>
+									<input ng-model="matrix.f_price" type="text" class="form-control" >  	
+								</div>
+								<div class="col-md-3"> 
+									<label ng-show="smallScreen || $index == 0"><b>Code : &nbsp;</b> </label>
+									<input ng-model="matrix.c_code" type="text" class="form-control" >
+								</div>
+								<div class="col-md-3"> 
+									<label ng-show="smallScreen || $index == 0"><b>UPC : &nbsp;</b> </label>	
+									<input ng-model="matrix.c_upc" type="text" class="form-control" >	
+								</div>
+							</div>
+						</div>
+					</div>	
+ 	
+					<!--                                   
+					<div class="row">
+						<div class="col-md-9"> 
+							<div class="row">
+								<div class="col-md-3"> 
+									
+									<div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" ng-model>{{}} S ,Red
+                                        </label>
+                                    </div>
+								</div>
+								<div class="col-md-3"> 
+									<label><b>Price : &nbsp;</b> </label>
+									<input ng-model="" type="text" class="form-control" >  	
+								</div>
+								<div class="col-md-3"> 
+									<label><b>Code : &nbsp;</b> </label>
+									<input ng-model="" type="text" class="form-control" >
+								</div>
+								<div class="col-md-3"> 
+									<label><b>UPC : &nbsp;</b> </label>	
+									<input ng-model="" type="text" class="form-control" >	
+								</div>
+							</div>
+						</div>
+					</div>	
+					-->
+					
+				</div>
+				
+			</div>
+			                                            
+						
+			<!--					
+			<div ng-hide="row.id">
+				<div class="form-group" ng-show="row.item_type=='matrix-product'">
+					<label for="price">Matrix dimesion</label>
+					<div class="input-group">
+						<div class="input-group-addon" ng-click="openModal('item_matrix')"><i class="fa fa-plus"></i></div>
+						<select id="item_matrix" class="form-control"
+							ng-model="row._matrix"
+							ng-options="s.matrix_dimension for s in MODEL.unq_matrix">
+						</select>
+					</div>
+					
+					
+				</div>
+				-->
+				<!--
+				<div class="form-group">
+					<label for="price">Generic base Price</label>
+					<input type="checkbox" id="_all_location" ng-model="row._all_location"><label for="_all_location">Available at all locations</label>
+					<input ng-model="row.f_price" type="number" class="form-control" id="price">
+				</div>
+				
+				-->
+			<!--</div>-->
+
+
+
+		</div>
+	</div>
+	
+</div>	
+	
+</ab-table-3>
+<!-- End of file-->

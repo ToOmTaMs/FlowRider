@@ -1,0 +1,96 @@
+ 
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row" 
+	refashfn="Refresh" 
+	set-refash-fn="setRefashFn(theRefashFn)"
+	>
+
+  <div class="my-content" style="height: {{content_height}}px; width: 100%;">	
+
+  	<!--
+  	<div class="row" ng-show="row.hdr.id > 0">		
+	    <div class="col-md-12">
+	      <div class="btn-group pull-right">
+
+	         <button title="รับคืน"
+	          class="btn btn-primary btn-flat" 
+	          ng-click="ro_approve();"><i class="fa fa-check"></i> รับคืน</button> 
+
+ 		  </div>
+ 		</div>
+ 	</div>
+    -->
+
+	<div class="row space_line_5">
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>สาขา : &nbsp;</b></label>
+				</div>
+				<div class="col-md-8">		
+					<input ng-model="row.hdr.c_from_name" class="form-control" id="c_from_name" type="text" readonly />					
+				</div> 
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>หมายเหตุ : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<textarea ng-model="row.hdr.c_note" class="form-control" id="c_note" type="text" rows="3" readonly ></textarea> 
+				</div>	
+			</div>	
+		</div> 
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เลขที่เอกสาร : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group">
+						<input ng-model="row.hdr.c_doc_no" class="form-control" id="c_doc_no" type="text" readonly>
+					</div>
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>วันที่สร้าง : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group">
+						<input ng-model="row.hdr.d_create" class="form-control" id="d_create" type="text" readonly />
+              		</div>
+				</div>	
+			</div>
+		</div>		
+	 
+		<!--{{options.rows_dtl}}-->
+	<div class="row space_line_5 ">	 
+		<div class="col-md-12">	 
+
+		  <table width="100%" class="{{options.classTable}}" >
+		    <thead>
+		      <tr class="{{options.tableBg}}">
+		        <th ng-repeat="col in options.cols_dtl" width="{{col.width}}px" colspan="{{col.colspan}}" style="text-align:{{col.align}}" 
+		        	>{{col.label || col.map}}</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr ng-repeat="row_dtl in options.rows_dtl" 		          
+		          ng-click="">
+		        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" style="text-align:{{col.align}}" >
+		        	 <span ng-if="!col.type" ng-model="row_dtl[col.map]" >{{rowCol(row_dtl,col,($parent.$parent.$index+1))}}</span>
+		             <input type="textbox"  ng-if="col.type =='textbox' " ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" size="{{col.size}}" style="text-align:{{col.align}};" />  
+		        </td> 
+		      </tr>
+		    </tbody>
+		  </table>
+ 
+		</div>
+	</div>
+ 
+			
+  </div>
+
+</ab-table-3>

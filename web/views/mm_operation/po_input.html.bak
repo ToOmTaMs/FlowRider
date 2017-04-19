@@ -1,0 +1,562 @@
+ 
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row"
+	refashfn="Refresh" 
+	set-refash-fn="setRefashFn(theRefashFn)"
+	savefn="SaveFN" 
+	set-save-fn="setSaveFn(theSaveFn)"
+ 	chgpagefn="chgPageFn" 
+	set-chg-page-fn="setChgPageFn(theChgPageFn)"
+
+	>
+ 
+  <div class="my-content" style="height: {{content_height}}px; width: 100%;">		
+	<!--
+	<div ng-show="row.id">
+		<button ng-click="items()"
+			class="btn btn-primary">Item @Supplier</button>
+	</div>-->
+	<!--{{row.hdr.e_status_action}} // {{options.doc_type}} // {{row.hdr.e_status}} // {{row.hdr.e_action}} //
+	<br>{{row.hdr}}-->
+  	<div class="row" ng-show="row.hdr.e_status_action=='active_complete' || row.hdr.e_status_action=='active_missing_complete'">	
+  		<div class="col-md-6">
+  			<span class="my-header-span text-blue" ng-show="row.hdr.e_status_action=='active_complete'"><b>รับเข้าเรียบร้อยแล้ว</b></span> 
+  			<span class="my-header-span text-red" ng-show="row.hdr.e_status_action=='active_missing_complete'"><b>Close PO ไม่ได้รับเข้า</b></span> 
+  		</div>	
+	    <div class="col-md-6">
+	      <div class="btn-group pull-right">
+
+	      	<button title="Create Supplier Return"
+	          class="btn btn-warning btn-flat"
+	          ng-click="create_supplier_return();"
+	          ng-show="row.hdr.e_status_action=='active_complete'"
+	          ><i class="fa fa-check"></i> คืนสินค้าให้ผู้จำหน่าย</button>
+ 
+	      	<button title="Print"
+	          class="btn btn-info btn-flat" 
+	          ng-show="row.hdr.e_status_action=='active_complete'"
+	          ng-click="print_action()"><i class="fa fa-print"></i> Print ใบรับเข้า</button>	
+ 		  </div>
+ 		</div>
+ 	</div> 	
+
+
+  	<div class="row" ng-show="row.hdr.id > 0 && row.hdr.e_status_action=='active_confirm' ">		
+	    <div class="col-md-12">
+	      <div class="btn-group pull-right">
+
+	         <button title="Approve"
+	          class="btn btn-primary btn-flat"
+	          ng-show="row.hdr.e_status_action=='active_confirm'"
+	          ng-click="approve_action();"><i class="fa fa-check"></i> Approve</button> 
+
+ 		  </div>
+ 		</div>
+ 	</div> 
+
+
+  	<div class="row" ng-show="row.hdr.id > 0 && options.missing ">		
+	    <div class="col-md-12">
+	      <div class="btn-group pull-right">
+
+			<button title="Print"
+	          class="btn btn-info btn-flat"  
+	          ng-click="print_action()"><i class="fa fa-print"></i> Print ใบขาด เลขที่ {{row.hdr.missing_c_doc_no}}</button>
+	        <button title="Close PO"
+	          class="btn btn-primary btn-flat" 
+	          ng-click="po_missing();"><i class="ion ion-close"></i> Close PO</button> 
+
+ 		  </div>
+ 		</div>
+ 	</div> 
+
+	<div class="row space_line_5"> 
+		<div class="col-md-4">
+			<!--
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ผู้จัดจำหน่าย</b></label>
+				</div>
+				<div class="col-md-8">				
+					<select class="form-control"
+						ng-model="options.vendor"
+						ng-options="s.c_name for s in MODEL.vendor "
+						ng-change="change_vendor()"
+						ng-disabled="options.rows_dtl.length>0 || options.disabled"
+						> 
+					</select>
+				</div> 
+			</div>
+			-->
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ผู้จัดจำหน่าย</b></label>
+				</div>
+				<div class="col-md-8">				 
+					<div class="input-group col-md-12" >											
+						<input ng-model="row.hdr.c_vendor_name" class="form-control" id="c_vendor_name" type="text" readonly>
+						<div class="input-group-addon" ng-click="openModal_vendor()" style="width:30px;" 
+							ng-disabled="options.rows_dtl.length>0 || options.disabled || options.supplier_return" 
+							ng-hide="options.rows_dtl.length>0 || options.disabled" 
+							><i class="fa fa-search"></i></div>	
+			      	</div>  
+				</div> 
+			</div>
+			<!--
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ผู้ติดต่อ</b></label>
+				</div>
+				<div class="col-md-8">				
+					<input ng-model="row.hdr.c_vendor_contact" class="form-control" id="c_vendor_contact" type="text" ng-disabled="options.disabled" >  
+				</div> 
+			</div>
+			-->
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ที่อยู่</b></label>
+				</div>
+				<div class="col-md-8">
+					<textarea ng-model="row.hdr.c_vendor_address" class="form-control" id="c_vendor_address" type="text" rows="4" 
+						ng-disabled="options.disabled || options.confirm " ></textarea>
+				</div> 
+			</div>
+
+
+			<div class="row" ng-show="options.ir.show">
+				<div class="col-md-4">
+					<label ng-show="!options.supplier_return"><b>เลขที่บิล</b></label>
+					<label ng-show="options.supplier_return" ><b>อ้างอิงบิลเลขที่</b></label>
+				</div>
+				<div class="col-md-8">
+					<input ng-model="row.hdr.c_verdor_tax_doc_no" class="form-control" id="c_verdor_tax_doc_no" type="text" 
+						ng-disabled="row.hdr.e_status_action=='active_missing_complete' || options.supplier_return"  >
+				</div> 
+			</div>
+			
+
+		</div> 
+
+		<div class="col-md-4">
+			<!--
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เบอร์โทร</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.c_vendor_tel" class="form-control" id="c_vendor_tel" type="text" ng-disabled="options.disabled" >
+				</div>	
+			</div>
+			-->
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>หมายเหตุ</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<textarea ng-model="row.hdr.c_note" class="form-control" id="c_note" type="text" rows="6"
+						ng-disabled="options.ir.disabled" ></textarea> 
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ลวท</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group ps-po-add-edit" >
+						<input ng-model="row.hdr.d_date_send" class="form-control" id="d_date_send" type="text" datepicker-popup  is-open="date3.opened" 
+							ng-disabled="row.hdr.e_status_action=='active_missing_complete' || options.supplier_return" />
+						<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="openDate3($event)" 
+	                			ng-disabled="row.hdr.e_status_action=='active_missing_complete' || options.supplier_return "   
+	                			 ><i class="glyphicon glyphicon-calendar"></i></button>
+	              		</span>
+              		</div>
+				</div>	
+			</div>
+			
+		</div>
+
+		<div class="col-md-4">
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>เลขที่เอกสาร</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.c_doc_no" class="form-control" id="c_doc_no" type="text" readonly>
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>วันที่สร้าง</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group ps-po-add-edit" >
+						<input ng-model="row.hdr.d_date" class="form-control" id="d_date" type="text" datepicker-popup  is-open="date1.opened" 
+							min-date="minDate" ng-disabled="options.ir.disabled || options.confirm" />
+						<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="openDate1($event)" 
+	                			ng-disabled="options.ir.disabled || options.confirm"
+	                			 ><i class="glyphicon glyphicon-calendar"></i></button>
+	              		</span>
+              		</div>
+				</div>	
+			</div>
+			<div class="row" ng-show="options.supplier_return">
+				<div class="col-md-4">
+					<label><b>วันที่ส่งคืน</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group">
+						<input ng-model="row.hdr.d_date_return" class="form-control" id="d_date_return" type="text" datepicker-popup is-open="date2.opened" 
+							min-date="minDate" ng-disabled="options.disabled || options.confirm" />
+						<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="openDate2($event)"
+	                			ng-disabled="options.disabled || options.confirm" 
+	                			><i class="glyphicon glyphicon-calendar"></i></button>
+	              		</span>
+					</div>
+				</div>	
+			</div>
+			<div class="row" ng-show="options.supplier_return">
+				<div class="col-md-4">
+					<label><b>ใบรับสินค้า</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.c_item_refer_doc_no" class="form-control" id="c_item_refer_doc_no" type="text" ng-disabled="options.supplier_return" >
+				</div> 
+			</div>
+			<!--
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>กำหนดส่ง</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group ps-po-add-edit" >
+						<input ng-model="row.hdr.d_date_send" class="form-control" id="d_date_send" type="text" datepicker-popup is-open="date2.opened" 
+							min-date="minDate" ng-disabled="options.disabled" />
+						<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="openDate2($event)" 
+	                			ng-disabled="options.disabled" ><i class="glyphicon glyphicon-calendar"></i></button>
+	              		</span>
+					</div>
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-4">
+					<label><b>ส่งที่</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<select class="form-control"
+						ng-model="options.location"
+						ng-options="s.c_name for s in MODEL.location "
+						ng-change="change_location()"
+						ng-disabled="options.disabled"
+						> 
+					</select>
+				</div>	
+			</div>	
+			-->
+			<!--
+			<div class="row" ng-show="options.missing || options.ir">
+				<div class="col-md-4">
+					<label><b>เลขที่ PO</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.c_refer_group_c_doc_no" class="form-control" id="c_refer_c_doc_no" type="text" readonly>
+				</div>	
+			</div>
+		    -->
+			<div class="row" ng-show="options.ir.show && !options.supplier_return ">
+				<div class="col-md-4" >
+					<label><b>วิธีการจ่าย : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<label> <input type="radio" ng-model="row.hdr.c_type" value="cash" ng-change="c_type_change()" 
+						ng-disabled="options.ir.disabled || options.confirm" > เงินสด </label>
+					<label> <input type="radio" ng-model="row.hdr.c_type" value="credit" ng-change="c_type_change()" 
+						ng-disabled="options.ir.disabled || options.confirm" > เงินเชื่อ </label>
+					<!--
+					<select class="form-control" ng-model="row.hdr.c_type" 
+						ng-disabled="options.ir.disabled" 
+						ng-change="c_type_change()" 
+						> 
+						<option value="เงินสด">เงินสด</option>
+						<option value="เงินเชื่อ">เงินเชื่อ</option>
+	              	</select>
+	                -->
+				</div>	
+			</div>
+			<div class="row" ng-show="row.hdr.c_type=='credit' && !options.supplier_return ">
+				<div class="col-md-4">
+					<label><b>เครดิต</b> </label>
+				</div>	
+				<div class="col-md-4">
+					<input ng-model="row.hdr.c_credit_day" class="form-control" id="c_credit_day" type="text" 
+						ng-change="c_credit_day_change()" ng-disabled="options.ir.disabled || options.confirm" >
+				</div>
+				<div class="col-md-4">
+					<label><b>วัน</b> </label>
+				</div>		
+			</div>
+			<div class="row" ng-show="row.hdr.c_type=='credit' && !options.supplier_return ">
+				<div class="col-md-4">
+					<label><b>ครบกำหนด</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<div class="input-group ps-po-add-edit" >
+						<input ng-model="row.hdr.d_credit_day" class="form-control" id="d_credit_day" type="text" datepicker-popup  is-open="date3.opened" 
+							min-date="minDate" ng-disabled="options.ir.disabled || options.confirm" />
+						<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="openDate3($event)"
+	                			ng-disabled="options.ir.disabled || options.confirm"
+	                			 ><i class="glyphicon glyphicon-calendar"></i></button>
+	              		</span>
+              		</div>
+				</div>	
+			</div>
+			
+
+			<div class="row" style="margin-top:10px;" ng-hide="options.disabled || options.supplier_return  || options.confirm" >		
+		    	<div class="col-md-12">
+		      		<div class="btn-group pull-right"> 
+		        		<button title="Add Item" 
+		          			class="btn btn-primary btn-flat"
+		          			ng-click="add_items()"><i class="fa fa-plus"></i> เพิ่มสินค้า</button> 
+	 		  		</div>
+	 			</div>
+	 		</div>	
+		</div>		
+		
+			
+	</div>	 
+		<!--{{options.rows_dtl}}--> <!--{{row.dtl}}-->
+	<div class="row space_line_5 ">	 
+		<div class="col-md-12">	 
+
+		  <table width="100%" class="{{options.classTable}}" >
+		    <thead>
+		      <tr class="{{options.tableBg}}">
+		        <th ng-repeat="col in options.cols_dtl_th" width="{{col.width}}px" colspan="{{col.colspan}}" style="text-align:{{col.align}}" 
+		        	>{{col.label || col.map}}</th>
+		        <th width="20px" >Option</th> 
+		        <th ng-repeat="but in options.cols_buttons" width="{{but.width}}px" ></th>
+		      </tr>
+		    </thead>
+		    <tbody ng-repeat="row_dtl in options.rows_dtl" 	>
+		      <tr ng-click="">
+		        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" style="text-align:{{col.align}}">
+		        	<input type="checkbox"  ng-if="col.type =='checkbox' " ng-model="row_dtl[col.map]" ng-true-value="1" ng-false-value="0" 
+		        		ng-change="col.changeFn(row_dtl)" />
+		        	 <span ng-if="!col.type" ng-model="row_dtl[col.map]" >{{rowCol(row_dtl,col,($parent.$parent.$index+1))}}</span>
+		             <input type="textbox" class="form-control" size="{{col.size}}" style="text-align:{{col.align}};height:20px;padding4px;" 
+		             	ng-if="col.type =='textbox' && !col.valid_number" ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" 
+		             	ng-readonly="col.readonly" ng-disabled="row_dtl.disabled" />  
+		             <input type="textbox" class="form-control" size="{{col.size}}" style="text-align:{{col.align}};height:24px;padding6px;"  
+		             	ng-if="col.type =='textbox' && col.valid_number =='valid-number' " 
+		             	ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" 
+		             	ng-readonly="col.readonly" ng-disabled="row_dtl.disabled" valid-number/>  
+		             <select ng-if="col.type =='select' " 
+		             	class="form-control"
+						ng-model="row_dtl[col.map]"
+						style="height:24px;padding:0px;"
+						ng-options="s.id as s.c_desc_show || s.c_desc for s in row_dtl[col.option] "
+						ng-disabled="row_dtl.disabled" 
+						> 
+					 </select>
+		        </td> 
+		        <td>
+		        	<input type="checkbox"  ng-model="row_dtl.i_add_note" ng-true-value="1" ng-false-value="0" 
+		        	ng-disabled="row_dtl.option_disabled"  />
+		        </td> 
+		        <td ng-repeat="but in options.cols_buttons" width="{{but.width}}px" align="right"> 		        	
+		            <button class="btn {{ but.btn || 'btn-primary' }} btn-xs" ng-click="but.fn($parent.$index,row_dtl)"  
+		            ng-disabled="row_dtl.option_disabled" ><i class="fa {{but.icon}}" ></i>{{but.label}}</button>
+		        </td> 
+		      </tr>
+		      <tr ng-show="row_dtl.i_add_note" > 
+		      	<td colspan="4">
+		      		Note / Serial Number : <input type="textbox" class="form-control" ng-model="row_dtl.c_add_option_note" style="width:350px;display: inline-block;padding: 4px;height: 24px;" 
+		      		ng-disabled="row_dtl.option_disabled"   >
+		      	</td>
+		      	<td colspan="{{options.cols_dtl.length + 1 - 4}}">
+		      		<input type="checkbox"   ng-model="row_dtl.i_add_branch" ng-true-value="1" ng-false-value="0" ng-change="change_branch($index)" 
+		      			ng-disabled="row_dtl.option_disabled" />
+		      		<span>ส่งที่สาขา : </span>
+		      		<select style="width:300px;display: inline-block;padding: 0px;height: 24px;padding: 0px;"
+		      			class="form-control"
+						ng-model="options.location_branch[$index]"
+						ng-options="s.c_name for s in MODEL.location_branch "
+						ng-change="change_branch($index)"
+						ng-show="row_dtl.i_add_branch" 
+						ng-disabled="row_dtl.option_disabled"
+						> 
+					</select>
+		      	</td>
+		      </tr>		      
+		    </tbody>
+		  </table>
+ 
+		</div>
+	</div>
+	<hr>
+	<div  class="row">	  
+		<div  class="col-md-5">	
+		</div>
+		<div id="ps-po-add-summary" class="col-md-7">	 
+			<div class="row">
+				<div class="col-md-3">
+					<label><b>รวมเป็นเงิน : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-9 text-right font-lg">
+					{{row.hdr.f_doc_summary | number:2}}
+					<!--<input ng-model="row.hdr.f_doc_summary" class="form-control" id="f_doc_summary" type="text" readonly>-->
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-md-3">
+					<label ng-show="!options.supplier_return" ><b>ส่วนลดเพิ่ม : &nbsp;</b> </label>
+					<label ng-show="options.supplier_return" ><b>หักส่วนลด : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-3">
+					<div class="input-group">
+                    	<input ng-model="row.hdr.f_doc_discount_pct" class="form-control" id="f_doc_discount_pct" type="text" 
+                    		ng-change="row_hdr_change('discount_pct')" 
+                    		valid-number 
+                    		ng-disabled="options.ir.disabled" 
+                    		>
+                    	<span class="input-group-addon">%</span>
+                 	</div>				  
+				</div>	
+				<div class="col-md-2">
+				</div>	
+				<div class="col-md-4 text-right font-lg"> 
+					<!--{{row.hdr.f_doc_discount | number:2}}-->
+					<input ng-model="row.hdr.f_doc_discount" class="form-control" id="f_doc_discount" type="text" ng-change="row_hdr_change('')" 
+						style="text-align:right;" valid-number ng-disabled="options.ir.disabled"> 
+				</div>	
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<label><b>รวมหลังลด : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-9 text-right font-lg">
+					{{row.hdr.f_doc_subtotal | number:2}}
+					<!-- <input ng-model="row.hdr.f_doc_subtotal" class="form-control" id="f_doc_subtotal" type="text" readonly > -->
+				</div>	
+			</div>	
+			<div class="row" ng-show="!options.supplier_return" >
+				<div class="col-md-5">
+					<label><b>หักเงินมัดจำ : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-3">
+
+				</div>		
+				<div class="col-md-4 text-right font-lg">
+					<input ng-model="row.hdr.f_deposit" id="f_doc_subtotal" class="form-control" type="text" ng-change="row_hdr_change('')" 
+						style="text-align:right;" valid-number  ng-disabled="options.ir.disabled" >
+				</div>	
+			</div>	
+			<div class="row" ng-show="!options.supplier_return" >
+				<div class="col-md-5">
+					<label><b>รวมหักเงินมัดจำ : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-7 text-right font-lg">
+					{{row.hdr.f_doc_deduct_deposit | number:2}}
+					<!-- <input ng-model="row.hdr.f_doc_subtotal" class="form-control" id="f_doc_subtotal" type="text" readonly > -->
+				</div>	
+			</div>	
+			<div class="row" ng-show="options.supplier_return" >
+				<div class="col-md-8">
+					<label><b>มูลค่าของสินค้าหรือบริการตามใบกำกับภาษีเดิม : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-4 text-right font-lg">
+					<input ng-model="row.hdr.f_doc_summary_old" id="f_doc_summary_old" class="form-control" type="text" ng-change="row_hdr_change()" 
+						style="text-align:right;" valid-number  ng-disabled="true"> <!--ng-disabled="options.disabled" > -->
+				</div>	
+			</div>	
+			<div class="row" ng-show="options.supplier_return" >
+				<div class="col-md-8">
+					<label><b>มูลค่าของสินค้าหรือบริการที่ถูกต้อง : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-4 text-right font-lg">
+					<input ng-model="row.hdr.f_doc_summary_new" id="f_doc_summary_new" class="form-control" type="text" ng-change="row_hdr_change()" 
+						style="text-align:right;" valid-number  ng-disabled="true"> <!--ng-disabled="options.disabled" > -->
+				</div>	
+			</div>	
+			<div class="row" ng-show="options.supplier_return" >
+				<div class="col-md-8">
+					<label><b>ผลต่าง : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-4 text-right font-lg">
+					{{row.hdr.f_doc_summary_def | number:2}}
+					<!-- <input ng-model="row.hdr.f_doc_subtotal" class="form-control" id="f_doc_subtotal" type="text" readonly > -->
+				</div>	
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<label><b>Vat : &nbsp;</b> </label>
+				</div>					
+				<div class="col-md-3">
+					<select class="form-control" ng-model="row.hdr.f_tax_chk"  ng-change="row_hdr_change('')" 
+						ng-disabled="options.ir.disabled" > 
+						<option value="no_vat">ไม่มี</option>
+						<option value="include">Include</option>
+						<option value="exclude">Exclude</option>
+	              	</select>
+
+					<!-- <label> <input type="radio" ng-model="row.hdr.f_tax_chk" value="no_vat" ng-change="row_hdr_change('')" > No Vat </label>
+					<label> <input type="radio" ng-model="row.hdr.f_tax_chk" value="include" ng-change="row_hdr_change('')" > Include </label>
+					<label> <input type="radio" ng-model="row.hdr.f_tax_chk" value="exclude" ng-change="row_hdr_change('')" > Exclude </label>  -->
+				</div>	
+				<div class="col-md-3">
+					<div class="input-group">
+                    	<input ng-model="row.hdr.f_tax_pct" class="form-control" id="f_tax_pct" type="text" ng-change="row_hdr_change('')" 
+                    		valid-number ng-disabled="options.disabled" >
+                    	<span class="input-group-addon">%</span>
+                 	</div> 
+				</div>
+				<div class="col-md-3 text-right font-lg">
+					{{row.hdr.f_tax | number:2}}
+				</div>
+			</div>	
+			<!-- <div class="row">
+				<div class="col-md-4">
+				</div>	
+				<div class="col-md-3">
+					<div class="input-group">
+                    	<input ng-model="row.hdr.f_tax_pct" class="form-control" id="f_tax_pct" type="text" ng-change="row_hdr_change('')" readonly >
+                    	<span class="input-group-addon">%</span>
+                 	 </div>				  
+				</div>	
+				<div class="col-md-5">
+					<input ng-model="row.hdr.f_tax" class="form-control" id="f_tax" type="text" ng-change="row_hdr_change('')" readonly >
+				</div>	
+			</div>	 -->
+			<div class="row">
+				<div class="col-md-5">
+					<label><b>รวมทั้งสิ้น : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-7 text-right font-lg">
+					{{row.hdr.f_doc_total | number:2}}
+					<!-- <input ng-model="row.hdr.f_doc_total" class="form-control" id="f_doc_total" type="text" readonly > -->
+				</div>	
+			</div>	
+			<!-- <div class="row">
+				<div class="col-md-4">
+					<label><b>Text : &nbsp;</b> </label>
+				</div>	
+				<div class="col-md-8">
+					<input ng-model="row.hdr.f_doc_total_text" class="form-control" id="f_doc_total_text" type="text" readonly >
+				</div>	
+			</div> -->	
+		</div>
+	</div>			
+			
+  </div>
+
+
+
+
+</ab-table-3>

@@ -1,0 +1,37 @@
+angular.module('services', [])
+
+/**
+ * iAPI service
+ */
+.factory('iAPI',['$http','$state','iDB','$filter','$ionicPlatform',
+function ($http,$state,iDB,$filter,$ionicPlatform){
+
+	var iAPI = {
+		promo: {
+		    promos: [],   // array of promotions
+		    rows: [],    // current promo record
+		 	fn1: function(data){
+
+		 	},
+		 	fn2: function(data){
+
+		 	},		
+		    apply_promo: function (p) {
+		        iAPI.promo[p.c_fn_name](p);
+		    },
+	 
+	    },
+	}
+
+	return iAPI;
+}));
+
+//****** controller
+var list = [
+	{c_fn_name:'fn1', data:'111111'},
+	{c_fn_name:'fn2', data:'222222'},
+	]
+
+iAPI.apply_promo(list[0]);
+
+//******

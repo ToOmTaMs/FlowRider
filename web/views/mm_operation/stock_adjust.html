@@ -1,0 +1,146 @@
+<ab-table-3
+	options ="options"
+	rows = "rows"
+	row ="row" 
+	refashfn="Refresh" 
+	set-refash-fn="setRefashFn(theRefashFn)"
+	>
+
+ <div class="my-content" style="height: {{content_height}}px; width: 100%;">	 
+
+
+  	<div class="row" ng-show="row.hdr.id > 0">		
+  		<div class="col-md-6">
+   		</div>	
+	    <div class="col-md-6">
+	      <div class="btn-group pull-right">
+	      	  
+	      	<button title="Print"
+	          class="btn btn-info btn-flat" 
+	          ng-show="row.hdr.e_status_action=='active_create'"
+	          ng-click="print_action()"><i class="fa fa-print"
+	          ></i> Print</button>	
+	       
+ 		  </div>
+ 		</div>
+ 	</div> 	
+
+
+    <div class="row space_line_5">
+    	<div class="col-md-4"> 
+    		<div class="form-group">
+				<label for="d_date" class="col-sm-4 control-label" style="padding-top:8px;">วันที่</label>
+				<div class="col-sm-8"> 
+					<input ng-model="row.hdr.d_date" class="form-control" id="d_date" type="text" readonly />
+				</div>
+			</div> 
+			<div class="form-group">
+				<label for="c_note_option" class="col-sm-4 control-label" style="padding-top:8px;">หมายเหตุเพิ่มเติม</label>
+				<div class="col-sm-8">
+					<textarea ng-model="row.hdr.c_note_option" class="form-control" id="c_note_option" type="text" rows="5"
+					   ng-disabled="options.disabled" ></textarea> 
+				</div>	
+			</div> 
+    	</div>
+    	<div class="col-md-4"> 
+			<div class="form-group">
+				<label for="c_note" class="col-sm-3 control-label" style="padding-top:8px;">หมายเหตุ</label>
+				<div class="col-sm-9">
+					<textarea ng-model="row.hdr.c_note" class="form-control" id="c_note" type="text" rows="6"
+					   ng-disabled="options.disabled" ></textarea> 
+				</div>	
+			</div>	
+    	</div>	
+    	<div class="col-md-4 form-horizontal">
+    		<div class="form-group">
+				<label for="c_doc_no" class="col-sm-5 control-label" style="padding-top:8px;">เลขที่เอกสาร</label>
+				<div class="col-sm-6"> 
+					<input ng-model="row.hdr.c_doc_no" class="form-control" id="c_doc_no" type="text" readonly />
+				</div>
+			</div> 
+			<div class="form-group" ng-hide='options.show_add_but'>
+				<label for="c_refer_c_doc_no" class="col-sm-5 control-label" style="padding-top:8px;">เอกสารอ้างอิง</label>
+				<div class="col-sm-6"> 
+					<input ng-model="row.hdr.c_refer_c_doc_no" class="form-control" id="c_refer_c_doc_no" type="text" readonly />
+				</div>
+			</div> 
+			<div class="form-group" >
+				<label for="f_doc_total" class="col-sm-5 control-label" style="padding-top:8px;">รวมมูลค่าเสียหาย</label>
+				<div class="col-sm-6"> 
+					<input ng-model="row.hdr.f_doc_total" class="form-control" id="f_doc_total" type="text" readonly />
+				</div>
+			</div> 
+    	</div>	
+    </div> 	
+<!--
+  	<div class="row" ng-show="row.hdr.id > 0">		
+	    <div class="col-md-12">
+	      <div class="btn-group pull-right">
+
+	      	<button title="Print"
+	          class="btn btn-info btn-flat" 
+	          ng-click="ia_print()"><i class="fa fa-print"></i> Print</button>	
+
+ 		  </div>
+ 		</div>
+ 	</div> 
+ -->
+
+    <div class="row" ng-show='options.show_add_but'>		
+		<div class="col-md-12">
+			<div class="btn-group pull-right"> 
+				<button title="Add Item" 
+		          class="btn btn-primary btn-flat"
+		          ng-click="add_items()"><i class="fa fa-plus"></i> เพิ่มสินค้า</button> 
+			</div>
+		</div>
+	</div> 	
+ 
+	<div class="row space_line_5 ">	 
+		<div class="col-md-12">	 
+
+		  <table width="100%" class="{{options.classTable}}" >
+		    <thead>
+		      <tr class="{{options.tableBg}}">
+		        <th ng-repeat="col in options.cols_dtl" ng-class="{'text-right':col.align=='right', 'text-center':col.align=='center'}" class='text-left' >{{col.label || col.map}}</th>
+		        <th width="20px" >Option</th> 
+		        <th ng-repeat="but in options.cols_buttons" width="{{but.width}}px" ></th>
+		      </tr>
+		    </thead>
+		    <tbody ng-repeat="row_dtl in options.rows_dtl">
+		      <tr>  		      
+		        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" align="{{ col.align || 'left' }}">
+		        	 <span ng-if="!col.type" ng-model="row_dtl[col.map]" >{{rowCol(row_dtl,col,($parent.$parent.$index+1))}}</span>
+		        	 <input type="textbox"  ng-if="col.type =='textbox' && !col.valid_number" ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" size="{{col.size}}" style="text-align:{{col.align}};" ng-readonly="col.readonly==true"/> 
+		             <input type="textbox"  ng-if="col.type =='textbox' && col.valid_number =='valid-number' " ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" size="{{col.size}}" style="text-align:{{col.align}};" ng-readonly="col.readonly==true" valid-number/>   
+		        </td> 
+		        <td>
+		        	<input type="checkbox"  ng-model="row_dtl.i_add_note" ng-true-value="1" ng-false-value="0" 
+		        	ng-disabled="row_dtl.option_disabled"  />
+		        </td> 
+		        <td ng-repeat="but in options.cols_buttons" width="{{but.width}}px" align="right"> 
+		            <button class="btn {{ but.btn || 'btn-primary' }} btn-xs" ng-click="but.fn($parent.$index,row)" ><i class="fa {{but.icon}}"></i>{{but.label}}</button>    
+		        </td> 
+		      </tr>
+		      <tr ng-show="row_dtl.i_add_note" > 
+		      	<td colspan="7">
+		      		Note / Serial Number : <input type="textbox" class="form-control" ng-model="row_dtl.c_add_option_note" style="width:350px;display: inline-block;padding: 4px;height: 24px;" 
+		      		ng-disabled="row_dtl.option_disabled"   >
+		      	</td>
+		      <!--
+		      <tr> 
+		      	<td colspan="10">เหตุผลการปรับ: <input type="textbox" class="form-control" ng-model="row_dtl.c_add_option_note" style="width:350px;display: inline-block;padding: 4px;height: 24px;" 
+		      		ng-disabled="row_dtl.option_disabled"></td>
+		      </tr> 
+		  	  -->
+		    </tbody>
+		  </table>
+ 
+		</div>
+	</div>
+
+
+
+  </div>
+
+</ab-table-3>
