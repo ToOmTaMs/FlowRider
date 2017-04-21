@@ -1,0 +1,66 @@
+<div class="modal-header">
+  เลือกส่วนลด
+</div>
+<div class="modal-body">
+  <!--<div class="my-content" style="height: 100%; width: 100%;">	-->
+  <div class="my-content" style="height: {{content_height}}px; width: 100%;">
+    <div class="row">
+      <div class="col-md-7">
+        <div class="box">
+          <div class="box-body">
+            <table class='table table-striped table-bordered table-hover table-condensed'>
+              <thead>
+                <tr>
+                  <th>ส่วนลด</th>
+                  <th>จำนวนเงิน</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Discount 10%</td>
+                  <td>0.00</td>
+                </tr>
+                <tr>
+                  <td>Voucher 500</td>
+                  <td>500</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="box-footer">
+            <div class="row">
+              <div class="col-md-6">
+                รวม
+              </div>
+              <div class="col-md-6 text-right">
+                0.00
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="box">
+          <div class="box-body">
+            <button class="btn btn-danger btn-block btn-flat">Discount 10%</button>
+            <button class="btn btn-danger btn-block btn-flat">Discount 50฿</button>
+            <button class="btn btn-danger btn-block btn-flat">Discount Total</button>
+            <button class="btn btn-success btn-block btn-flat">Discount 20%</button>
+            <button class="btn btn-success btn-block btn-flat">Voucher 500</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <button class="btn btn-success">ตกลง</button>
+        <button class="btn btn-danger">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+  <button class="pull-right btn btn-warning" ng-click="close()">Close</button>
+</div>

@@ -6,7 +6,7 @@
 <div class="row">
   <div class="col-md-8">
     <div class="row">
-      <form ng-submit="findReserve()" class="col-md-5">
+      <form ng-submit="popupFindReserve()" class="col-md-5">
         <input type="text" class="form-control">
       </form>
       <div class="form-group col-md-5">
@@ -18,7 +18,7 @@
         </div>
         <!-- /.input group -->
       </div>
-      <button ng-click="newReserve()" type="button" class="btn btn-default col-md-2">
+      <button ng-click="popupNewReserve()" type="button" class="btn btn-default col-md-2">
 				B
 			</button>
     </div>
@@ -181,10 +181,10 @@
       </a>
 
 
-      <a class="btn btn-app bg-yellow col-md-3">
+      <button ng-click="popupDiscount()" class="btn btn-app bg-yellow col-md-3">
         <!-- <span class="badge bg-green">300</span> -->
         <i class="fa fa-barcode"></i>ส่วนลด
-      </a>
+      </button>
 
       <a class="btn btn-app bg-navy col-md-3">
         <!-- <span class="badge bg-green">300</span> -->

@@ -27,7 +27,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
       modalInstance.result.then(function() {});
 
     };
-    $scope.findReserve = function() {
+    $scope.popupFindReserve = function() {
 
       var opt = {
         data: "5555"
@@ -46,7 +46,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
       modalInstance.result.then(function() {});
 
     };
-    $scope.newReserve = function() {
+    $scope.popupNewReserve = function() {
 
       var opt = {
         data: "5555"
@@ -54,6 +54,25 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
 
       var modalInstance = $modal.open({
         templateUrl: 'views/home/new_reserve.html',
+        controller: 'Find.Reserve.Ctrl',
+        size: 'xs',
+        resolve: {
+          options: function() {
+            return opt;
+          }
+        }
+      });
+      modalInstance.result.then(function() {});
+
+    };
+    $scope.popupDiscount = function() {
+
+      var opt = {
+        data: "5555"
+      }
+
+      var modalInstance = $modal.open({
+        templateUrl: 'views/home/discount.html',
         controller: 'Find.Reserve.Ctrl',
         size: 'xs',
         resolve: {
