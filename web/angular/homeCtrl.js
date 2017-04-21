@@ -46,7 +46,25 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
       modalInstance.result.then(function() {});
 
     };
+    $scope.newReserve = function() {
 
+      var opt = {
+        data: "5555"
+      }
+
+      var modalInstance = $modal.open({
+        templateUrl: 'views/home/new_reserve.html',
+        controller: 'Find.Reserve.Ctrl',
+        size: 'xs',
+        resolve: {
+          options: function() {
+            return opt;
+          }
+        }
+      });
+      modalInstance.result.then(function() {});
+
+    };
   }
 ]).controller('Lanes.Reserve.Ctrl', function($scope, $modalInstance, $modal, iAPI, options, $window) {
 
