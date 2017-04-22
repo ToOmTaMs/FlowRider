@@ -2,11 +2,12 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
   '$scope',
   'iAPI',
   '$modal',
-  function($scope, iAPI, $modal) {
+  '$http',
+  function($scope, iAPI, $modal,$http) {
 
     $scope.activeSide(false);
 
-    alert("start at home");
+    //alert("start at home");
 
     $scope.showPopup = function() {
 
@@ -84,6 +85,22 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
       modalInstance.result.then(function() {});
 
     };
+
+    $scope.getDataByLane = function(laneNo){
+      var jsonFile = "";
+      if(laneNo==1){
+        jsonFile = 'file/mockDisplayLane1.json';
+      }else if (laneNo==2){
+        jsonFile = 'file/mockDisplayLane2.json';
+      }
+
+      $http.get(jsonFile)
+       .then(function(res){
+          $scope.dataDisplay = res.data;              
+      });
+
+    };
+    
   }
 ]).controller('Lanes.Reserve.Ctrl', function($scope, $modalInstance, $modal, iAPI, options, $window) {
 
@@ -135,4 +152,5 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     $modalInstance.close();
   };
 
-})
+});
+
