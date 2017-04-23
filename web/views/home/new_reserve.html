@@ -3,6 +3,7 @@ header
 </div> -->
 <div class="modal-body">
   <!--<div class="my-content" style="height: 100%; width: 100%;">	-->
+  <h4>จองเลน {{laneNo}}</h4>
   <div class="my-content" style="height: {{content_height}}px; width: 100%;">
     <div class="row">
       <div class="col-md-12">
@@ -21,7 +22,7 @@ header
         <div class="form-group">
           <label for="" class="col-sm-4 control-label">ชื่อ</label>
           <div class="col-sm-8">
-            <input type="email" class="form-control"  >
+            <input type="text" class="form-control"  id="customer-name">
           </div>
         </div>
       </div>
@@ -31,7 +32,7 @@ header
         <div class="form-group">
           <label for="" class="col-sm-4 control-label">เบอร์โทรศัพท์</label>
           <div class="col-sm-8">
-            <input type="email" class="form-control"  >
+            <input type="text" class="form-control"  id="customer-tel">
           </div>
         </div>
       </div>
@@ -41,7 +42,7 @@ header
         <div class="form-group">
           <label for="" class="col-sm-4 control-label">วันที่มาใช้บริการ</label>
           <div class="col-sm-8">
-            <input type="email" class="form-control"  >
+            <input type="text" class="form-control clsDatePicker" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" ng-model="bookDate" id="reserve-date">
           </div>
         </div>
       </div>
@@ -51,7 +52,21 @@ header
         <div class="form-group">
           <label for="" class="col-sm-4 control-label">เวลาที่มาใช้บริการ</label>
           <div class="col-sm-8">
-            <input type="email" class="form-control"  >
+            <!-- <input type="text" class="form-control" id="reserve-time44"> !-->
+            <select class="form-control" id="reserve-time">
+              <option value="1100">11:00</option>
+              <option value="1200">12:00</option>
+              <option value="1300">13:00</option>
+              <option value="1400">14:00</option>
+              <option value="1500">15:00</option>
+              <option value="1600">16:00</option>
+              <option value="1700">17:00</option>
+              <option value="1800">18:00</option>
+              <option value="1900">19:00</option>
+              <option value="2000">20:00</option>
+              <option value="2100">21:00</option>
+              <option value="2200">22:00</option>
+            </select>
           </div>
         </div>
       </div>
@@ -61,7 +76,7 @@ header
         <div class="form-group">
           <label for="" class="col-sm-4 control-label">จำนวนชั่วโมง</label>
           <div class="col-sm-8">
-            <input type="email" class="form-control"  >
+            <input type="email" class="form-control"  id="reserve-time-qty">
           </div>
         </div>
       </div>
@@ -71,7 +86,7 @@ header
         <div class="form-group">
           <label for="" class="col-sm-4 control-label">จำนวนผู้มาใช้บริการ</label>
           <div class="col-sm-8">
-            <input type="email" class="form-control"  >
+            <input type="email" class="form-control"  id="reserve-customer-qty">
           </div>
         </div>
       </div>
@@ -79,7 +94,7 @@ header
     <div class="row">
       <div class="col-md-12">
         <div class="form-group">
-          <button class="btn btn-success">ตกลง</button>
+          <button class="btn btn-success" ng-click="addReserve()">ตกลง</button>
           <button class="btn btn-danger">ยกเลิก</button>
         </div>
       </div>

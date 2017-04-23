@@ -10,8 +10,6 @@ angular.module('abAPP.controllers', [])
   $scope.menu   = iAPI.getConf('menu');  
   
   console.log('RootCtrl ABuser' ,$scope.ABuser   );
-
-
   
   //$scope.menu = iAPI.config.menu;
   //console.log('RootCtrl menu' ,$scope.menu  );
