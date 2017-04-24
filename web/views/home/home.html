@@ -18,7 +18,7 @@
         </div>
         <!-- /.input group -->
       </div>
-      <button ng-click="popupNewReserve()" type="button" class="btn btn-default col-md-2">
+      <button ng-click="popupNewReserve()" type="button" class="btn btn-primary col-md-2">
 				B
 			</button>
     </div>
@@ -27,10 +27,10 @@
       <h4>{{bookDate}} เลน {{laneNo}}</h4>
     </div>
     <div class="row text-right">
-      <button type="button" class="btn btn-default" ng-click="getDataByLane(1)">
+      <button type="button" class="btn btn-success" ng-click="getDataByLane(1)">
 				เลน 1
 			</button>
-      <button type="button" class="btn btn-default" ng-click="getDataByLane(2)">
+      <button type="button" class="btn btn-twitter" ng-click="getDataByLane(2)">
 				เลน 2
 			</button>
     </div>
@@ -39,35 +39,35 @@
         <thead>
           <tr>
             <th> </th>
-            <th>11.00</th>
-            <th>12.00</th>
-            <th>13.00</th>
-            <th>14.00</th>
-            <th>15.00</th>
-            <th>16.00</th>
-            <th>17.00</th>
-            <th>18.00</th>
-            <th>19.00</th>
-            <th>20.00</th>
-            <th>21.00</th>
-            <th>22.00</th>
+            <th class="book-table-col">11.00</th>
+            <th class="book-table-col">12.00</th>
+            <th class="book-table-col">13.00</th>
+            <th class="book-table-col">14.00</th>
+            <th class="book-table-col">15.00</th>
+            <th class="book-table-col">16.00</th>
+            <th class="book-table-col">17.00</th>
+            <th class="book-table-col">18.00</th>
+            <th class="book-table-col">19.00</th>
+            <th class="book-table-col">20.00</th>
+            <th class="book-table-col">21.00</th>
+            <th class="book-table-col">22.00</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="row in bookLane">
-            <td>{{$index+1}}</td>
+          <tr ng-repeat="row in bookLane" style="height: 80px;">
+            <td >{{$index+1}}</td>
             <td ng-class="{'bg-green': row.T1100}" colspan="{{row.T1100.bookCount}}">{{row.T1100.name}}</td>
             <td ng-class="{'bg-green': row.T1200}" ng-if="row.T1200.name != row.T1100.name || row.T1200.name == null" colspan="{{row.T1200.bookCount}}" >{{row.T1200.name}}</td>
             <td ng-class="{'bg-green': row.T1300}" ng-if="row.T1300.name != row.T1200.name || row.T1300.name == null" colspan="{{row.T1300.bookCount}}" >{{row.T1300.name}}</td>
             <td ng-class="{'bg-green': row.T1400}" ng-if="row.T1400.name != row.T1300.name || row.T1400.name == null" colspan="{{row.T1400.bookCount}}" >{{row.T1400.name}}</td>
             <td ng-class="{'bg-green': row.T1500}" ng-if="row.T1500.name != row.T1400.name || row.T1500.name == null" colspan="{{row.T1500.bookCount}}" >{{row.T1500.name}}</td>
-            <td ng-class="{'bg-green': row.T1600}" ng-if="row.T1600.name != row.T1500.name || row.T1600.name == null" colspan="{{row.T1600.bookCount}}" >{{row.T1600.name}}</td>
-            <td ng-class="{'bg-green': row.T1700}" ng-if="row.T1700.name != row.T1600.name || row.T1700.name == null" colspan="{{row.T1700.bookCount}}" >{{row.T1700.name}}</td>
-            <td ng-class="{'bg-green': row.T1800}" ng-if="row.T1800.name != row.T1700.name || row.T1800.name == null" colspan="{{row.T1800.bookCount}}" >{{row.T1800.name}}</td>
-            <td ng-class="{'bg-green': row.T1900}" ng-if="row.T1900.name != row.T1800.name || row.T1900.name == null" colspan="{{row.T1900.bookCount}}" >{{row.T1900.name}}</td>
-            <td ng-class="{'bg-green': row.T2000}" ng-if="row.T2000.name != row.T1900.name || row.T2000.name == null" colspan="{{row.T2000.bookCount}}" >{{row.T2000.name}}</td>
-            <td ng-class="{'bg-green': row.T2100}" ng-if="row.T2100.name != row.T2000.name || row.T2100.name == null" colspan="{{row.T2100.blockCount}}" >{{row.T2100.name}}</td>
-            <td ng-class="{'bg-green': row.T2200}" ng-if="row.T2200.name != row.T2100.name || row.T2200.name == null" >{{row.T2200.name}}</td>
+            <td  ng-class="{'bg-green': row.T1600}" ng-if="row.T1600.name != row.T1500.name || row.T1600.name == null" colspan="{{row.T1600.bookCount}}" >{{row.T1600.name}}</td>
+            <td  ng-class="{'bg-green': row.T1700}" ng-if="row.T1700.name != row.T1600.name || row.T1700.name == null" colspan="{{row.T1700.bookCount}}" >{{row.T1700.name}}</td>
+            <td  ng-class="{'bg-green': row.T1800}" ng-if="row.T1800.name != row.T1700.name || row.T1800.name == null" colspan="{{row.T1800.bookCount}}" >{{row.T1800.name}}</td>
+            <td  ng-class="{'bg-green': row.T1900}" ng-if="row.T1900.name != row.T1800.name || row.T1900.name == null" colspan="{{row.T1900.bookCount}}" >{{row.T1900.name}}</td>
+            <td  ng-class="{'bg-green': row.T2000}" ng-if="row.T2000.name != row.T1900.name || row.T2000.name == null" colspan="{{row.T2000.bookCount}}" >{{row.T2000.name}}</td>
+            <td  ng-class="{'bg-green': row.T2100}" ng-if="row.T2100.name != row.T2000.name || row.T2100.name == null" colspan="{{row.T2100.blockCount}}" >{{row.T2100.name}}</td>
+            <td  ng-class="{'bg-green': row.T2200}" ng-if="row.T2200.name != row.T2100.name || row.T2200.name == null" >{{row.T2200.name}}</td>
           </tr>
         </tbody>
       </table>
@@ -80,7 +80,7 @@
 
     </div>
     <div class="row">
-      <div class="well well-sm">
+      <div class="well well-sm border-black">
         <table class='table '>
           <tbody>
             <tr>

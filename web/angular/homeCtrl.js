@@ -132,7 +132,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
 
     $scope.getDataByLane = function(laneNo){
       //console.log($scope.bookDate+" getDataByLane"+laneNo);
-      console.log($scope.jsonResult);
+      //console.log($scope.jsonResult);
       $scope.laneNo = laneNo;
       $scope.bookLane = {};
       for(i in $scope.jsonResult){
@@ -142,6 +142,16 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
         if(resBookDate == $scope.bookDate && resLane == laneNo){
             $scope.bookLane = $scope.jsonResult[i]["bookTime"];
         }
+        //console.log($scope.bookLane.length);
+        while($scope.bookLane.length < 10 || $scope.bookLane.length == undefined){
+          if($scope.bookLane.length == undefined){
+              $scope.bookLane = [];
+              //console.log($scope.bookLane);
+          }
+          $scope.bookLane.push({});
+
+        }
+
       }
     };
     
