@@ -1,7 +1,7 @@
 <style media="screen">
-  .box-reserve {
-    height: 50px
-  }
+.box-reserve {
+  height: 50px
+}
 </style>
 <div class="row">
   <div class="col-md-8">
@@ -18,24 +18,31 @@
         </div>
         <!-- /.input group -->
       </div>
-      <button ng-click="popupNewReserve()" type="button" class="btn btn-primary col-md-2">
-				B
-			</button>
+      <div class="col-md-2 text-right">
+        <button ng-click="popupNewReserve()" type="button" class="btn btn-primary ">
+          B
+        </button>
+      </div>
+
     </div>
 
-    <div class="row text-left">
+    <!-- <div class="row text-left">
       <h4>{{bookDate}} เลน {{laneNo}}</h4>
-    </div>
+    </div> -->
     <div class="row text-right">
-      <button type="button" class="btn btn-success" ng-click="getDataByLane(1)">
-				เลน 1
-			</button>
-      <button type="button" class="btn btn-twitter" ng-click="getDataByLane(2)">
-				เลน 2
-			</button>
+      <div class="form-group">
+        <button type="button" ng-class="{'btn-success': laneNo==1}" class="btn" ng-click="getDataByLane(1)">
+          เลน 1
+        </button>
+        <button type="button" ng-class="{'btn-success': laneNo==2}" class="btn" ng-click="getDataByLane(2)">
+          เลน 2
+        </button>
+      </div>
+
     </div>
-    <div class="row" ng-init="initeJSON()"> 
-       <table class='table table-striped table-bordered table-hover table-condensed'>
+
+    <div class="row" ng-init="initeJSON()">
+      <table class='table table-striped table-bordered table-hover table-condensed'>
         <thead>
           <tr>
             <th> </th>
@@ -54,7 +61,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="row in bookLane" style="height: 70px;">
+          <tr ng-repeat="row in bookLane" style="height: 40px;">
             <td >{{$index+1}}</td>
             <td ng-class="{'bg-green': row.T1100}" colspan="{{row.T1100.bookCount}}">{{row.T1100.name}}</td>
             <td ng-class="{'bg-green': row.T1200}" ng-if="row.T1200.name != row.T1100.name || row.T1200.name == null" colspan="{{row.T1200.bookCount}}" >{{row.T1200.name}}</td>
@@ -72,16 +79,24 @@
         </tbody>
       </table>
     </div>
+    <div class="row text-right">
+      <div class="form-group">
+        <button type="button" class="btn btn-danger">
+          ยกเลิก
+        </button>
+      </div>
+
+    </div>
   </div>
   <div class="col-md-4">
     <div class="row">
 
-      รายละเอียดที่ต้องชำระเงิน
+      <h3>รายละเอียดที่ต้องชำระเงิน</h3>
 
     </div>
     <div class="row border-black"  style="max-height: 520px;">
-      <div class="well well-sm " style="max-height: 350px; overflow: auto;">
-          <table class='table '>
+      <div class="" style="max-height: 150px; overflow: auto;">
+        <table class='table '>
           <tbody>
             <tr>
               <td>บัตร Flow Card</td>
@@ -98,7 +113,27 @@
               <td>1</td>
               <td>7500</td>
             </tr>
-           <tr>
+            <tr>
+              <td>บัตร Flow Card</td>
+              <td>1</td>
+              <td>7500</td>
+            </tr>
+            <tr>
+              <td>บัตร Flow Card</td>
+              <td>1</td>
+              <td>7500</td>
+            </tr>
+            <tr>
+              <td>บัตร Flow Card</td>
+              <td>1</td>
+              <td>7500</td>
+            </tr>
+            <tr>
+              <td>บัตร Flow Card</td>
+              <td>1</td>
+              <td>7500</td>
+            </tr>
+            <tr>
               <td>บัตร Flow Card</td>
               <td>1</td>
               <td>7500</td>
@@ -125,27 +160,7 @@
             </tr>
             <tr>
               <td>บัตร Flow Card</td>
-              <td>ถ</td>
-              <td>7500</td>
-            </tr>
-                        <tr>
-              <td>บัตร Flow Card</td>
-              <td>ถ</td>
-              <td>7500</td>
-            </tr>
-                        <tr>
-              <td>บัตร Flow Card</td>
-              <td>ถ</td>
-              <td>7500</td>
-            </tr>
-                        <tr>
-              <td>บัตร Flow Card</td>
-              <td>ถ</td>
-              <td>7500</td>
-            </tr>
-                        <tr>
-              <td>บัตร Flow Card</td>
-              <td>ถ</td>
+              <td>1</td>
               <td>7500</td>
             </tr>
           </tbody>
@@ -153,8 +168,8 @@
       </div>
 
       <div>
-        <table class='table '>
-          <tfoot>
+        <table class='table'>
+          <thead>
             <tr>
               <th></th>
               <th>รวมทั้งสิ้น</th>
@@ -170,7 +185,7 @@
               <th>ยอดสุทธิ</th>
               <th>7500</th>
             </tr>
-          </tfoot>
+          </thead>
         </table>
       </div>
 
@@ -189,31 +204,31 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6">
-        ชำระแล้ว
+      <div class="callout callout-info col-md-6">
+        <h4>ชำระแล้ว</h4>
+        <p class="text-right">0.00</p>
       </div>
-      <div class="col-md-6">
-        เงินทอน
+      <div class="callout callout-danger col-md-6">
+        <h4>เงินทอน</h4>
+        <p class="text-right">0.00</p>
       </div>
     </div>
     <div class="row">
-
-      <a class="btn btn-app bg-green col-md-3">
-        <!-- <span class="badge bg-green">300</span> -->
-        <i class="fa fa-barcode"></i> ใบเสร็จ
-      </a>
-
-
-      <button ng-click="popupDiscount()" class="btn btn-app bg-yellow col-md-3">
-        <!-- <span class="badge bg-green">300</span> -->
-        <i class="fa fa-barcode"></i>ส่วนลด
-      </button>
-
-      <a class="btn btn-app bg-navy col-md-3">
-        <!-- <span class="badge bg-green">300</span> -->
-        <i class="fa fa-barcode"></i> พิมพ์ใบเสร็จ
-      </a>
-
+      <div class="col-md-4">
+        <a class="btn btn-block bg-green ">
+          <i class="fa fa-file-text"></i> <br>ใบเสร็จ
+        </a>
+      </div>
+      <div class="col-md-4">
+        <button ng-click="popupDiscount()" class="btn btn-block bg-yellow">
+          <i class="fa fa-star"></i> <br>ส่วนลด
+        </button>
+      </div>
+      <div class="col-md-4">
+        <a class="btn btn-block bg-navy">
+          <i class="fa fa-print"></i> <br>พิมพ์ใบเสร็จ
+        </a>
+      </div>
     </div>
   </div>
 </div>
