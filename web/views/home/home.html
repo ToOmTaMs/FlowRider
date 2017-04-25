@@ -54,7 +54,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="row in bookLane" style="height: 80px;">
+          <tr ng-repeat="row in bookLane" style="height: 70px;">
             <td >{{$index+1}}</td>
             <td ng-class="{'bg-green': row.T1100}" colspan="{{row.T1100.bookCount}}">{{row.T1100.name}}</td>
             <td ng-class="{'bg-green': row.T1200}" ng-if="row.T1200.name != row.T1100.name || row.T1200.name == null" colspan="{{row.T1200.bookCount}}" >{{row.T1200.name}}</td>
@@ -79,16 +79,81 @@
       รายละเอียดที่ต้องชำระเงิน
 
     </div>
-    <div class="row">
-      <div class="well well-sm border-black">
-        <table class='table '>
+    <div class="row border-black"  style="max-height: 520px;">
+      <div class="well well-sm " style="max-height: 350px; overflow: auto;">
+          <table class='table '>
           <tbody>
             <tr>
               <td>บัตร Flow Card</td>
               <td>1</td>
               <td>7500</td>
             </tr>
+            <tr>
+              <td>บัตร Flow Card</td>
+              <td>1</td>
+              <td>7500</td>
+            </tr>
+            <tr>
+              <td>บัตร Flow Card</td>
+              <td>1</td>
+              <td>7500</td>
+            </tr>
+           <tr>
+              <td>บัตร Flow Card</td>
+              <td>1</td>
+              <td>7500</td>
+            </tr>
+            <tr>
+              <td>บัตร Flow Card</td>
+              <td>1</td>
+              <td>7500</td>
+            </tr>
+            <tr>
+              <td>บัตร Flow Card</td>
+              <td>1</td>
+              <td>7500</td>
+            </tr>
+            <tr>
+              <td>บัตร Flow Card</td>
+              <td>1</td>
+              <td>7500</td>
+            </tr>
+            <tr>
+              <td>บัตร Flow Card</td>
+              <td>1</td>
+              <td>7500</td>
+            </tr>
+            <tr>
+              <td>บัตร Flow Card</td>
+              <td>ถ</td>
+              <td>7500</td>
+            </tr>
+                        <tr>
+              <td>บัตร Flow Card</td>
+              <td>ถ</td>
+              <td>7500</td>
+            </tr>
+                        <tr>
+              <td>บัตร Flow Card</td>
+              <td>ถ</td>
+              <td>7500</td>
+            </tr>
+                        <tr>
+              <td>บัตร Flow Card</td>
+              <td>ถ</td>
+              <td>7500</td>
+            </tr>
+                        <tr>
+              <td>บัตร Flow Card</td>
+              <td>ถ</td>
+              <td>7500</td>
+            </tr>
           </tbody>
+        </table>
+      </div>
+
+      <div>
+        <table class='table '>
           <tfoot>
             <tr>
               <th></th>
@@ -108,14 +173,16 @@
           </tfoot>
         </table>
       </div>
+
     </div>
-    <div class="row">
+
+    <div class="row border-black">
       <div class="input-group">
         <span class="input-group-addon">เงินสด</span>
         <input type="text" class="form-control">
       </div>
     </div>
-    <div class="row">
+    <div class="row border-black">
       <div class="input-group">
         <span class="input-group-addon">เครดิต</span>
         <input type="text" class="form-control">

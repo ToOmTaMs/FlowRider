@@ -148,7 +148,20 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
               $scope.bookLane = [];
               //console.log($scope.bookLane);
           }
-          $scope.bookLane.push({});
+          $scope.bookLane.push({
+                   "T1100": null ,
+                   "T1200": null,
+                   "T1300": null,
+                   "T1400": null,
+                   "T1500": null,
+                   "T1600": null,
+                   "T1700": null,
+                   "T1800": null,
+                   "T1900": null,
+                   "T2000": null,
+                   "T2100": null,
+                   "T2200": null
+                  });
 
         }
 
@@ -209,6 +222,8 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     
     console.log(bookLane);
 
+    var timeseries = ["T1100","T1200","T1300","T1400","T1500","T1600","T1700","T1800","T1900","T2000","T2100","T2200"];
+
     $scope.bookDate = bookDate;
     $scope.laneNo = laneNo;
     $('#bookDate').datepicker({
@@ -219,54 +234,56 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     var customerName = $('#customer-name').val();
     var customerTel = $('#customer-tel').val();
     var reserveDate = $('#reserve-date').val();
-    var reserveTime = $('#reserve-time').val();
-    var reserveTimeQty = $('#reserve-time-qty').val();
+    var reserveTime = 0;
+    var reserveTime = Number($('#reserve-time').val());
+    var reserveTimeQty = Number($('#reserve-time-qty').val());
     var reserveCustomerQty = $('#reserve-customer-qty').val();
     var dataIndex = 0;
+    var timeReTmp = [];
+    var avaQty = 0;
     var isAvailable = false;
-    if(bookLane.length == undefined){
-      bookLane = [{
-                   "T1100": null ,
-                   "T1200": null,
-                   "T1300": null,
-                   "T1400": null,
-                   "T1500": null,
-                   "T1600": null,
-                   "T1700": null,
-                   "T1800": null,
-                   "T1900": null,
-                   "T2000": null,
-                   "T2100": null,
-                   "T2200": null
-                  }];
-    }else{
-      for(var i =0;i<bookLane.length;i++){
-        console.log(bookLane[i]);
-        if(bookLane[i]["T"+reserveTime] == null){
-          dataIndex = i;
-          isAvailable = true;
-          break;
+
+    if(reserveTimeQty > 12 ){
+      alert("จองได้มากที่สุด 12 ชั่วโมงเท่านั้น กรุณาแก้ไขข้อมูล");
+      return;
+    }
+
+    if(reserveCustomerQty > 10){
+       alert("จองได้มากที่สุด 10 คน กรุณาแก้ไขข้อมูล");
+       return;
+    }
+
+    for(var i=1 ; i<=reserveTimeQty ; i++){
+      if(reserveTime < timeseries.length){
+        timeReTmp.push(timeseries[reserveTime]);
+      }
+      reserveTime++;
+    }
+    //console.log(timeReTmp);
+    
+    for(var j = 0 ; j < bookLane.length ; j++){
+      for(var i =0 ; i<timeReTmp.length; i++){
+        //console.log(bookLane[j][timeReTmp[i]]);
+        if(bookLane[j][timeReTmp[i]] == null){
+            //console.log("Ava");
+            avaQty++;
         }
       }
-
-      if(!isAvailable){
-        dataIndex = bookLane.length;
-        bookLane[dataIndex] = {
-                   "T1100": null ,
-                   "T1200": null,
-                   "T1300": null,
-                   "T1400": null,
-                   "T1500": null,
-                   "T1600": null,
-                   "T1700": null,
-                   "T1800": null,
-                   "T1900": null,
-                   "T2000": null,
-                   "T2100": null,
-                   "T2200": null
-                  };
+      if(avaQty == reserveTimeQty){
+          console.log("Ava: "+avaQty);
+          dataIndex = j;
+          isAvailable = true;
+          break;
+      }else{
+        avaQty = 0;
       }
     }
+
+    if(!isAvailable){
+      alert("Not Avalible");
+      return;
+    }
+
 
     var laneObj = {};
 
@@ -277,46 +294,18 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     var reserveData = bookLane;
     var tmpReserveData = {};
 
-    switch(reserveTime) {
-    case "1100":
-        bookLane[dataIndex].T1100 = {"name":customerName,"bookCount":reserveTimeQty};
-        break;
-    case "1200":
-        bookLane[dataIndex].T1200 = {"name":customerName,"bookCount":reserveTimeQty};
-        break;
-    case "1300":
-        bookLane[dataIndex].T1300 = {"name":customerName,"bookCount":reserveTimeQty};
-        break;
-    case "1400":
-        bookLane[dataIndex].T1400 = {"name":customerName,"bookCount":reserveTimeQty};
-        break;
-    case "1500":
-        bookLane[dataIndex].T1500 = {"name":customerName,"bookCount":reserveTimeQty};
-        break;
-    case "1600":
-        bookLane[dataIndex].T1600 = {"name":customerName,"bookCount":reserveTimeQty};
-        break;
-    case "1700":
-        bookLane[dataIndex].T1700 = {"name":customerName,"bookCount":reserveTimeQty};
-        break;
-    case "1800":
-        bookLane[dataIndex].T1800 = {"name":customerName,"bookCount":reserveTimeQty};
-        break;
-    case "1900":
-        bookLane[dataIndex].T1900 = {"name":customerName,"bookCount":reserveTimeQty};
-        break;
-    case "2000":
-        bookLane[dataIndex].T2000 = {"name":customerName,"bookCount":reserveTimeQty};
-        break;
-    case "2100":
-        bookLane[dataIndex].T2100 = {"name":customerName,"bookCount":reserveTimeQty};
-        break;
-    case "2200":
-        bookLane[dataIndex].T2200 = {"name":customerName,"bookCount":reserveTimeQty};
-        break;
-    default:
-        break;
+    if((Number(dataIndex)+Number(reserveCustomerQty)) > 10){
+      alert("Not Avalible");
+      return;
     }
+
+    for(var i=0; i<reserveCustomerQty; i++){
+      for(var j =0 ; j<timeReTmp.length; j++){
+        bookLane[dataIndex][timeReTmp[j]] = {"name":customerName,"bookCount":reserveTimeQty};
+      }
+      dataIndex++;
+    }
+
 
     //reserveData.push(tmpReserveData);
 
@@ -329,7 +318,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     $modalInstance.close();
   };
   $scope.ok = function () {
-    $uibModalInstance.close("555555555");
+    $modalInstance.close();
   };
 
 });
