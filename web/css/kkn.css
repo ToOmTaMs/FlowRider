@@ -1,0 +1,35 @@
+.col-non-padding {
+  padding: 0px !important;
+}
+
+.non-margin {
+  margin: 0px !important;
+}
+
+.modal-tab-well-70vh {
+  height: 70vh !important;
+  margin: 0px !important;
+}
+
+
+.Carousel {
+  float: left;
+  overflow: hidden;
+  padding: 15px;
+  width: 100%;
+}
+
+.Carousel-inner {
+  transition: 1s ease all;
+  float: left;
+}
+
+.Carousel-inner .item {
+  float: left;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.leftLst, .rightLst {
+  margin-top: 15px;
+}
