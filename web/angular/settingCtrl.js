@@ -1,11 +1,14 @@
 angular.module('abAPP.setting', [])
 
  
-.controller('Member.Manage.Ctrl', ['$scope', 'iAPI', '$modal', function ($scope,iAPI,$modal) {
+.controller('Member.Manage.Ctrl', ['$scope', 'iAPI', '$modal', '$window', '$location', function ($scope,iAPI,$modal,$window,$location) {
 
   $scope.activeSide(true);
   $scope.show_menu_group(iAPI.config.menu,"member");
   
+  //$scope.i_location_url = $location.url().replace("/", ""); 
+  //alert($scope.i_location_url);
+  //$scope.content_height=$window.innerHeight - $scope.innerHeight ;
  
   var ConfPageTitle = { pageTitle_org : 'Member Manage',
   	pageTitle_add_edit : 'Member Manage',
@@ -47,9 +50,11 @@ angular.module('abAPP.setting', [])
   $scope.addItems = function(row) { 
     $scope.row={};
     $scope.row.MemCode="";
-    var BirthDay = new Date().toISOString().slice(0,10); 
+    var BirthDay = $scope.dNow ;  //new Date().toISOString().slice(0,10); 
     $scope.row.BirthDay = BirthDay;
  	$scope.row.age=0;
+ 	$scope.nationality="";
+ 	$scope.FName="";
    	iAPI.post('member.iGet_last_no',{}).then(function(res) {
   		console.log("member.iGet_last_no",res.data);
         $scope.row.MemCode = res.data.doc_no;
@@ -75,6 +80,17 @@ angular.module('abAPP.setting', [])
   		return  false ;	
   	}  	  	
 
+  	if(!row.Mobile || row.Mobile == ""){
+  		alert("Mobile do must input")
+  		return  false ;	
+  	}  
+  	
+  	if(!row.nationality || row.nationality == ""){
+  		alert("nationality do must input")
+  		return  false ;	
+  	}  
+  	
+  	
   	console.log("beforePost",angular.copy(row));
   	return true ;	
   }
@@ -103,21 +119,117 @@ angular.module('abAPP.setting', [])
     //alert(age);
   	$scope.row.age = age;
   } 
+
+  $scope.age_change = function(){
+  	 
+  	//คำนวนอายุ  
+  	var age = $scope.row.age;
+  	var d1 = new Date();
+  	var thisyear = d1.getFullYear();
+  	var year = thisyear - age;
+  	$scope.row.BirthDay = year+"-01-01";
+ 
+  }
   
+    
 }])
  
-.controller('Member.History.Ctrl', ['$scope', 'iAPI', '$modal', function ($scope,iAPI,$modal) {
+.controller('Member.History.Ctrl', ['$scope', 'iAPI', '$modal', '$window', '$location', function ($scope,iAPI,$modal,$window,$location) {
 
   $scope.activeSide(true);
   $scope.show_menu_group(iAPI.config.menu,"member");
   
+
+  var ConfPageTitle = { pageTitle_org : 'Member History',
+  	pageTitle_add_edit : 'Member History',
+  	pageCaption_org : '',
+  	pageTitle_edit : '',
+    pageTitle_table : '',
+  };
+  iAPI.setConfPageTitle(ConfPageTitle);
+  $scope.location_url(); 
   
+   
+  $scope.side_right = "";
+  $scope.options = {	
+    allowOp: 'view',
+    dataAPI: '',
+    getAPI:'member.iView_member_hdr_use',
+    transcludeAtTop: true,
+    cols : [
+      {label: 'No.', map: 'member_id', width:60, format:'index', },
+      {label: 'เลขที่สมาชิก', map: 'MemCode' },
+      {label: 'ชื่อ', map: 'FName' },
+      {label: 'นามสกุล', map: 'LName' },      
+      {label: 'สัญชาติ', map: 'nationality' },
+      {label: 'เบอร์โทรศัพท์', map: 'Mobile' },
+      {label: 'สถานะ', map: 'e_status' },
+    ],
+
+	predicate:'c_seq', 
+    reverse:false,
+    map_id:'member_id',
+  }
+  
+  $scope.options.display = {};
+  
+ 
+  $scope.options.beforeUpdRow = function(row) {
+	row.id = row.member_id;
+	row.FLName = row.FName + " " + row.LName;
+   	var c_setting = angular.fromJson(row.c_setting);
+  	angular.forEach( c_setting, function(value, key) {
+		this[key] = value ;	 	
+	}, row);    	
+	
+	delete row.c_setting;
+	
+ 
+ 
+ 
+   
+  $scope.options.cols_dtl = [
+      {label:'ลำดับ.', map:'id', width:60, format:'index', },  
+      {label:'วันที่ใช้บริการ', map:'d_operate', width:100, }, 
+      {label:'การใช้บริการ', map:'item_c_name', width:100, },
+      {label:'เวลา', map:'d_time', width:100, },
+      {label:'ชั่วโมงการใช้', map:'m_use_hour', width:100,  },
+    ]   
+  $scope.options.cols_dtl_th = $scope.options.cols_dtl ; 
+  
+     
+   	iAPI.post('member.iGet_member_hdr_use/'+row.id,{}).then(function(res) {
+  		console.log("member.iGet_member_hdr_use",res.data);
+        $scope.options.rows_dtl = res.data;
+        
+        angular.forEach($scope.options.rows_dtl, function(value, key) {
+		  value.i_chk = 0 ;
+		});
+
+        
+    }) ;   
+   
+  }
+
+  $scope.exportCSV = function() {
+  	
+  	var rows = [];
+  	 angular.forEach($scope.options.rows_dtl, function(value, key) {
+		  if( value.i_chk == 1 ) rows.push(value);  ;
+	 },rows);
+		
+	console.log("exportCSV",rows);
+  	alert("export CSV by Server")  ;
+  }
+  
+  
+    
 }])
  
  
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-.controller('Agent.Manage.Ctrl', ['$scope', 'iAPI', '$modal', function ($scope,iAPI,$modal) {
+.controller('Agent.Manage.Ctrl', ['$scope', 'iAPI', '$modal', '$window', '$location', function ($scope,iAPI,$modal,$window,$location) {
 	
   $scope.activeSide(true);
   $scope.show_menu_group(iAPI.config.menu,"agent");	
@@ -198,48 +310,235 @@ angular.module('abAPP.setting', [])
     
 }])
   
- 
-.controller('Agent.History.Ctrl', ['$scope', 'iAPI', '$modal', function ($scope,iAPI,$modal) {
+.controller('Agent.History.Ctrl', ['$scope', 'iAPI', '$modal', '$window', '$location', function ($scope,iAPI,$modal,$window,$location) {
 
   $scope.activeSide(true);
   $scope.show_menu_group(iAPI.config.menu,"agent");
   
+
+
+  var ConfPageTitle = { pageTitle_org : 'Agent History',
+  	pageTitle_add_edit : 'Agent History',
+  	pageCaption_org : '',
+  	pageTitle_edit : '',
+    pageTitle_table : '',
+  };
+  iAPI.setConfPageTitle(ConfPageTitle);
+  $scope.location_url(); 
   
+   
+  $scope.side_right = "";
+  $scope.options = {	
+    allowOp: 'view',
+    dataAPI: '',
+    getAPI:'flow.iView_agent/normal',
+    transcludeAtTop: true,
+    cols : [
+      {label: 'No.', map: 'agent_id', width:60, format:'index', },
+      {label: 'ชื่อ', map: 'lng1_c_name' },
+      {label: 'เบอร์โทรศัพท์', map: 'c_mobile' },      
+      {label: 'ราคา/ชั่วโมง', map: 'i_price' },
+      {label: 'จำนวนชั่วโมงขั้นต่ำ', map: 'i_hour' },
+      {label: 'จำนวนเดือนหมดอายุ', map: 'i_month' },
+    ],
+
+	predicate:'c_seq', 
+    reverse:false,
+    map_id:'agent_id',
+  }
+  
+  $scope.options.display = {};
+  
+ 
+  $scope.options.beforeUpdRow = function(row) {
+	row.id = row.agent_id;
+   
+  $scope.options.cols_dtl = [
+      {label:'ลำดับ.', map:'id', width:60, format:'index', },  
+      {label:'วันที่ทำรายการ', map:'d_operate', width:60, }, 
+      {label:'รายการ', map:'item_c_name',  },
+      {label:'จำนวนชั่วโมง', map:'d_time',  },
+      {label:'ชั่วโมงคงเหลือ', map:'m_use_hour',  },
+      {label:'วันหมดอายุ', map:'m_use_hour',  },
+      {label:'หมายเหตุ', map:'m_use_hour',  },
+    ]   
+  $scope.options.cols_dtl_th = $scope.options.cols_dtl ; 
+   
+   	iAPI.post('flow.iGet_agent_usehour/'+row.id,{}).then(function(res) {
+  		console.log("flow.iGet_agent_usehour",res.data);
+        $scope.options.rows_dtl = res.data;
+        
+        angular.forEach($scope.options.rows_dtl, function(value, key) {
+		  value.i_chk = 0 ;
+		});
+
+        
+    }) ;   
+   
+  }
+
+  $scope.exportCSV = function() {
+  	
+  	var rows = [];
+  	 angular.forEach($scope.options.rows_dtl, function(value, key) {
+		  if( value.i_chk == 1 ) rows.push(value);  ;
+	 },rows);
+		
+	console.log("exportCSV",rows);
+  	alert("export CSV by Server")  ;
+  }
+  
+  $scope.showPrepaid = function() {
+  	
+  	var opt = {
+		agent_id : $scope.row.agent_id,
+		agent_row : $scope.row,
+	}
+ 
+    var modalInstance = $modal.open({
+      templateUrl: 'views/setting/agent_prepaid.html',
+      controller: 'Agent.Prepaid.Ctrl',
+      size: 'md',
+      resolve: {
+        options: function () {
+          return opt;
+        }
+      }
+    });
+    modalInstance.result.then(function (data) {  		
+	   	console.log("modalInstance",data);
+    });
+    
+  };     
+    
+  
+    
 }])
  
+.controller('Agent.Prepaid.Ctrl', function ($scope,$modalInstance,$modal,iAPI,options,$window) {
  
+   console.log("options",options);
+   
+  //$scope.content_height=$window.innerHeight - 150;
+  $scope.content_height=430; 
+  
+  $scope.options = options;    
+
+  
+  $scope.close = function () {  	
+    $modalInstance.close([]);
+  };
+  
+  $scope.maxDate = new Date();
+  $scope.date1 = {
+    opened : false, 
+  }
+  $scope.openDate1 = function($event) {  
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.date1.opened = true; 
+  };  
+  
+  iAPI.post('flow.iView_agent/normal',{}).then(function(res) {
+  		console.log("flow.iGet_agent_usehour",res.data);
+        $scope.options.agentList = res.data;
+        //$scope.d_paid_change();
+  }) ;     
+ 
+  $scope.d_paid_change = function () {  	  
+  	
+  	$scope.row.d_expire = iAPI.AddMonth($scope.row.d_paid,$scope.options.agent_row.i_month);
+  };
+   
+  $scope.row={
+  	agent_id : options.agent_id,
+  	d_paid : iAPI.dNow ,
+  	d_expire : iAPI.dNow ,
+  }
+     console.log($scope.row);
+  $scope.row.d_paid = iAPI.dNow;
+  $scope.d_paid_change();
+     
+     
+     
+  $scope.saveRow = function () {  
+  
+  var data = [];
+  data.push($scope.row);
+  $modalInstance.close(data); 
+  
+  		/*
+	  iAPI.post('flow.iInsert_agent_usehour/',$scope.row).then(function(res) {
+	  		console.log("flow.iInsert_agent_usehour",res.data);
+	  		
+	        $modalInstance.close(); 
+	  }) ;  
+	  */
+  }
+ 
+		 
+})
  
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-.controller('Conf.Ctrl', ['$scope', 'iAPI', '$modal', function ($scope,iAPI,$modal) {
+.controller('Conf.Ctrl', ['$scope', 'iAPI', '$modal', '$window', '$location', function ($scope,iAPI,$modal,$window,$location) {
 
-  $scope.activeSide(true);
-  $scope.show_menu_group(iAPI.config.menu,"setting");
+    $scope.activeSide(true);
+    $scope.show_menu_group(iAPI.config.menu,"setting");
   
  	$scope.options = {
- 		
+ 		conf_list:{},
+		
 	}
 	
 	$scope.options.conf = [
 		{label: 'หัวใบเสร็จ', map: '', }, 
-		{label: 'ชื่อร้าน', map: 'restaurant_name', }, 
-		{label: 'ใบเสร็จรับเงินบรรทัดที่ 1', map: 'receipt_line1', }, 
-		{label: 'ใบเสร็จรับเงินบรรทัดที่ 2', map: 'receipt_line2', }, 
-		{label: 'ใบเสร็จรับเงินบรรทัดที่ 3', map: 'receipt_line3', }, 
-		{label: 'Receipt 1', map: 'restaurant_name', }, 
-		{label: 'Receipt 2', map: 'restaurant_name', }, 
-		{label: 'Receipt 3', map: 'restaurant_name', },
+		{label: 'ชื่อร้าน :', map: 'flow_restaurant_name', map2:'lng1', }, 
+		{label: "Restaurant Name :", map: 'flow_restaurant_name', map2:'lng2', }, 
+		{label: '', map: '', }, 
+		{label: 'TAX ID :', map: 'flow_TAX_ID', map2:'c_value', }, 
+		{label: 'ใบเสร็จรับเงินบรรทัดที่ 1 :', map: 'flow_receipt_line1', map2:'lng1', }, 
+		{label: 'ใบเสร็จรับเงินบรรทัดที่ 2 :', map: 'flow_receipt_line2', map2:'lng1', }, 
+		{label: 'ใบเสร็จรับเงินบรรทัดที่ 3 :', map: 'flow_receipt_line3', map2:'lng1', }, 
+		{label: '', map: '', }, 
+		{label: 'Receipt 1 :', map: 'flow_receipt_line1', map2:'lng2', }, 
+		{label: 'Receipt 2 :', map: 'flow_receipt_line2', map2:'lng2',  }, 
+		{label: 'Receipt 3 :', map: 'flow_receipt_line3', map2:'lng2', },
+		{label: '', map: '', }, 
+		{label: '', map: '', }, 
 		{label: 'ท้ายใบเสร็จ', map: '', },  
-		{label: 'ข้อความท้ายใบเสร็จ', map: 'restaurant_name', }, 
-		{label: 'ชื่อร้าน', map: 'restaurant_name', }, 
+		{label: 'ข้อความท้ายใบเสร็จ :', map: 'flow_receipt_footer', map2:'lng1', }, 
+		{label: 'Receipt Footer :', map: 'flow_receipt_footer', map2:'lng2', }, 
 	];
 	
-	$scope.activeSide(true);
-	  
+  
+
+  iAPI.post('fr.iViewAll_conf',{}).then(function(res) {
+  		//console.log("fr.iViewAll_conf",res.data);  		
+  	  	angular.forEach($scope.options.conf, function(value, key) {
+  	  		
+  	  		console.log("$scope.options.conf",value.map);
+  			if(value.map!=""){
+				this[value.map]=res.data[value.map];
+			}
+		}, $scope.options.conf_list );
+		console.log("$scope.options.conf_list",$scope.options.conf_list); 
+        
+        //$scope.d_paid_change();
+  }) ;	  
+  
+  
+  $scope.saveRowAll = function() { 
+ 		
+	   iAPI.post('fr.iInsert_conf_all',{'conf_list':$scope.options.conf_list}).then(function(res) {
+	  		console.log("fr.iInsert_conf_all",res.data);  		
+			alert("บันทึกเรียบร้อยแล้ว");	        
+	  }) ; 	
+  }
 	  
 }])
 
-.controller('Lanes.Ctrl', ['$scope', 'iAPI', '$modal', function ($scope,iAPI,$modal) {
+.controller('Lanes.Ctrl', ['$scope', 'iAPI', '$modal', '$window', '$location', function ($scope,iAPI,$modal,$window,$location) {
 	
   $scope.activeSide(true);
   $scope.show_menu_group(iAPI.config.menu,"setting");	
@@ -318,13 +617,13 @@ angular.module('abAPP.setting', [])
     
 }])
  
-.controller('Menu.Ctrl', ['$scope', 'iAPI', '$modal', function ($scope,iAPI,$modal) {
+.controller('Menu.Ctrl', ['$scope', 'iAPI', '$modal', '$window', '$location', function ($scope,iAPI,$modal,$window,$location) {
 	 
   $scope.activeSide(true);
   $scope.show_menu_group(iAPI.config.menu,"setting");	
 	
-  var ConfPageTitle = { pageTitle_org : 'Menu',
-  	pageTitle_add_edit : 'Menu',
+  var ConfPageTitle = { pageTitle_org : 'หมวดอาหาร',
+  	pageTitle_add_edit : 'หมวดอาหาร',
   	pageCaption_org : '',
   	pageTitle_edit : '',
     pageTitle_table : '',
@@ -381,8 +680,8 @@ angular.module('abAPP.setting', [])
   } 
 
   $scope.options.display.setting = function() { 
-	$scope.options.display.message1 = "ต้องการลบ Menu : " + $scope.row.lng1_c_name;
-	$scope.options.display.confirmTitle = "ยืนยันการลบ Menu";
+	$scope.options.display.message1 = "ต้องการลบ หมวดอาหาร : " + $scope.row.lng1_c_name;
+	$scope.options.display.confirmTitle = "ยืนยันการลบ หมวดอาหาร";
   };      
  
   $scope.options.beforeDelete = function(row) {
@@ -395,13 +694,13 @@ angular.module('abAPP.setting', [])
     
 }])
  
-.controller('Item.Ctrl', ['$scope', 'iAPI', '$modal', function ($scope,iAPI,$modal) {
+.controller('Item.Ctrl', ['$scope', 'iAPI', '$modal', '$window', '$location', function ($scope,iAPI,$modal,$window,$location) {
  
   $scope.activeSide(true);
   $scope.show_menu_group(iAPI.config.menu,"setting");	
 	
-  var ConfPageTitle = { pageTitle_org : 'Item',
-  	pageTitle_add_edit : 'Item',
+  var ConfPageTitle = { pageTitle_org : 'รายการอาหาร',
+  	pageTitle_add_edit : 'รายการอาหาร',
   	pageCaption_org : '',
   	pageTitle_edit : '',
     pageTitle_table : '',
@@ -420,6 +719,7 @@ angular.module('abAPP.setting', [])
     transcludeAtTop: true,
     cols : [
       {label: 'No.', map: 'item_id', width:60, format:'index', },
+      {label: 'ชื่อหมวดอาหาร', map: 'lng1_menu_name' },
       {label: 'ชื่อ (ภาษา1)', map: 'lng1_c_name' },
       {label: 'ราคา', map: 'price' },  
     ],
@@ -437,36 +737,66 @@ angular.module('abAPP.setting', [])
     ],
     map_id:'item_id',
   }
-  
-  iAPI.get('fr.iView_menu/normal').success(function(data) {
-
-	//if( angular.isDefined(data.mydata)) data = data.mydata;
-	console.log("iView_menu",data);
- 
- 	$scope.MODEL["menu_group"] = [];
-	var row_group = [];
-    row0 = {};
-	row0["id"]=row0["menu_id"]=0;
-	row0["c_code"]="";row0["c_name"]="ทุกฝ่าย";
-	row_group.push(row0);
-  	angular.forEach(data, function(value, key) {
-  		row0 = value;
-  		row0["id"]=row0["menu_id"];
-  		row0["c_code"]="";
-  		row0["c_name"] = value["lng1_c_name"] ;
-    	this.push(row0);	 	
-    	$scope.MODEL["menu_group"].push(row0);	
-	}, row_group);
-	$scope.options.group  = row_group;
-	console.log("group emp_group",$scope.options.group);
-	$scope.options.row_group = $scope.options.group[0];			
-
-   });
+  $scope.getGroup = function() { 
   
     
+	  iAPI.get('fr.iView_menu/normal').success(function(data) {
+
+		//if( angular.isDefined(data.mydata)) data = data.mydata;
+		console.log("iView_menu",data);
+	 
+	 	$scope.MODEL["menu_group"] = [];
+		var row_group = [];
+	    row0 = {};
+		row0["id"]=row0["menu_id"]=0;
+		row0["c_code"]="";row0["c_name"]="ทุก Menu";
+		row_group.push(row0);
+	  	angular.forEach(data, function(value, key) {
+	  		row0 = value;
+	  		row0["id"]=row0["menu_id"];
+	  		row0["c_code"]="";
+	  		row0["c_name"] = value["lng1_c_name"] ;
+	    	this.push(row0);	 	
+	    	$scope.MODEL["menu_group"].push(row0);	
+		}, row_group);
+		$scope.options.group  = row_group;
+		console.log("group emp_group",$scope.options.group);
+		$scope.options.row_group = $scope.options.group[0];			
+
+	   });
+
+	  iAPI.get('fr.iView_printer/normal').success(function(data) {
+
+		//if( angular.isDefined(data.mydata)) data = data.mydata;
+		console.log("iView_printer",data);
+	 
+	 	$scope.MODEL["printer_group"] = [];
+		var row_group = [];
+	    row0 = {};
+	  	angular.forEach(data, function(value, key) {
+	  		row0 = value;
+	  		row0["id"]=row0["Printer_id"];
+	  		row0["c_code"]="";
+	  		row0["c_name"] = value["c_name"] ;
+	    	this.push(row0);	 	
+	    	$scope.MODEL["printer_group"].push(row0);	
+		}, row_group);
+
+	   });
+	   
+	     
+  }
+  $scope.getGroup();
+			    
   $scope.addItems = function(row) { 
      $scope.row={};
      $scope.row.c_seq='';
+     console.log($scope.options.group[1]);
+     $scope.row.menu_id=$scope.MODEL["menu_group"][0].id; 
+     $scope.row.Printer_id=$scope.MODEL["printer_group"][0].id; 
+     $scope.row.food_bevarage = 'etc';
+     
+     
   }
   $scope.options.beforeUpdRow = function(row) {
 	row.id = row.item_id;
@@ -506,7 +836,7 @@ angular.module('abAPP.setting', [])
  
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-.controller('User.Ctrl', ['$scope', 'iAPI', '$modal', function ($scope,iAPI,$modal) {
+.controller('User.Ctrl', ['$scope', 'iAPI', '$modal', '$window', '$location', function ($scope,iAPI,$modal,$window,$location) {
   var ConfPageTitle = { pageTitle_org : 'รายชื่อผู้ใช้',
   	pageTitle_add_edit : ' ',
   	pageCaption_org : '',
@@ -853,7 +1183,7 @@ angular.module('abAPP.setting', [])
     
 }])
 
-.controller('User_groupCtrl', ['$scope', 'iAPI', '$modal', function ($scope,iAPI,$modal) {
+.controller('User_groupCtrl', ['$scope', 'iAPI', '$modal', '$window', '$location', function ($scope,iAPI,$modal,$window,$location) {
   var ConfPageTitle = { pageTitle_org : 'ฝ่าย',
   	pageTitle_add_edit : 'ฝ่าย',
   	pageCaption_org : '',

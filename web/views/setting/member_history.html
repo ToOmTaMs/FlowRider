@@ -1,0 +1,89 @@
+
+<!--<button ng-click="activeSide(!isSide)" ><i class="fa fa-plus"></i> {{isSide}}</button>--> 
+
+<ab-table-3
+    options ="options"
+    rows = "rows"
+    row ="row"
+    >
+    <!--{{row}}-->
+    <div class="row"> 
+        <div class="col-md-5">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>เลขที่สมาชิก :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input type="text" class="form-control" ng-model="row.MemCode"  ng-disabled="true">  
+                </div> 
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>ชื่อ :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input type="text" class="form-control" id="FLName" ng-model="row.FLName" ng-disabled="true">    
+                </div> 
+            </div>
+        </div>  
+        <div class="col-md-2">
+        	<button class="btn btn-primary btn-flat" 
+        		ng-click="exportCSV()" >พิมพ์</button>
+        </div>        
+        
+    </div>
+    
+            
+		<!--{{options.rows_dtl}}-->
+	<div class="row space_line_5 ">	 
+		<div class="col-md-12">	 
+
+		  <table width="100%" class="{{options.classTable}}" >
+		    <thead>
+		      <tr class="{{options.tableBg}}">
+		      	<th width="20px" >เลือก</th>
+		        <th ng-repeat="col in options.cols_dtl_th" width="{{col.width}}px" colspan="{{col.colspan}}" style="text-align:{{col.align}}" >{{col.label || col.map}}</th>		         
+		        <th ng-repeat="but in options.cols_buttons" width="{{but.width}}px" ></th>
+		      </tr>
+		    </thead>		    
+		    <tbody ng-repeat="row_dtl in options.rows_dtl" 	> 
+		      <tr ng-click="">
+		      	<td>
+		        	<input type="checkbox"  ng-model="row_dtl.i_chk" ng-true-value="1" ng-false-value="0" />
+		        </td> 
+		        <td ng-repeat="col in options.cols_dtl" width="{{col.width}}px" style="text-align:{{col.align}}">
+		        	 <span ng-if="!col.type" ng-model="row_dtl[col.map]" >{{rowCol(row_dtl,col,($parent.$parent.$index+1))}}</span>
+		             <input type="textbox" 
+		                class="form-control" size="{{col.size}}" style="text-align:{{col.align}};height:24px;padding6px;"  
+		             	ng-if="col.type =='textbox' && !col.valid_number" ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" 
+		             	ng-readonly="col.readonly" 
+		             	ng-disabled="row_dtl.disabled" 
+		             	/>  
+		             <input type="textbox" 
+		                class="form-control" size="{{col.size}}" style="text-align:{{col.align}};height:24px;padding6px;"  
+		             	ng-if="col.type =='textbox' && col.valid_number =='valid-number' " 
+		             	ng-model="row_dtl[col.map]" ng-change="col.changeFn(row_dtl)" 
+		             	ng-readonly="col.readonly" 
+		             	ng-disabled="row_dtl.disabled" 
+		             	valid-number/>  
+		             <select ng-if="col.type =='select' " 
+		             	class="form-control" style="height:24px;padding:0px;"
+						ng-model="row_dtl[col.map]"						
+						ng-options="s.id as s.c_desc_show  || s.c_desc for s in row_dtl[col.option] "
+						ng-disabled="row_dtl.disabled" 
+						ng-change="col.changeFn(row_dtl)" 
+						> 
+					 </select>
+					 <!--{{row_dtl.uofm_c_name}}<!--{{row_dtl.uofm_option}}-->
+		        </td> 
+		      </tr>      
+		    </tbody>
+		  </table>
+ 
+		</div>
+	</div>
+	<hr>    
+          
+</ab-table-3>

@@ -3,8 +3,64 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
   'iAPI',
   '$modal',
   '$http',
-  function($scope, iAPI, $modal,$http) {
+  '$window', 
+  '$location',
+  function($scope, iAPI, $modal, $http, $window, $location) {
 
+	
+	///////////////////////////////////////////////////////////////
+	//2017-04-26 ngearb
+	//div height
+	$scope.optHeight ={
+		div_payment_height : $window.innerHeight - 400,
+		div_payment_dtl_height : $window.innerHeight - 400 - 150,
+		div_lanes_time_height : $window.innerHeight - 260,
+	}
+ 	$scope.conf = {};
+ 	$scope.MODEL = {
+ 		time : [ "11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21;00","22:00" ],
+ 	};
+
+    
+    $scope.loadPage = function(){
+    	
+	    iAPI.post('flow.iView_lanes/normal',{}).then(function(res) {
+	  		//console.log("flow.iView_lanes",res.data);
+	        $scope.MODEL['lanes'] = res.data;
+	        console.log("flow.iView_lanes",$scope.MODEL['lanes']);
+	    }) ;
+	    
+	    iAPI.post('flow.iView_agent/normal',{}).then(function(res) {
+	  		//console.log("flow.iView_lanes",res.data);
+	        $scope.MODEL['agent'] = res.data;
+	        console.log("flow.iView_agent",$scope.MODEL['agent']);
+	    }) ;	    
+	    
+	   //getConf 
+	   iAPI.post('fr.iViewAll_conf',{}).then(function(res) {	   
+	   		console.log("fr.iViewAll_conf",res.data);
+	   		$scope.conf = res.data;
+	   }) ;
+	   
+
+	   
+	        		
+	}
+	
+	$scope.getBookingAllLane = function(){
+	   var d_booking = $scope.convertDate($scope.bookDate);
+	   iAPI.post('flow.iView_lane_booking_hdr_all_lane',{}).then(function(res) {	   
+	   		console.log("fr.iView_lane_booking_hdr_all_lane",res.data);
+	   		$scope.BookingAllLane = res.data;
+	   }) ;	 	
+	}
+	$scope.loadPage();
+
+	
+	
+	///////////////////////////////////////////////////////////////
+	//action
+	
     $scope.activeSide(false);
     var date = new Date();
     var d = date.getDate();
@@ -43,92 +99,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
           });
     }
 
-    $scope.showPopup = function() {
-
-      var opt = {
-        data: "5555"
-      }
-
-      var modalInstance = $modal.open({
-        templateUrl: 'views/home/lanes_reserve.html',
-        controller: 'Lanes.Reserve.Ctrl',
-        size: 'lg',
-        resolve: {
-          options: function() {
-            return opt;
-          }
-        }
-      });
-      modalInstance.result.then(function() {});
-
-    };
-    $scope.popupFindReserve = function() {
-
-      var opt = {
-        data: "5555"
-      }
-
-      var modalInstance = $modal.open({
-        templateUrl: 'views/home/find_reserve.html',
-        controller: 'Find.Reserve.Ctrl',
-        size: 'lg',
-        resolve: {
-          options: function() {
-            return opt;
-          }
-        }
-      });
-      modalInstance.result.then(function() {});
-
-    };
-    $scope.popupNewReserve = function() {
-
-      var opt = {
-        data: "5555"
-      }
-
-      var modalInstance = $modal.open({
-        templateUrl: 'views/home/new_reserve.html',
-        controller: 'New.Reserve.Ctrl',
-        size: 'xs',
-        resolve: {
-          bookDate: function() {
-            return $scope.bookDate;
-          },
-          laneNo: function(){
-            return $scope.laneNo;
-          },
-          bookLane: function(){
-            return $scope.bookLane;
-          }
-        }
-      });
-      modalInstance.result.then(function(data) {
-        console.log("Calose modal:"+data);
-        $scope.jsonResult.push(data);
-        $scope.getDataByLane($scope.laneNo); 
-      });
-
-    };
-    $scope.popupDiscount = function() {
-
-      var opt = {
-        data: "5555"
-      }
-
-      var modalInstance = $modal.open({
-        templateUrl: 'views/home/discount.html',
-        controller: 'Find.Reserve.Ctrl',
-        size: 'xs',
-        resolve: {
-          options: function() {
-            return opt;
-          }
-        }
-      });
-      modalInstance.result.then(function() {});
-
-    };
+	$scope.getBookingAllLane();
 
     $scope.getDataByLane = function(laneNo){
       //console.log($scope.bookDate+" getDataByLane"+laneNo);
@@ -167,34 +138,157 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
 
       }
     };
+
+
+	///////////////////////////////////////////////////////////////
+	//popup
+	
+    $scope.showPopup = function() {
+
+      var opt = {
+        MODEL: $scope.MODEL
+      }
+	
+	  var time = new Date().getTime();	
+      var modalInstance = $modal.open({
+        templateUrl: 'views/home/lanes_reserve.html?ver='+time,
+        controller: 'Lanes.Reserve.Ctrl',
+        size: 'lg',
+        resolve: {
+          options: function() {
+            return opt;
+          }
+        }
+      });
+      modalInstance.result.then(function() {});
+
+    };
+    
+    
+    $scope.popupFindReserve = function() {
+
+      var opt = {
+        data: "5555"
+      }
+	  var time = new Date().getTime();	
+      var modalInstance = $modal.open({
+        templateUrl: 'views/home/find_reserve.html?ver='+time,
+        controller: 'Find.Reserve.Ctrl',
+        size: 'lg',
+        resolve: {
+          options: function() {
+            return opt;
+          }
+        }
+      });
+      modalInstance.result.then(function() {});
+
+    };
+    
+    
+
+	
+	
+    $scope.popupNewReserve = function() {
+
+ 
+      var opt = {
+      	MODEL: $scope.MODEL,
+      	d_booking : $scope.convertDate($scope.bookDate), // "2017-04-26",
+      	lane_id : $scope.laneNo,
+      }
+	  var time = new Date().getTime();
+      var modalInstance = $modal.open({
+        templateUrl: 'views/home/new_reserve.html?ver='+time,
+        controller: 'New.Reserve.Ctrl',
+        size: 'xs',
+        resolve: {
+          bookDate: function() {
+            return $scope.bookDate;
+          },
+          laneNo: function(){
+            return $scope.laneNo;
+          },
+          bookLane: function(){
+            return $scope.bookLane;
+          },
+          options: function(){
+            return opt;
+          },
+          
+        }
+      });
+      modalInstance.result.then(function(data) {
+        console.log("Calose modal:"+data);
+        $scope.jsonResult.push(data);
+        $scope.getDataByLane($scope.laneNo); 
+      });
+
+    };
+    
+    
+    $scope.popupDiscount = function() {
+
+      var opt = {
+        data: "5555"
+      }
+
+	  var time = new Date().getTime();	
+      var modalInstance = $modal.open({
+        templateUrl: 'views/home/discount.html?ver='+time,
+        controller: 'Find.Reserve.Ctrl',
+        size: 'xs',
+        resolve: {
+          options: function() {
+            return opt;
+          }
+        }
+      });
+      modalInstance.result.then(function() {});
+
+    };
+
+
+    
+        
+    
+
+
+    
     
   }
-]).controller('Lanes.Reserve.Ctrl', function($scope, $modalInstance, $modal, iAPI, $window) {
+])
+
+.controller('Lanes.Reserve.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, $window) {
 
   $scope.content_height = $window.innerHeight - 150;
   alert("start at Lanes Reserve");
   console.log($scope.bookLane);
 
   $scope.close = function() {
-    $modalInstance.close();
+    $uibModalInstance.close();
   };
 
-}).controller('Find.Reserve.Ctrl', function($scope, $modalInstance, $modal, iAPI, options, $window) {
+})
+
+.controller('Find.Reserve.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window) {
 
   $scope.content_height = $window.innerHeight - 150;
   // alert("start at Lanes Reserve");
   //
   // console.log("options", options);
+  
+  var time = new Date().getTime();	
   $scope.tabs = [
     {
       title: 'บัตรสมาชิก',
-      templateUrl: 'views/home/reserve_tabs/card.html'
+      templateUrl: 'views/home/reserve_tabs/card.html?ver='+time
     }, {
       title: 'Agent',
-      templateUrl: 'views/home/reserve_tabs/agent.html'
+      templateUrl: 'views/home/reserve_tabs/agent.html?ver='+time
     }, {
       title: 'รายครั้ง',
-      templateUrl: 'views/home/reserve_tabs/walkin.html'
+      templateUrl: 'views/home/reserve_tabs/walkin.html?ver='+time
     }
   ];
   $scope.cards = [
@@ -215,13 +309,51 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
   $scope.card = {};
   $scope.card.methods = 1;
   $scope.close = function() {
-    $modalInstance.close();
+    $uibModalInstance.close();
   };
 
-}).controller('New.Reserve.Ctrl', function($scope, $modalInstance, $modal, iAPI, bookDate, laneNo,bookLane,  $uibModalInstance) {
+})
+
+.controller('New.Reserve.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, bookDate, laneNo,bookLane,options) {
     
     console.log(bookLane);
+	
 
+    //2017-04-26 ngearb
+    $scope.options = options;
+    console.log("MODEL",$scope.options.MODEL);
+    
+    $scope.addItems = function() { 
+     
+      
+     $scope.row={};
+     $scope.row.c_type='member';
+     $scope.row.lane_id=$scope.options.lane_id;
+     $scope.row.d_booking=$scope.options.d_booking;
+     $scope.row.agent_id = $scope.options.MODEL['agent'][0].agent_id;
+     
+     
+    }
+    
+    $scope.addItems(); 
+    
+    
+    $scope.saveRow = function() { 
+    
+    	if($scope.row.c_type=='member') $scope.row.agent_id=0;    	
+    	$scope.row.d_booking_time = $scope.options.MODEL['time'][$scope.row.reserveTime];
+ 
+ 		console.log("saveRow",$scope.row);
+    	iAPI.post('flow.iInsert_lane_booking_hdr',$scope.row).then(function(res) {
+
+	        console.log("flow.iInsert_lane_booking_hdr",res.data);
+	    }) ;
+    
+	}
+  
+ 
+ 
+ 
     var timeseries = ["T1100","T1200","T1300","T1400","T1500","T1600","T1700","T1800","T1900","T2000","T2100","T2200"];
 
     $scope.bookDate = bookDate;
@@ -230,6 +362,9 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
         format: "dd/mm/yyyy",
         autoclose: true
     });
+    
+    
+    
   $scope.addReserve = function(){
     var customerName = $('#customer-name').val();
     var customerTel = $('#customer-tel').val();
@@ -307,6 +442,9 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     }
 
 
+	$scope.saveRow();
+	
+	
     //reserveData.push(tmpReserveData);
 
     retObj.bookTime = bookLane;
@@ -314,11 +452,9 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     $uibModalInstance.close(retObj);
   }
 
-  $scope.close = function() {
-    $modalInstance.close();
-  };
-  $scope.ok = function () {
-    $modalInstance.close();
+
+  $scope.close = function () {
+    $uibModalInstance.close();
   };
 
 });

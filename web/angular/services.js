@@ -306,7 +306,18 @@ angular.module('abAPP.services', [])
 	}
 	return x1 + x2;
   };
+ 
+  var d_date = new Date();
+  iAPI.getFullYear = d_date.getFullYear() ;
+  iAPI.getFullYearTH = d_date.getFullYear()+543 ;
+  iAPI.getYear = (d_date.getFullYear()+"").substring(2,4);
+  iAPI.getYearTH = ((d_date.getFullYear()+543)+"").substring(2,4);
+  iAPI.getMonth = ("00"+(d_date.getMonth()+1)).substr(-2);
+  iAPI.getDate = ("00"+(d_date.getDate())).substr(-2);
+  iAPI.dNow = iAPI.getFullYear+"-"+iAPI.getMonth+"-"+iAPI.getDate;
+  iAPI.d_dNow = d_date;
   
+    
   iAPI.GetDay =  function(strDate){
   	var sdate = new Date();	
 	

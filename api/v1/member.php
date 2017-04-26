@@ -210,6 +210,7 @@ select a.*
 , right(Mobile,4) as c_code
 , if( year(BirthDay) < 1800 , '' 
        , year(now()) - year(BirthDay)  -  ( Right( date(now()) , 5 ) < Right( date(BirthDay) , 5 ) )  ) as age 
+, concat(a.FName,_utf8' ',a.LName) as FLName
 , ifnull(d.lng1_c_name , '' ) as lng1_Discount_name
 , ifnull(d.lng2_c_name , '' ) as lng2_Discount_name
 , ifnull(d.lng3_c_name , '' ) as lng3_Discount_name
@@ -220,6 +221,9 @@ select a.*
 , ifnull(c.lng1_c_name,'') as member_type_lng1_c_name 
 , ifnull(c.lng2_c_name,'') as member_type_lng2_c_name 
 , ifnull(c.lng3_c_name,'') as member_type_lng3_c_name 
+
+, ifnull(e.member_id,0) as member_hdr_use_id
+
 from member_hdr a
 left outer join(
   select * from member_group where e_status = 'normal'
@@ -230,6 +234,11 @@ left outer join(
 left outer join(
 	select * from setdiscount where e_status = 'normal' 
 )as d on a.DiscountNum = d.DiscountNum	
+left outer join(
+	select member_id from membre_usehour group by member_id 
+)as e on a.member_id = e.member_id	
+
+
 		";
 		return $sql;
 	}
@@ -300,7 +309,7 @@ left outer join(
 								 
 			$f0 = array("d_update","d_create","Point_total"
 			,"DiscountNum","lng1_Discount_name","lng2_Discount_name","lng3_Discount_name"
-			,"member_chk","c_code","age"
+			,"member_chk","c_code","age","FLName"
 			,"id"
 			,"hcode"
 			);
@@ -375,7 +384,33 @@ left outer join(
 		$this->iGet_member_hdr();					
 	}
 	
-	
+	////////////////////////////////////////////////////////////////////////////////////
+	public function iView_member_hdr_use() { 	
+		$sql = $this->get_member_hdr_sql();
+		$sql .= " having member_hdr_use_id != 0 ";
+		
+		$rows = $this->db->iGetRows($sql);
+		$this->send_ok($rows);
+		
+	}
+	 
+	public function iGet_member_hdr_use() { 
+		$member_id=0;
+		if( isset($this->params[0]) ) $member_id = $this->params[0] ;
+  		else if(isset($_POST['id']) )  $member_id = $_POST['id'];
+		else if(isset($_POST['member_id']) )  $member_id = $_POST['member_id'];
+		
+		
+		$sql = " select * from membre_usehour where member_id = '$member_id' ";
+		
+		$rows = $this->db->iGetRows($sql);
+		$this->send_ok($rows);
+		
+	}
+		 
+	 
+	 
+		
 	////////////////////////////////////////////////////////////////////////////////////
 	public function iGet_member_point_PayNum() {
 		$PayNum = 0 ;

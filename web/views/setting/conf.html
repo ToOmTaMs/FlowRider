@@ -6,22 +6,41 @@
 	</div>   
 </div>
 
- {{options.conf}}
+ <!--{{options.conf}}-->
 <div class="my-content" style="height: {{content_height}}px; width: 100%;">		
-	<div class="row">	
-		<div class="col-md-12">
-			<label><b>หัวใบเสร็จ</b></label>
+
+	<div class="row" ng-repeat="row in options.conf">
+		<div class="col-md-12" ng-show="row.label=='' && row.map==''">
+			<label><b></b></label>
 		</div>
-	</div>
-	<div class="row" ng-repeat="row in options.conf">	
-		<div class="col-md-3">
+		<div class="col-md-12 text-center" ng-show="row.label!='' && row.map==''">
+			<label><b>{{row.label}}</b></label>
+		</div>		
+		<div class="col-md-3"  ng-show="row.label!='' && row.map!=''">
 			<label><b>{{row.label}}</b></label>
 		</div>
-		<div class="col-md-6">
-			<input ng-model="row.map" class="form-control" id="c_vendor_tax_number" type="text">  
+		<div class="col-md-6" ng-show="row.label!='' && row.map!=''">
+			<input ng-model="options.conf_list[row.map][row.map2]" class="form-control" id="c_vendor_tax_number" type="text">  
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-2" ng-show="row.label!='' && row.map!=''">
 		</div>
 	</div>
+	<div class="row">	
+		<div class="col-md-12" >
+			<label><b></b></label>
+		</div>
+		<div class="col-md-12 text-center"  >
+	      <button title="SaveAll"  
+          	class="btn btn-success btn-flat"
+          	ng-click="saveRowAll()"><i class="fa fa-save"></i> บันทึก</button>			
+			
+		</div>
+		
+		
+	</div>	
+	
+
+          
+          
 
 </div>

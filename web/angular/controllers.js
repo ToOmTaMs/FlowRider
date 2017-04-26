@@ -10,6 +10,8 @@ angular.module('abAPP.controllers', [])
   $scope.menu   = iAPI.getConf('menu');  
   
   console.log('RootCtrl ABuser' ,$scope.ABuser   );
+
+
   
   //$scope.menu = iAPI.config.menu;
   //console.log('RootCtrl menu' ,$scope.menu  );
@@ -254,7 +256,10 @@ angular.module('abAPP.controllers', [])
   } 
 
   $scope.minDate =  new Date();
-  
+  $scope.convertDate =  function(d_date) {
+   	 return d_date.substring(6,10)+"-"+d_date.substring(3,5)+"-"+d_date.substring(0,2);
+  }
+	  
   $scope.date1 = {
     opened : false, 
   }
@@ -608,16 +613,23 @@ angular.module('abAPP.controllers', [])
     var report_output = options["report_output"];
     delete options["report_output"];
     
+    var url = "";
+    if( angular.isDefined(options["report_url"]) ){
+		url = options["report_url"];
+	}else{
+	     var url = iAPI.conf.baseUrl+"report.get_report";
+	     if( report_output == "excel" )
+	     	url = iAPI.conf.baseUrl+"report.get_report_excel";
+	     else if( report_output == "csv" )
+	     	url = iAPI.conf.baseUrl+"report.get_report_csv";
+	     
+      
+	  	for( key in options )
+	  		url += "/"+key+"/"+options[key];		
+	}
     //alert(report_output);  
 
-     var url = iAPI.conf.baseUrl+"smart_card/report_con/get_report";
-     if( report_output == "excel" )
-     	url = iAPI.conf.baseUrl+"smart_card/report_con/get_report_excel";
-     else if( report_output == "csv" )
-     	url = iAPI.conf.baseUrl+"smart_card/report_con/get_report_csv";
-    
-  	for( key in options )
-  		url += "/"+key+"/"+options[key];
+
   	
   	console.log("PrintOut url",url);
   	//alert(url);

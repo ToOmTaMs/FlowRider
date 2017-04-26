@@ -41,7 +41,38 @@ foreach ($_SERVER as $k => $v) {
   );
     
 
- 
+  $confs['192.168.1.225/fr_flow-master-2'] = array (
+  	"db_client" => array (
+	    "db" => array(
+	      "dns"      => "mysql",
+	      "host"      => "192.168.1.225",
+	      "dbname"   => "DBfr_flow", 
+	      "user"   => "root",
+	      "passwd" => "",
+	      "charset"   => "utf8",   
+	      "port"   => 3306,          
+	      ),
+	    "cloudUrl" =>'', 
+	    "tab_prefix" =>'a_',  
+	    "magic_word"=> "1q2s3e4r5t",    
+	  ),
+  	"db_server" => array (
+	    "db" => array(
+	      "dns"      => "mysql",
+	      "host"      => "192.168.1.225",
+	      "dbname"   => "", 
+	      "user"   => "root",
+	      "passwd" => "",
+	      "charset"   => "utf8",   
+	      "port"   => 3306,    
+	      ),       
+	    "tab_prefix" =>'a_',  
+	    "magic_word"=> "1q2s3e4r5t",
+      
+  	),
+  
+  );
+   
   $confs['192.168.1.225/fr_flow'] = array (
   	"db_client" => array (
 	    "db" => array(

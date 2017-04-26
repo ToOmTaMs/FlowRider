@@ -10,7 +10,11 @@ class Fr extends Resource
  		parent::__construct($params);
 		
 		
-		$this->col_setitem = array('lng1_c_name','lng2_c_name','lng3_c_name','img_name','item_ext','e_status','menu_id','price','e_special','setspecial_id','food_bevarage','prod_1to1','BarCode','c_code','cost_type','cost_pct','cost_amt');
+		$this->col_setitem = array('lng1_c_name','lng2_c_name','lng3_c_name','img_name','item_ext','e_status','menu_id','price',
+		'e_special','setspecial_id','food_bevarage','prod_1to1','BarCode',
+		'c_code','cost_type','cost_pct','cost_amt',
+		'Printer_id',
+		);
 		
 		
 	}
@@ -129,11 +133,14 @@ order by c_seq " ;
 
 	
 	/////////////////////////////////////////////////////////////////////////
-
+ 
   	public function iView_item(){
   		
   		if(isset($_POST['menu_id']) )  $menu_id = " and a.menu_id ='" . $_POST['menu_id'] . "' ";
-  		else if(isset($this->params[0]) )  $menu_id = " and a.menu_id ='" . $this->params[0] . "' ";
+  		else if(isset($this->params[0]) )  {
+			if( $this->params[0] != "0" && $this->params[0] != "" ) $menu_id = " and a.menu_id ='" . $this->params[0] . "' ";
+			else $menu_id = " and a.menu_id != '0'" ;
+		}  			
 		else $menu_id = " and a.menu_id != '0'" ;
 		
 		if(isset($_POST['e_status']) )  $e_status = " and a.e_status = '".$_POST['e_status']."' ";
@@ -184,7 +191,7 @@ order by c_seq " ;
 		return $row;
 	}	
 	
-	function iSet_item_c_seq($c_seq,$item_id,$menu_id,$IsDel=false)  { 
+	function iSet_item_c_seq($c_seq,$item_id,$menu_id,$isDel=false)  { 
 	 	if( $c_seq == "0" || $c_seq == "" )	{
 			$sql = "select max(c_seq)+1 from setitem where e_status='normal' and menu_id = '$menu_id' " ;
 			$c_seq = $this->db->iSelectFld($sql);
@@ -215,6 +222,8 @@ order by c_seq " ;
 		else if(isset($_POST['item_id']) )  $item_id = $_POST['item_id'];
 		else $item_id = 0 ;
 		 				
+ 
+
 		$ht1["d_update"] = $this->now;		
 		
 		$f0 = $this->col_setitem;
@@ -241,7 +250,7 @@ order by c_seq " ;
 		
 			if(isset($_POST["c_seq"]) ){
 				$c_seq = $_POST["c_seq"];
-				$ht1["c_seq"] = $this->iSet_item_c_seq($c_seq, 0 ,$ht1["menu_id"],0);	
+				$ht1["c_seq"] = $this->iSet_item_c_seq($c_seq, 0 ,$ht1["menu_id"],false);	
 			}
 		 									
 			$this->db->iInsert("setitem",$ht1);
@@ -253,7 +262,7 @@ order by c_seq " ;
 		  
 		   if(isset($_POST['c_seq']) ){
 		   	  $c_seq = $_POST['c_seq'];	 
-		   	  $ht1["c_seq"] = $this->iSet_item_c_seq($c_seq,$item_id,$ht1["menu_id"],0); 
+		   	  $ht1["c_seq"] = $this->iSet_item_c_seq($c_seq,$item_id,$ht1["menu_id"],false); 
 		   }
 		 
 		   $this->db->iUpdate("setitem",$ht1," item_id = '$item_id' ");
@@ -267,7 +276,7 @@ order by c_seq " ;
 						$ht1["c_seq"] = $this->db->iGetField($sql) ;
 					} 
 			   		 
-			   		$this->iSet_item_c_seq($ht1["c_seq"],$item_id,$ht1["menu_id"],1);	
+			   		$this->iSet_item_c_seq($ht1["c_seq"],$item_id,$ht1["menu_id"],true);	
 			   		$ht2["c_seq"] = 1000 ;
 					$this->db->iUpdate("setitem",$ht2," item_id = '$item_id' ");
 					
@@ -283,15 +292,30 @@ order by c_seq " ;
 		
 		//Rawmat วัตถุดิบ
 		//$this->iInsert_RawMatList($item_id);
-		
-				
-				   
+ 
 		$_POST['id']=$item_id;
 		$this->iGet_item();		
 		
 						 
 		 
 	}		
-		  
+
+
+	/////////////////////////////////////////////////////////////////////////
+ 
+  	public function iView_printer(){
+		if(isset($_POST['e_status']) )  $e_status = " and a.e_status = '".$_POST['e_status']."' ";
+		else if(isset($this->params[1]) ) $e_status = " and a.e_status ='" . $this->params[1] . "' ";
+		else $e_status = "" ;
+		
+		
+ 		$sql = "select a.* from printer a where a.Printer_id != '0' $e_status ";
+		
+		$rows = $this->db->iGetRows($sql);
+		$this->send_ok($rows);
+		
+		 		
+	}
+  				  
 }
 ?>

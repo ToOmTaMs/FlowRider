@@ -18,19 +18,6 @@ body {
   min-height: 100%;
   background: #f9f9f9;
 }
-
-.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th{
-  border: 1px solid #000;
-}
-.table-bordered  {
-    border: 1px solid #000;
-}
-.book-table-col{
-  width: 8%;
-}
-.border-black{
-  border: 1px solid #000;
-}
 a {
   color: #3c8dbc;
 }

@@ -153,7 +153,19 @@ class Resource extends Api_core {
 		$row = $this->get_conf($c_name,$id) ;	
 		$this->send_ok($row);
 	}
-	
+ 	public function iViewAll_conf() { 
+ 		$sql = " select * from conf order by c_name  " ;
+		$rows = $this->db->iGetRows($sql) ;	
+		
+		$list=null;
+		foreach($rows as $i=>$r1){
+			if($r1["c_name"]=="") continue;
+			$list[$r1["c_name"]]=$r1;
+		}			
+			
+		$this->send_ok($list);
+ 	} 	
+ 		
  	public function iView_conf() { 
  		$sql = " select * from conf order by c_name  " ;
 		$rows = $this->db->iGetRows($sql) ;	

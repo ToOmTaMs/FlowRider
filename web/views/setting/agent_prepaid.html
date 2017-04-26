@@ -1,0 +1,79 @@
+<div class="modal-header " style="background: lightblue;"> 
+  <label><b>เติมชั๋วโมง </b></label>
+</div>
+<div class="modal-body">
+	<!--<div class="my-content" style="height: 100%; width: 100%;">	-->
+	<div class="my-content" style="height: {{content_height}}px; width: 100%;">
+		 
+	  <div class="row"> 
+        <div class="col-md-12">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>Agent :</b></label>
+                </div>
+                <div class="col-md-8">              
+                     <select 
+		             	class="form-control" 
+						ng-model="row.agent_id"						
+						ng-options="s.agent_id as s.lng1_c_name for s in options.agentList "
+						/>  
+                </div> 
+            </div>
+        </div>
+	  </div>	 
+	  <div class="row"> 
+        <div class="col-md-12">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>จำนวนชั่วโมง :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input type="text" class="form-control" ng-model="row.MemCode"  >  
+                </div> 
+            </div>
+        </div>
+	  </div>	 	  
+	  <div class="row"> 
+        <div class="col-md-12">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>วันที่ชำระเงิน :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <div class="input-group " >
+						<input type="text" class="form-control" ng-model="row.d_paid" 
+							datepicker-popup  
+							is-open="date1.opened"  
+							close-text="Close" 
+							max-date="maxDate"
+							ng-change="d_paid_change()" 
+							/>
+						<span class="input-group-btn">
+	                		<button type="button" class="btn btn-default" ng-click="openDate1($event)" 
+	                			 ><i class="glyphicon glyphicon-calendar"></i></button>
+	              		</span>
+              		</div>
+                </div> 
+            </div>
+        </div>
+	  </div>	 	  
+	  <div class="row"> 
+        <div class="col-md-12">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>วันหมดอายุ :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input type="text" class="form-control" ng-model="row.d_expire" ng-disabled="true"  >  
+                </div> 
+            </div>
+        </div>
+	  </div>	 	 
+	  
+	  
+	</div>
+</div>
+<div class="modal-footer"> 
+  <button class="pull-left btn btn-success" ng-click="saveRow()"><i class="fa fa-check"></i> ตกลง</button> 
+  <button class="pull-right btn btn-warning" ng-click="close()"><i class="ion ion-close"></i> ยกเลิก</button>
+</div>

@@ -10,7 +10,7 @@
         <div class="col-md-6">
             <div class="row space_line_5">
                 <div class="col-md-4">
-                    <label><b>ลำดับ :</b></label>
+                    <label><b>หมวดอาหาร :</b></label>
                 </div>
                 <div class="col-md-8">              
                     <select class="form-control"
@@ -37,7 +37,32 @@
         </div>
     </div>
     
-        
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>ชื่อย่อ :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input class="form-control" ng-model="row.c_code" >  
+                </div> 
+            </div>
+        </div>
+    </div>
+
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>Barcode :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <input class="form-control" ng-model="row.BarCode" >  
+                </div> 
+            </div>
+        </div>
+    </div>
+                
     <div class="row"> 
         <div class="col-md-6">
             <div class="row space_line_5">
@@ -90,6 +115,21 @@
         </div>
     </div> 
  
-    
+    <div class="row"> 
+        <div class="col-md-6">
+            <div class="row space_line_5">
+                <div class="col-md-4">
+                    <label><b>เครื่องพิมพ์ :</b></label>
+                </div>
+                <div class="col-md-8">              
+                    <select class="form-control"
+                        ng-model="row.Printer_id"
+                        ng-options="s.id as s.c_name for s in MODEL.printer_group " 
+                        > 
+                    </select>  
+                </div> 
+            </div>
+        </div>
+    </div>    
        
 </ab-table-3>
