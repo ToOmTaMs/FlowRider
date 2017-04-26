@@ -41,6 +41,7 @@
     </div> -->
     <div class="row text-right">
       <div class="form-group">
+<<<<<<< HEAD
       	<!--2017-04-26 ngearb {{MODEL}}-->
       	<div ng-repeat="but in MODEL['lanes']" style="float: left;" >
       		<button type="button" ng-class="{'btn-success': laneNo==but.lane_id}" class="btn" ng-click="getDataByLane(but.lane_id)">{{but.lng1_c_name}}</button>      		
@@ -48,19 +49,29 @@
       	<!--<button ng-repeat="but in opt.buttons" type="button" ng-class="{'btn-success': laneNo==1}" class="btn" ng-click="getDataByLane(1)">-->
       	     	 
       	
+=======
+>>>>>>> origin/master
         <button type="button" ng-class="{'btn-success': laneNo==1}" class="btn" ng-click="getDataByLane(1)">
           เลน 1
         </button>
         <button type="button" ng-class="{'btn-success': laneNo==2}" class="btn" ng-click="getDataByLane(2)">
           เลน 2
         </button>
+<<<<<<< HEAD
         
+=======
+>>>>>>> origin/master
       </div>
 
     </div>
 
+<<<<<<< HEAD
     <div class="row well" style="height: 460px; padding: 10px 10px 10px 10px;" ng-init="initeJSON()">
       <table class='table table-striped table-bordered table-hover table-condensed'style="" >
+=======
+    <div class="row" ng-init="initeJSON()">
+      <table class='table table-striped table-bordered table-hover table-condensed'>
+>>>>>>> origin/master
         <thead>
           <tr class="bg-yellow"  >
             <th> </th>
@@ -79,8 +90,13 @@
             <th class="book-table-col">22.00</th>
           </tr>
         </thead>
+<<<<<<< HEAD
         <tbody  >
           <tr ng-repeat="row in bookLane" style="height: 40px; ">
+=======
+        <tbody>
+          <tr ng-repeat="row in bookLane" style="height: 40px;">
+>>>>>>> origin/master
             <td >{{$index+1}}</td>
             <td ng-class="{'bg-green': row.T1100}" colspan="{{row.T1100.bookCount}}">{{row.T1100.name}}</td>
             <td ng-class="{'bg-green': row.T1200}" ng-if="row.T1200.name != row.T1100.name || row.T1200.name == null" colspan="{{row.T1200.bookCount}}" >{{row.T1200.name}}</td>
@@ -100,7 +116,13 @@
     </div>
     <div class="row text-right">
       <div class="form-group">
+<<<<<<< HEAD
         <button type="button" class="btn btn-danger" style=""><i class="ion ion-close"></i> ยกเลิก</button>
+=======
+        <button type="button" class="btn btn-danger">
+          ยกเลิก
+        </button>
+>>>>>>> origin/master
       </div>
 
     </div>
@@ -118,9 +140,14 @@
       <h3>รายละเอียดที่ต้องชำระเงิน</h3>
 
     </div>
+<<<<<<< HEAD
     <div class="row well"  style="height: {{optHeight.div_payment_height}}px;">
       <div class="" style="height: {{optHeight.div_payment_dtl_height}}px ; overflow: auto;">
       
+=======
+    <div class="row border-black"  style="max-height: 520px;">
+      <div class="" style="max-height: 150px; overflow: auto;">
+>>>>>>> origin/master
         <table class='table '>
           <tbody>
             <tr>
