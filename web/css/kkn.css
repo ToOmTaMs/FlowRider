@@ -33,3 +33,15 @@
 .leftLst, .rightLst {
   margin-top: 15px;
 }
+
+.pay-type{
+  margin-bottom: 10px;
+}
+
+.font-50{
+  font-size: 50px;
+}
+
+.pay-summary{
+  height: 112px;
+}

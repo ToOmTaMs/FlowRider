@@ -12,8 +12,8 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
 	//2017-04-26 ngearb
 	//div height
 	$scope.optHeight ={
-		div_payment_height : $window.innerHeight - 400,
-		div_payment_dtl_height : $window.innerHeight - 400 - 150,
+		div_payment_height : $window.innerHeight - 440,
+		div_payment_dtl_height : $window.innerHeight - 440 - 150,
 		div_lanes_time_height : $window.innerHeight - 260,
 	}
  	$scope.conf = {};
