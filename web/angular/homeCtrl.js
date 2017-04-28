@@ -253,8 +253,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     $uibModalInstance.close();
   };
 
-})
-.controller('Find.Reserve.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window) {
+}).controller('Find.Reserve.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window) {
 
   $scope.content_height = $window.innerHeight - 150;
   // alert("start at Lanes Reserve");
@@ -295,8 +294,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     $uibModalInstance.close();
   };
 
-})
-.controller('New.Reserve.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, bookDate, laneNo, bookLane, options) {
+}).controller('New.Reserve.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, bookDate, laneNo, bookLane, options) {
 
   console.log(bookLane);
 
@@ -440,8 +438,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     $uibModalInstance.close();
   };
 
-})
-.controller('Discount.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window) {
+}).controller('Discount.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window) {
   var opt = {
     data: "5555"
   }
@@ -509,57 +506,68 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     $uibModalInstance.close();
   };
 
-})
-.controller('Discount.Note.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window) {
+}).controller('Discount.Note.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window) {
 
   $scope.close = function() {
     $uibModalInstance.close();
   };
 
-})
-.controller('Discount.Setting.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window) {
-  $scope.entities = [{
-      "title": "foo",
-      "id": 1
-  }, {
-      "title": "bar",
-      "id": 2
-  }, {
-      "title": "baz",
-      "id": 3
-  }];
+}).controller('Discount.Setting.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window) {
+  $scope.entities = [
+    {
+      "card_id": 1,
+      "card_name": "Flow Card",
+      "card_price": 7500
+    }, {
+      "card_id": 2,
+      "card_name": "Flow Card",
+      "card_price": 7500
+    }, {
+      "card_id": 3,
+      "card_name": "Flow Card",
+      "card_price": 7500
+    }
+  ];
   $scope.selected = [];
-  var updateSelected = function (action, id) {
-      if (action == 'add' & $scope.selected.indexOf(id) == -1) $scope.selected.push(id);
-      if (action == 'remove' && $scope.selected.indexOf(id) != -1) $scope.selected.splice($scope.selected.indexOf(id), 1);
-  }
+  var updateSelected = function(action, id) {
+    if (action == 'add' & $scope.selected.indexOf(id) == -1)
+      $scope.selected.push(id);
+    if (action == 'remove' && $scope.selected.indexOf(id) != -1)
+      $scope.selected.splice($scope.selected.indexOf(id), 1);
+    }
 
-  $scope.updateSelection = function ($event, id) {
-      var checkbox = $event.target;
-      var action = (checkbox.checked ? 'add' : 'remove');
-      updateSelected(action, id);
+  $scope.updateSelection = function($event, id) {
+    var checkbox = $event.target;
+    var action = (checkbox.checked
+      ? 'add'
+      : 'remove');
+    updateSelected(action, id);
   };
 
-  $scope.selectAll = function ($event) {
-      var checkbox = $event.target;
-      var action = (checkbox.checked ? 'add' : 'remove');
-      for (var i = 0; i < $scope.entities.length; i++) {
-          var entity = $scope.entities[i];
-          updateSelected(action, entity.id);
-      }
+  $scope.selectAll = function($event) {
+    var checkbox = $event.target;
+    var action = (checkbox.checked
+      ? 'add'
+      : 'remove');
+    for (var i = 0; i < $scope.entities.length; i++) {
+      var entity = $scope.entities[i];
+      updateSelected(action, entity.id);
+    }
   };
 
-  $scope.getSelectedClass = function (entity) {
-      return $scope.isSelected(entity.id) ? 'selected' : '';
+  $scope.getSelectedClass = function(entity) {
+    return $scope.isSelected(entity.id)
+      ? 'selected'
+      : '';
   };
 
-  $scope.isSelected = function (id) {
-      return $scope.selected.indexOf(id) >= 0;
+  $scope.isSelected = function(id) {
+    return $scope.selected.indexOf(id) >= 0;
   };
 
   //something extra I couldn't resist adding :)
-  $scope.isSelectedAll = function () {
-      return $scope.selected.length === $scope.entities.length;
+  $scope.isSelectedAll = function() {
+    return $scope.selected.length === $scope.entities.length;
   };
 
   $scope.close = function() {

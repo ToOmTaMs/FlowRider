@@ -12,10 +12,10 @@
                 <th>
                   <input type="checkbox" ng-click="selectAll($event)" ng-checked="isSelectedAll()" />
                 </th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Dicount</th>
-                <th>Total</th>
+                <th >Name</th>
+                <th class="text-right" style="width:20%">Price</th>
+                <th class="text-right" style="width:20%">Dicount</th>
+                <th class="text-right" style="width:20%">Total</th>
               </tr>
             </thead>
           </table>
@@ -27,46 +27,10 @@
               <td>
                 <input type="checkbox" name="selected" ng-checked="isSelected(e.id)" ng-click="updateSelection($event, e.id)" />
               </td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-            </tr>
-            <tr ng-repeat="e in entities" ng-class="getSelectedClass(e.id)">
-              <td>
-                <input type="checkbox" name="selected" ng-checked="isSelected(e.id)" ng-click="updateSelection($event, e.id)" />
-              </td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-            </tr>
-            <tr ng-repeat="e in entities" ng-class="getSelectedClass(e.id)">
-              <td>
-                <input type="checkbox" name="selected" ng-checked="isSelected(e.id)" ng-click="updateSelection($event, e.id)" />
-              </td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-            </tr>
-            <tr ng-repeat="e in entities" ng-class="getSelectedClass(e.id)">
-              <td>
-                <input type="checkbox" name="selected" ng-checked="isSelected(e.id)" ng-click="updateSelection($event, e.id)" />
-              </td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-            </tr>
-            <tr ng-repeat="e in entities" ng-class="getSelectedClass(e.id)">
-              <td>
-                <input type="checkbox" name="selected" ng-checked="isSelected(e.id)" ng-click="updateSelection($event, e.id)" />
-              </td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
-              <td>{{e.title}}</td>
+              <td>{{e.card_name}}</td>
+              <td class="text-right" style="width:20%">{{e.card_price}}</td>
+              <td class="text-right" style="width:20%">1500</td>
+              <td class="text-right" style="width:20%">6000</td>
             </tr>
           </tbody>
         </table>
