@@ -83,3 +83,16 @@
   padding-left: 5px !important;
   padding-right: 5px !important;
 }
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+  color: #fff !important;
+  cursor: default;
+  background-color: #00c0ef;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+  font-weight: bolder;
+}
+
+form.tab-form-demo .tab-pane {
+  margin: 20px 20px;
+}

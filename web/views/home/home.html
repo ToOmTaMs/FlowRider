@@ -6,18 +6,19 @@
 <div class="row space_line_top_10">
   <div class="col-md-8">
     <div class="row">
+      
       <form ng-submit="popupFindReserve()" class="col-md-5">
         <!--<input type="text" class="form-control">-->
-  
+
         <div class="input-group" >
           <input type="text" class="form-control" placeholder="Member..." >
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="popupFindReserve()"><i class="fa fa-search"></i></button>
           </span>
-        </div> 
-        
-              
-        
+        </div>
+
+
+
       </form>
       <div class="form-group col-md-5">
         <div class="input-group">
@@ -43,7 +44,7 @@
       <div class="form-group">
       	<!--2017-04-26 ngearb {{MODEL}}-->
       	<div ng-repeat="but in MODEL['lanes']" style="float: left;" >
-      		<button type="button" ng-class="{'btn-success': laneNo==but.lane_id}" class="btn" ng-click="getDataByLane(but.lane_id)">{{but.lng1_c_name}}</button>      		
+      		<button type="button" ng-class="{'btn-success': laneNo==but.lane_id}" class="btn" ng-click="getDataByLane(but.lane_id)">{{but.lng1_c_name}}</button>
       	</div>
       	<!--<button ng-repeat="but in opt.buttons" type="button" ng-class="{'btn-success': laneNo==1}" class="btn" ng-click="getDataByLane(1)">-->
         <button type="button" ng-class="{'btn-success': laneNo==1}" class="btn" ng-click="getDataByLane(1)">
@@ -148,7 +149,7 @@
               <td>1</td>
               <td>7500</td>
             </tr>
-            
+
             <tr>
               <td>บัตร Flow Card</td>
               <td>1</td>
