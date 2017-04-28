@@ -1,0 +1,85 @@
+<div class="modal-header">
+  <h4>Voucher Select</h4>
+</div>
+<div class="modal-body">
+  <div class="my-content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row well well-sm" style="height: 50vh; width:100%">
+          <table class="table" style="margin-bottom: 0px;">
+            <thead>
+              <tr>
+                <th>
+                  <input type="checkbox" ng-click="selectAll($event)" ng-checked="isSelectedAll()" />
+                </th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Dicount</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+          </table>
+
+          <div style="overflow: auto; max-height: 42vh;">
+        <table class="table" style="margin-bottom: 0px; margin-top: -40px;">
+          <tbody style="background-color:#ffebcc;">
+            <tr ng-repeat="e in entities" ng-class="getSelectedClass(e.id)">
+              <td>
+                <input type="checkbox" name="selected" ng-checked="isSelected(e.id)" ng-click="updateSelection($event, e.id)" />
+              </td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+            </tr>
+            <tr ng-repeat="e in entities" ng-class="getSelectedClass(e.id)">
+              <td>
+                <input type="checkbox" name="selected" ng-checked="isSelected(e.id)" ng-click="updateSelection($event, e.id)" />
+              </td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+            </tr>
+            <tr ng-repeat="e in entities" ng-class="getSelectedClass(e.id)">
+              <td>
+                <input type="checkbox" name="selected" ng-checked="isSelected(e.id)" ng-click="updateSelection($event, e.id)" />
+              </td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+            </tr>
+            <tr ng-repeat="e in entities" ng-class="getSelectedClass(e.id)">
+              <td>
+                <input type="checkbox" name="selected" ng-checked="isSelected(e.id)" ng-click="updateSelection($event, e.id)" />
+              </td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+            </tr>
+            <tr ng-repeat="e in entities" ng-class="getSelectedClass(e.id)">
+              <td>
+                <input type="checkbox" name="selected" ng-checked="isSelected(e.id)" ng-click="updateSelection($event, e.id)" />
+              </td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+              <td>{{e.title}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <button type="submit" class="btn btn-success">ตกลง</button>
+        <button type="button" class="btn btn-danger" ng-click="close()">ยกเลิก</button>
+      </div>
+    </div>
+
+  </div>
+</div>

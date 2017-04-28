@@ -2,9 +2,7 @@
   เลือกส่วนลด
 </div>
 <div class="modal-body">
-
   <div class="my-content" >
-
     <div class="row">
       <div class="col-md-7">
         <div class="row well well-sm" style="height: 54vh;">
@@ -18,7 +16,6 @@
           </table>
           <div style="overflow: auto; max-height: 39vh;">
             <table class="table table-hover table-condensed" style="margin-top:-30px;margin-bottom: 0px;">
-
               <tbody style="background-color: #ffebcc;">
                 <tr>
                   <td>Discount 10%</td>
@@ -66,7 +63,6 @@
                 </tr>
               </tbody>
             </table>
-
           </div>
           <hr style="margin-bottom:0px">
           <div class="row">
@@ -77,13 +73,13 @@
         </div>
       </div>
       <div class="col-md-5">
-        <div class="row well well-sm" style="height: 54vh;">
+        <div class="row well well-sm" style="height: 54vh; width:100%">
           <div style="overflow: auto; max-height: 44vh;">
-            <button class="btn btn-danger btn-block btn-flat">Discount 10%</button>
-            <button class="btn btn-danger btn-block btn-flat">Discount 50฿</button>
-            <button class="btn btn-danger btn-block btn-flat">Discount Total</button>
+            <button class="btn btn-danger btn-block btn-flat" ng-click="popupDiscountNote()">Discount 10%</button>
+            <button class="btn btn-danger btn-block btn-flat" >Discount 50฿</button>
+            <button class="btn btn-danger btn-block btn-flat" ng-click="popupDiscountConfirm()">Discount Total</button>
             <button class="btn btn-success btn-block btn-flat">Discount 20%</button>
-            <button class="btn btn-success btn-block btn-flat">Voucher 500</button>
+            <button class="btn btn-success btn-block btn-flat" ng-click="popupDiscountSetting()">Voucher 500</button>
           </div>
         </div>
       </div>
