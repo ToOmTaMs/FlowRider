@@ -1,52 +1,109 @@
 {
   "lane1": [
     {
-      "T1100": {"name":"Miss A","blockCount":2} ,
-      "T1200": {"name":"Miss A","blockCount":2},
+      "T1100": {
+        "name": "Miss A",
+        "blockCount": 2
+      },
+      "T1200": {
+        "name": "Miss A",
+        "blockCount": 2
+      },
       "T1300": null,
-      "T1400": {"name":"Brooklyne","blockCount":1},
-      "T1500": {"name":"สมหมาย มาดี","blockCount":3},
-      "T1600": {"name":"สมหมาย มาดี","blockCount":3},
-      "T1700": {"name":"สมหมาย มาดี","blockCount":3},
+      "T1400": {
+        "name": "Brooklyne",
+        "blockCount": 1
+      },
+      "T1500": {
+        "name": "สมหมาย มาดี",
+        "blockCount": 3
+      },
+      "T1600": {
+        "name": "สมหมาย มาดี",
+        "blockCount": 3
+      },
+      "T1700": {
+        "name": "สมหมาย มาดี",
+        "blockCount": 3
+      },
       "T1800": null,
       "T1900": null,
-      "T2000": {"name":"Martin S","blockCount":1},
-      "T2100": {"name":"Miss A","blockCount":1},
-      "T2200": {"name":"Justin","blockCount":1}
+      "T2000": {
+        "name": "Martin S",
+        "blockCount": 1
+      },
+      "T2100": {
+        "name": "Miss A",
+        "blockCount": 1
+      },
+      "T2200": {
+        "name": "Justin",
+        "blockCount": 1
+      }
     },
-        {
-      "T1100": {"name":"มงคล ทองสุข","blockCount":1} ,
+    {
+      "T1100": {
+        "name": "มงคล ทองสุข",
+        "blockCount": 1
+      },
       "T1200": null,
       "T1300": null,
-      "T1400": {"name":"Harry","blockCount":4},
-      "T1500": {"name":"Harry","blockCount":4},
-      "T1600": {"name":"Harry","blockCount":4},
-      "T1700": {"name":"Harry","blockCount":4},
+      "T1400": {
+        "name": "Harry",
+        "blockCount": 4
+      },
+      "T1500": {
+        "name": "Harry",
+        "blockCount": 4
+      },
+      "T1600": {
+        "name": "Harry",
+        "blockCount": 4
+      },
+      "T1700": {
+        "name": "Harry",
+        "blockCount": 4
+      },
       "T1800": null,
       "T1900": null,
       "T2000": null,
       "T2100": null,
-      "T2200": {"name":"Charlie","blockCount":1}
+      "T2200": {
+        "name": "Charlie",
+        "blockCount": 1
+      }
     },
-        {
-      "T1100": null ,
+    {
+      "T1100": null,
       "T1200": null,
       "T1300": null,
-      "T1400": {"name":"Jacob","blockCount":1},
+      "T1400": {
+        "name": "Jacob",
+        "blockCount": 1
+      },
       "T1500": null,
       "T1600": null,
       "T1700": null,
-      "T1800": {"name":"Thomas","blockCount":1},
+      "T1800": {
+        "name": "Thomas",
+        "blockCount": 1
+      },
       "T1900": null,
       "T2000": null,
       "T2100": null,
       "T2200": null
     },
-        {
-      "T1100": null ,
+    {
+      "T1100": null,
       "T1200": null,
-      "T1300": {"name":"Joseph","blockCount":2},
-      "T1400": {"name":"Joseph","blockCount":2},
+      "T1300": {
+        "name": "Joseph",
+        "blockCount": 2
+      },
+      "T1400": {
+        "name": "Joseph",
+        "blockCount": 2
+      },
       "T1500": null,
       "T1600": null,
       "T1700": null,
@@ -56,8 +113,8 @@
       "T2100": null,
       "T2200": null
     },
-        {
-      "T1100": null ,
+    {
+      "T1100": null,
       "T1200": null,
       "T1300": null,
       "T1400": null,
@@ -70,8 +127,8 @@
       "T2100": null,
       "T2200": null
     },
-            {
-      "T1100": null ,
+    {
+      "T1100": null,
       "T1200": null,
       "T1300": null,
       "T1400": null,
@@ -84,8 +141,8 @@
       "T2100": null,
       "T2200": null
     },
-            {
-      "T1100": null ,
+    {
+      "T1100": null,
       "T1200": null,
       "T1300": null,
       "T1400": null,
@@ -98,8 +155,8 @@
       "T2100": null,
       "T2200": null
     },
-            {
-      "T1100": null ,
+    {
+      "T1100": null,
       "T1200": null,
       "T1300": null,
       "T1400": null,
@@ -112,8 +169,8 @@
       "T2100": null,
       "T2200": null
     },
-            {
-      "T1100": null ,
+    {
+      "T1100": null,
       "T1200": null,
       "T1300": null,
       "T1400": null,
@@ -126,8 +183,8 @@
       "T2100": null,
       "T2200": null
     },
-            {
-      "T1100": null ,
+    {
+      "T1100": null,
       "T1200": null,
       "T1300": null,
       "T1400": null,

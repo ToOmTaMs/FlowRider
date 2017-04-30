@@ -1,0 +1,45 @@
+{
+  "data": [
+    {
+      "customer": {
+        "cus_id": 1,
+        "cus_code": "C00001",
+        "cus_name": "Channing Tatum",
+        "cus_tel": "0898889999"
+      },
+      "cards": [
+        {
+          "card_id": 1,
+          "card_name": "Flow Card",
+          "card_value": 10,
+          "card_balance": 3,
+          "card_exp": "2017-12-12"
+        },
+        {
+          "card_id": 2,
+          "card_name": "Flow Card",
+          "card_value": 10,
+          "card_balance": 5,
+          "card_exp": "2017-11-02"
+        }
+      ]
+    },
+    {
+      "customer": {
+        "cus_id": 2,
+        "cus_code": "C00002",
+        "cus_name": "Chris Pratt",
+        "cus_tel": "0812223333"
+      },
+      "cards": [
+        {
+          "card_id": 2,
+          "card_name": "Flow Card",
+          "card_value": 10,
+          "card_balance": 5,
+          "card_exp": "2017-10-25"
+        }
+      ]
+    }
+  ]
+}

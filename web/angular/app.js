@@ -15,7 +15,12 @@ angular.module('abAPP', [ 'abAPP.controllers',  'abAPP.services', 'abAPP.directi
   'treasure-overlay-spinner',
   'ngTouch',
   'angular-carousel',
-  'fixed.table.header'
+  'fixed.table.header',
+  'angularMoment',
+  'datatables',
+  'datatables.select',
+  'ngResource'
+
   ])
 
 

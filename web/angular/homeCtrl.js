@@ -144,7 +144,20 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
 
     ///////////////////////////////////////////////////////////////
     //popup
+    $scope.searchMember = function() {
+      $http.get('file/booking.json').then(function(res) {
+        var _input = $scope.member_input;
+        $scope.customer = res.data.data;
+        _result = $scope.customer.filter(function(data) {
+          return data.customer.cus_code == _input || data.customer.cus_name == _input || data.customer.cus_tel == _input;
+        });
+        console.log(_result);
+        if (_result.length > 0) {
+          $scope.popupFindReserve(_result);
+        }
+      });
 
+    }
     $scope.showPopup = function() {
 
       var opt = {
@@ -166,10 +179,10 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
 
     };
 
-    $scope.popupFindReserve = function() {
+    $scope.popupFindReserve = function(_result) {
 
       var opt = {
-        data: "5555"
+        data: _result
       }
       var time = new Date().getTime();
       var modalInstance = $modal.open({
@@ -242,9 +255,11 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
 
     };
 
-    $scope.doSomething = function (bookid) {
-      alert("bookid:" + bookid);
-    };
+    // $scope.doSomething = function (bookid) {
+    //   // alert("bookid:" + bookid);
+    //   _result =[];
+    //   $scope.popupFindReserve(_result);
+    // };
 
   }
 ]).controller('Lanes.Reserve.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, $window) {
@@ -257,14 +272,32 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     $uibModalInstance.close();
   };
 
-}).controller('Find.Reserve.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window) {
-
+}).controller('Find.Reserve.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window, $http) {
+  $scope.card = {};
+  $scope.cards = {};
+  $scope.card_order = [];
+  $scope.card.card_exp = "";
+  $scope.btn_card_id = "";
   $scope.content_height = $window.innerHeight - 150;
-  // alert("start at Lanes Reserve");
-  //
-  // console.log("options", options);
+  $scope.card.methods = 1;
 
   var time = new Date().getTime();
+  $scope.model = {
+    customer: options.data[0].customer,
+    cards: options.data[0].cards,
+  }
+  console.log($scope.model);
+  $http.get('file/card_type.json').then(function(res) {
+    $scope.card_type = res.data;
+
+  });
+  $http.get('file/cards.json').then(function(res) {
+    $scope.cards = res.data;
+  });
+
+  // $scope.co_total = function () {
+
+
   $scope.tabs = [
     {
       title: 'บัตรสมาชิก',
@@ -277,23 +310,37 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
       templateUrl: 'views/home/reserve_tabs/walkin.html?ver=' + time
     }
   ];
-  $scope.cards = [
-    {
-      id: '1',
-      title: 'บัตรสมาชิก',
-      max: '10',
-      balance: '3',
-      exp: '20/04/2017'
-    }, {
-      id: '2',
-      title: 'บัตรสมาชิก',
-      max: '10',
-      balance: '9',
-      exp: '20/04/2017'
+
+  $scope.co_total = function () {
+    var _total = 0;
+    for (var i = 0; i < $scope.card_order.length; i++) {
+      var e = $scope.card_order[i];
+      _total += (e.co_price * e.co_quantity);
     }
-  ];
-  $scope.card = {};
-  $scope.card.methods = 1;
+    return _total;
+  }
+
+
+  $scope.select_card = function(card_id) {
+    _result = $scope.model.cards.filter(function(data) {
+      return data.card_id == card_id;
+    });
+    $scope.card = _result[0];
+  }
+  $scope.remove_order = function(index) {
+        $scope.card_order.splice(index, 1);
+    }
+  $scope.add_order = function(card_id) {
+    _result = $scope.cards.filter(function(data) {
+      return data.card_id == card_id;
+    });
+    var _item = {
+      co_name: _result[0].card_name,
+      co_quantity: 1,
+      co_price: _result[0].card_price
+    }
+    $scope.card_order.push(_item);
+  }
   $scope.close = function() {
     $uibModalInstance.close();
   };
@@ -406,8 +453,8 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
         isAvailable = true;
         break;
       } else {
-        //ในกรณีที่ avaQty ไม่เท่ากับ reserveTimeQty แสดงว่าใน bookLane แถวนั้น ไม่มีเวลาว่างพอตามที่ลูกค้าอยากจอง 
-        //ให้ set avaQty = 0 แล้วก็จะ loop bookLane แถวถัดไปเรื่อยๆ จนกว่า avaQty จะเท่ากับ reserveTimeQty 
+        //ในกรณีที่ avaQty ไม่เท่ากับ reserveTimeQty แสดงว่าใน bookLane แถวนั้น ไม่มีเวลาว่างพอตามที่ลูกค้าอยากจอง
+        //ให้ set avaQty = 0 แล้วก็จะ loop bookLane แถวถัดไปเรื่อยๆ จนกว่า avaQty จะเท่ากับ reserveTimeQty
         //แต่ถ้า loop booklane จนแถวสุดท้ายแล้ว avaQty ยังไม่เท่ากับ reserveTimeQty  แสดงว่าวันนั้นไม่มีเวลาว่างพอตามที่ลูกค้าอยากจอง
         avaQty = 0;
       }
@@ -429,9 +476,9 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     var tmpReserveData = {};
 
     //เมื่อผ่านเงื่อนไขข้างบนมาแล้ว เราจะได้ dataIndex (booklane แถวที่ว่าง)
-    //เอามาตรวจสอบต่อว่า dataIndex + reserveCustomerQty จะต้องไม่เกิน 10 
-    //เช่น ลูกค้าจอง 11 โมง 5 คน แต่ในเวลา 11 โมงมีคนจองล่วงหน้าไปแล้ว 7 คน 
-    //เพราะฉนั้น ถึง booklane แถวที่ 8 จะว่าง(dataIndex = 8) แต่ก็ไม่ว่างพอสำหรับ 5 คน (8+5) > 10 
+    //เอามาตรวจสอบต่อว่า dataIndex + reserveCustomerQty จะต้องไม่เกิน 10
+    //เช่น ลูกค้าจอง 11 โมง 5 คน แต่ในเวลา 11 โมงมีคนจองล่วงหน้าไปแล้ว 7 คน
+    //เพราะฉนั้น ถึง booklane แถวที่ 8 จะว่าง(dataIndex = 8) แต่ก็ไม่ว่างพอสำหรับ 5 คน (8+5) > 10
     if ((Number(dataIndex) + Number(reserveCustomerQty)) > 10) {
       alert("Not Avalible");
       return;

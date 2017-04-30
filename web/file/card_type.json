@@ -1,0 +1,14 @@
+[
+  {
+    "ct_id": 1,
+    "ct_name": "Card",
+    "ct_ico": "fa fa-credit-card",
+    "ct_color": "bg-olive"
+  },
+  {
+    "ct_id": 2,
+    "ct_name": "Buy One",
+    "ct_ico": "fa fa-barcode",
+    "ct_color": "bg-navy"
+  }
+]
