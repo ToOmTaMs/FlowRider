@@ -351,7 +351,9 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
   $scope.laneNo = laneNo;
   $('#bookDate').datepicker({format: "dd/mm/yyyy", autoclose: true});
 
+  //เมื่อกรอกข้อมูลการจอง และกดจองจะเข้า ฟังชั่นนี้
   $scope.addReserve = function() {
+    //collect from data
     var customerName = $('#customer-name').val();
     var customerTel = $('#customer-tel').val();
     var reserveDate = $('#reserve-date').val();
@@ -364,6 +366,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     var avaQty = 0;
     var isAvailable = false;
 
+    //ตรวจสอบข้อมูลเบื้องต้น
     if (reserveTimeQty > 12) {
       alert("จองได้มากที่สุด 12 ชั่วโมงเท่านั้น กรุณาแก้ไขข้อมูล");
       return;
@@ -374,6 +377,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
       return;
     }
 
+    //สร้าง object timeretmp จาก timeseriesn โดยเอาเฉพาะเวลาที่ลูกค้าเลือกจอง
     for (var i = 1; i <= reserveTimeQty; i++) {
       if (reserveTime < timeseries.length) {
         timeReTmp.push(timeseries[reserveTime]);
@@ -382,24 +386,34 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     }
     //console.log(timeReTmp);
 
+  //เข็คว่าเวลาที่ลูกค้าต้องการจอง ว่างหรือไม่
     for (var j = 0; j < bookLane.length; j++) {
       for (var i = 0; i < timeReTmp.length; i++) {
         //console.log(bookLane[j][timeReTmp[i]]);
+        //ตรวจสอบทีละแถว(1แถวคือ 11.00 - 22.00)
+        //เช็คแต่ละชั่วโมงว่าว่างหรือไม่ และวนทำไปเรื่อยๆ ตามข้อมูลใน timeReTmp ถ้าว่าง จะเพิ่มจำนวน avaQty
         if (bookLane[j][timeReTmp[i]] == null) {
           //console.log("Ava");
           avaQty++;
         }
       }
+
+      //เมื่อตรวจสอบเสร็จ จะเอา avaQty มาเช็คกับ reserveTimeQty(จำนวนชั่วโมงที่ลูกค้าต้องการจอง)
+      //ถ้าเท่ากัน แสดงว่าในแถวนั้นว่างพอสำหรับลูกค้า ให้เก็บ index ของ bookLane เอาไว้เพิ่อเอาไปใช้ต่อ และจบ loop นี้ทันที
       if (avaQty == reserveTimeQty) {
         console.log("Ava: " + avaQty);
         dataIndex = j;
         isAvailable = true;
         break;
       } else {
+        //ในกรณีที่ avaQty ไม่เท่ากับ reserveTimeQty แสดงว่าใน bookLane แถวนั้น ไม่มีเวลาว่างพอตามที่ลูกค้าอยากจอง 
+        //ให้ set avaQty = 0 แล้วก็จะ loop bookLane แถวถัดไปเรื่อยๆ จนกว่า avaQty จะเท่ากับ reserveTimeQty 
+        //แต่ถ้า loop booklane จนแถวสุดท้ายแล้ว avaQty ยังไม่เท่ากับ reserveTimeQty  แสดงว่าวันนั้นไม่มีเวลาว่างพอตามที่ลูกค้าอยากจอง
         avaQty = 0;
       }
     }
 
+    //แจ้ง user ว่า วันนี้ม่มีเวลาว่างให้จอง ไม่สามารถจองได้
     if (!isAvailable) {
       alert("Not Avalible");
       return;
@@ -414,16 +428,22 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     var reserveData = bookLane;
     var tmpReserveData = {};
 
+    //เมื่อผ่านเงื่อนไขข้างบนมาแล้ว เราจะได้ dataIndex (booklane แถวที่ว่าง)
+    //เอามาตรวจสอบต่อว่า dataIndex + reserveCustomerQty จะต้องไม่เกิน 10 
+    //เช่น ลูกค้าจอง 11 โมง 5 คน แต่ในเวลา 11 โมงมีคนจองล่วงหน้าไปแล้ว 7 คน 
+    //เพราะฉนั้น ถึง booklane แถวที่ 8 จะว่าง(dataIndex = 8) แต่ก็ไม่ว่างพอสำหรับ 5 คน (8+5) > 10 
     if ((Number(dataIndex) + Number(reserveCustomerQty)) > 10) {
       alert("Not Avalible");
       return;
     }
 
+    // เมื่อผ่านเงื่อนไขทั้งหมด จะสร้าง object ก้อนการจองและเพิ่มเข้าไปใน bookLane
     for (var i = 0; i < reserveCustomerQty; i++) {
       for (var j = 0; j < timeReTmp.length; j++) {
         bookLane[dataIndex][timeReTmp[j]] = {
           "name": customerName,
-          "bookCount": reserveTimeQty
+          "bookCount": reserveTimeQty,
+          "bookid":"555"+customerName+reserveTimeQty+reserveDate
         };
       }
       dataIndex++;
