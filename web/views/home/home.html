@@ -67,19 +67,53 @@
         </thead>
         <tbody>
           <tr ng-repeat="row in bookLane" style="height: 40px; ">
-            <td>{{$index+1}}</td>
-            <td ng-class="{'bg-green': row.T1100}" colspan="{{row.T1100.bookCount}}">{{row.T1100.name}}</td>
-            <td ng-class="{'bg-green': row.T1200}" ng-if="row.T1200.name != row.T1100.name || row.T1200.name == null" colspan="{{row.T1200.bookCount}}">{{row.T1200.name}}</td>
-            <td ng-class="{'bg-green': row.T1300}" ng-if="row.T1300.name != row.T1200.name || row.T1300.name == null" colspan="{{row.T1300.bookCount}}">{{row.T1300.name}}</td>
-            <td ng-class="{'bg-green': row.T1400}" ng-if="row.T1400.name != row.T1300.name || row.T1400.name == null" colspan="{{row.T1400.bookCount}}">{{row.T1400.name}}</td>
-            <td ng-class="{'bg-green': row.T1500}" ng-if="row.T1500.name != row.T1400.name || row.T1500.name == null" colspan="{{row.T1500.bookCount}}">{{row.T1500.name}}</td>
-            <td ng-class="{'bg-green': row.T1600}" ng-if="row.T1600.name != row.T1500.name || row.T1600.name == null" colspan="{{row.T1600.bookCount}}">{{row.T1600.name}}</td>
-            <td ng-class="{'bg-green': row.T1700}" ng-if="row.T1700.name != row.T1600.name || row.T1700.name == null" colspan="{{row.T1700.bookCount}}">{{row.T1700.name}}</td>
-            <td ng-class="{'bg-green': row.T1800}" ng-if="row.T1800.name != row.T1700.name || row.T1800.name == null" colspan="{{row.T1800.bookCount}}">{{row.T1800.name}}</td>
-            <td ng-class="{'bg-green': row.T1900}" ng-if="row.T1900.name != row.T1800.name || row.T1900.name == null" colspan="{{row.T1900.bookCount}}">{{row.T1900.name}}</td>
-            <td ng-class="{'bg-green': row.T2000}" ng-if="row.T2000.name != row.T1900.name || row.T2000.name == null" colspan="{{row.T2000.bookCount}}">{{row.T2000.name}}</td>
-            <td ng-class="{'bg-green': row.T2100}" ng-if="row.T2100.name != row.T2000.name || row.T2100.name == null" colspan="{{row.T2100.blockCount}}">{{row.T2100.name}}</td>
-            <td ng-class="{'bg-green': row.T2200}" ng-if="row.T2200.name != row.T2100.name || row.T2200.name == null">{{row.T2200.name}}</td>
+            <td >{{$index+1}}</td>
+            <td ng-click="doSomething(row.T1100.bookid)" 
+                ng-class="row.T1100 ? 'bg-green' : 'available-block'" 
+                colspan="{{row.T1100.bookCount}}">{{row.T1100.name}}</td>
+            <td ng-click="doSomething(row.T1200.bookid)"
+                ng-class="row.T1200 ? 'bg-green' : 'available-block'"
+                ng-if="row.T1200.name != row.T1100.name || row.T1200.name == null" 
+                colspan="{{row.T1200.bookCount}}" >{{row.T1200.name}}</td>
+            <td ng-click="doSomething(row.T1300.bookid)"
+                ng-class="row.T1300 ? 'bg-green' : 'available-block'"
+                ng-if="row.T1300.name != row.T1200.name || row.T1300.name == null" 
+                colspan="{{row.T1300.bookCount}}" >{{row.T1300.name}}</td>
+            <td ng-click="doSomething(row.T1400.bookid)"
+                ng-class="row.T1400 ? 'bg-green' : 'available-block'"
+                ng-if="row.T1400.name != row.T1300.name || row.T1400.name == null" 
+                colspan="{{row.T1400.bookCount}}" >{{row.T1400.name}}</td>
+            <td ng-click="doSomething(row.T1500.bookid)"
+                ng-class="row.T1500 ? 'bg-green' : 'available-block'"
+                ng-if="row.T1500.name != row.T1400.name || row.T1500.name == null" 
+                colspan="{{row.T1500.bookCount}}" >{{row.T1500.name}}</td>
+            <td ng-click="doSomething(row.T1600.bookid)"
+                ng-class="row.T1600 ? 'bg-green' : 'available-block'"
+                ng-if="row.T1600.name != row.T1500.name || row.T1600.name == null" 
+                colspan="{{row.T1600.bookCount}}" >{{row.T1600.name}}</td>
+            <td ng-click="doSomething(row.T1700.bookid)"
+                ng-class="row.T1700 ? 'bg-green' : 'available-block'" 
+                ng-if="row.T1700.name != row.T1600.name || row.T1700.name == null" 
+                colspan="{{row.T1700.bookCount}}" >{{row.T1700.name}}</td>
+            <td ng-click="doSomething(row.T1800.bookid)"
+                ng-class="row.T1800 ? 'bg-green' : 'available-block'"
+                ng-if="row.T1800.name != row.T1700.name || row.T1800.name == null" 
+                colspan="{{row.T1800.bookCount}}" >{{row.T1800.name}}</td>
+            <td ng-click="doSomething(row.T1900.bookid)"
+                ng-class="row.T1900 ? 'bg-green' : 'available-block'"
+                ng-if="row.T1900.name != row.T1800.name || row.T1900.name == null" 
+                colspan="{{row.T1900.bookCount}}" >{{row.T1900.name}}</td>
+           <td ng-click="doSomething(row.T2000.bookid)"
+              ng-class="row.T2000 ? 'bg-green' : 'available-block'"
+              ng-if="row.T2000.name != row.T1900.name || row.T2000.name == null" 
+              colspan="{{row.T2000.bookCount}}">{{row.T2000.name}}</td>
+            <td ng-click="doSomething(row.T2100.bookid)"
+                ng-class="row.T2100 ? 'bg-green' : 'available-block'"
+                ng-if="row.T2100.name != row.T2000.name || row.T2100.name == null" 
+                colspan="{{row.T2100.blockCount}}" >{{row.T2100.name}}</td>
+            <td ng-click="doSomething(row.T2200.bookid)"
+                ng-class="row.T2200 ? 'bg-green' : 'available-block'" 
+                ng-if="row.T2200.name != row.T2100.name || row.T2200.name == null" >{{row.T2200.name}}</td>
           </tr>
         </tbody>
       </table>

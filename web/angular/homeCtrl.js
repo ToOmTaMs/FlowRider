@@ -242,6 +242,10 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
 
     };
 
+    $scope.doSomething = function (bookid) {
+      alert("bookid:" + bookid);
+    };
+
   }
 ]).controller('Lanes.Reserve.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, $window) {
 
