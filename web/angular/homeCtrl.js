@@ -284,7 +284,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
   var time = new Date().getTime();
   $scope.model = {
     customer: options.data[0].customer,
-    cards: options.data[0].cards,
+    cards: options.data[0].cards
   }
   console.log($scope.model);
   $http.get('file/card_type.json').then(function(res) {
@@ -296,7 +296,6 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
   });
 
   // $scope.co_total = function () {
-
 
   $scope.tabs = [
     {
@@ -311,7 +310,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     }
   ];
 
-  $scope.co_total = function () {
+  $scope.co_total = function() {
     var _total = 0;
     for (var i = 0; i < $scope.card_order.length; i++) {
       var e = $scope.card_order[i];
@@ -320,7 +319,6 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     return _total;
   }
 
-
   $scope.select_card = function(card_id) {
     _result = $scope.model.cards.filter(function(data) {
       return data.card_id == card_id;
@@ -328,8 +326,8 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     $scope.card = _result[0];
   }
   $scope.remove_order = function(index) {
-        $scope.card_order.splice(index, 1);
-    }
+    $scope.card_order.splice(index, 1);
+  }
   $scope.add_order = function(card_id) {
     _result = $scope.cards.filter(function(data) {
       return data.card_id == card_id;
@@ -433,7 +431,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     }
     //console.log(timeReTmp);
 
-  //เข็คว่าเวลาที่ลูกค้าต้องการจอง ว่างหรือไม่
+    //เข็คว่าเวลาที่ลูกค้าต้องการจอง ว่างหรือไม่
     for (var j = 0; j < bookLane.length; j++) {
       for (var i = 0; i < timeReTmp.length; i++) {
         //console.log(bookLane[j][timeReTmp[i]]);
@@ -490,7 +488,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
         bookLane[dataIndex][timeReTmp[j]] = {
           "name": customerName,
           "bookCount": reserveTimeQty,
-          "bookid":"555"+customerName+reserveTimeQty+reserveDate
+          "bookid": "555" + customerName + reserveTimeQty + reserveDate
         };
       }
       dataIndex++;
@@ -583,62 +581,38 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     $uibModalInstance.close();
   };
 
-}).controller('Discount.Setting.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window) {
-  $scope.entities = [
-    {
-      "card_id": 1,
-      "card_name": "Flow Card",
-      "card_price": 7500
-    }, {
-      "card_id": 2,
-      "card_name": "Flow Card",
-      "card_price": 7500
-    }, {
-      "card_id": 3,
-      "card_name": "Flow Card",
-      "card_price": 7500
-    }
-  ];
-  $scope.selected = [];
-  var updateSelected = function(action, id) {
-    if (action == 'add' & $scope.selected.indexOf(id) == -1)
-      $scope.selected.push(id);
-    if (action == 'remove' && $scope.selected.indexOf(id) != -1)
-      $scope.selected.splice($scope.selected.indexOf(id), 1);
-    }
+}).controller('Discount.Setting.Ctrl', function($scope, $uibModalInstance, $modal, iAPI, options, $window, $http) {
+  // var
+  $scope.discount_setting = {};
+  $scope.SelectedAll = {};
+  // data
+  $http.get('file/discount_setting.json').then(function(res) {
+      $scope.discount_setting = res.data;
+  });
 
-  $scope.updateSelection = function($event, id) {
-    var checkbox = $event.target;
-    var action = (checkbox.checked
-      ? 'add'
-      : 'remove');
-    updateSelected(action, id);
-  };
-
-  $scope.selectAll = function($event) {
-    var checkbox = $event.target;
-    var action = (checkbox.checked
-      ? 'add'
-      : 'remove');
-    for (var i = 0; i < $scope.entities.length; i++) {
-      var entity = $scope.entities[i];
-      updateSelected(action, entity.id);
-    }
-  };
-
-  $scope.getSelectedClass = function(entity) {
-    return $scope.isSelected(entity.id)
-      ? 'selected'
-      : '';
-  };
-
-  $scope.isSelected = function(id) {
-    return $scope.selected.indexOf(id) >= 0;
-  };
-
-  //something extra I couldn't resist adding :)
   $scope.isSelectedAll = function() {
-    return $scope.selected.length === $scope.entities.length;
+    var eCount = $scope.discount_setting.length;
+    var sCount = 0;
+    for (var i = 0; i < eCount; i++) {
+      var e = $scope.discount_setting[i];
+      if (e.card_select == true) {
+        sCount++;
+      }
+    }
+
+    if (eCount == sCount) {
+      $scope.SelectedAll = true;
+    } else {
+      $scope.SelectedAll = false;
+    }
+  };
+
+  $scope.selectAll = function() {
+    console.log("Select All");
+    for (var i = 0; i < $scope.discount_setting.length; i++) {
+      var e = $scope.discount_setting[i];
+      e.card_select = true;
+    }
   };
 
   $scope.close = function() {
