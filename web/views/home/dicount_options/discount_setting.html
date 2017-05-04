@@ -4,8 +4,7 @@
 <div class="modal-body">
   <div class="my-content">
     <div class="row">
-    </p><pre>{{ discount_setting |json }}</pre>
-    </p><pre>{{ SelectedAll }}</pre>
+  
 
       <div class="col-md-12">
         <div class="row well well-sm" style="height: 50vh; width:100%">
@@ -13,7 +12,7 @@
             <thead style="background-color: #f39c12;">
               <tr>
                 <th>
-                  <input type="checkbox" ng-click="selectAll()" ng-checked="isSelectedAll()" ng-model="SelectedAll" />
+                  <input type="checkbox" ng-click="selectAll()" ng-checked="SelectedAll" ng-model="SelectedAll" />
                 </th>
                 <th >Name</th>
                 <th class="text-right" style="width:20%">Price</th>
@@ -28,7 +27,7 @@
               <tbody>
                 <tr ng-repeat="e in discount_setting">
                   <td>
-                    <input type="checkbox" ng-model="e.card_select" ng-checked="e.card_select"  />
+                    <input type="checkbox" ng-model="e.card_select" ng-click="selectedItem(e.card_id)" ng-checked="e.card_select"  />
                   </td>
                   <td>{{e.card_name}}</td>
                   <td class="text-right" style="width:20%">{{e.card_price}}</td>

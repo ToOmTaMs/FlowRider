@@ -587,7 +587,7 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
   $scope.SelectedAll = {};
   // data
   $http.get('file/discount_setting.json').then(function(res) {
-      $scope.discount_setting = res.data;
+    $scope.discount_setting = res.data;
   });
 
   $scope.isSelectedAll = function() {
@@ -599,7 +599,6 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
         sCount++;
       }
     }
-
     if (eCount == sCount) {
       $scope.SelectedAll = true;
     } else {
@@ -607,13 +606,25 @@ angular.module('abAPP.home', []).controller('Home.Ctrl', [
     }
   };
 
+  $scope.selectedItem = function(id) {
+    $scope.isSelectedAll();
+  }
+
   $scope.selectAll = function() {
-    console.log("Select All");
-    for (var i = 0; i < $scope.discount_setting.length; i++) {
-      var e = $scope.discount_setting[i];
-      e.card_select = true;
+    if ($scope.SelectedAll == true) {
+      $scope.setAllVal(true);
+    } else {
+      $scope.setAllVal(false);
     }
   };
+
+  $scope.setAllVal = function(val) {
+    for (var i = 0; i < $scope.discount_setting.length; i++) {
+      var e = $scope.discount_setting[i];
+      e.card_select = val;
+    }
+    $scope.SelectedAll = val;
+  }
 
   $scope.close = function() {
     $uibModalInstance.close();
